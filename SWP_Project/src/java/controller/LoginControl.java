@@ -47,7 +47,9 @@ public class LoginControl extends HttpServlet {
             if(acc.getRole().getRoleName().equalsIgnoreCase("Admin")){
                 response.sendRedirect("/SWP_Project/adminView/index.html");
             }
-            System.out.println("konull");
+            else{
+                response.sendRedirect("/SWP_Project/Home.jsp");
+            }
 
         }
     }

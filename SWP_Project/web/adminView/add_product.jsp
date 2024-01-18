@@ -1,5 +1,6 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="DAO.CategoryDAO, Model.Category, java.util.List, java.util.ArrayList" %>
+<%@page import="DAO.CategoryDAO, Model.Category, java.util.List, java.util.ArrayList, DAO.ProductDAO" %>
 <!DOCTYPE html>
 <html
     lang="en"
@@ -14,7 +15,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-        <title>Basic Inputs - Forms | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+        <title></title>
 
         <meta name="description" content="" />
 
@@ -45,6 +46,18 @@
         <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <script src="/SWP_Project/assets/js/config.js"></script>
+        <style>
+            .mb-3:first-of-type{
+                padding-top: 0px;
+            }
+            .mb-3{
+                margin-left: 50px;
+                padding-top: 20px;
+            }
+            .mb-3:last-of-type{
+                padding-bottom: 20px;
+            }
+        </style>
     </head>
 
     <body>
@@ -54,18 +67,29 @@
                             
                         </div>-->
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Add product</h4>
                 <div class="row">
                     <!--                    
                                         <h5 class="card-header">Input Sizing</h5>-->
                     <div class="card-body">
 
-                        <form action="AddProduct" method="post">
+                        <form action="AddProduct" method="post" style="background-color: white; width: 90%; margin: auto;">
                             <div class="mb-3">
-                                <label for="productName" class="form-label">Product name: </label>
-                                <h5 style="color: red;">${errorMessage}</h5>
-                                <input name="productName" id="productName"  type="text" 
-                                       placeholder="Product name" required="" autocomplete="off" value="${productName}"/>
+                            <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Add product</h4>
+                            <!--<table>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <h5 style="color: red;">${errorMessage}</h5>
+                                        <label for="productName" class="form-label">Product name: </label>
+                                        
+<!--                                    </td>
+                                    <td style="width: 80%">-->
+                                        <input name="productName" id="productName" class=""  type="text" 
+                                               placeholder="Product name" required="" autocomplete="off" value="${productName}"/>
+                                        
+<!--                                    </td>
+                                </tr>-->
+                            <!--</table>-->
+                            
                             </div>
                             <div class="mb-3">
 
@@ -80,6 +104,35 @@
 
                                 </select>
                             </div>
+                                    
+                            <div class="mb-3">
+                                <label for="brandId" class="form-label">Brand: </label>
+                                <select id="brandId" name="brandId">
+                                    <c:forEach items="<%=ProductDAO.INSTANCE.getBrandList()%>" var="brand">
+                                        <option value="${brand.brandId}" ${brandId==brand.brandId?"selected":""}>${brand.brandName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>        
+                            
+                            <div class="mb-3">
+                                <label for="hardwareMemoryId" class="form-label">Hardware memory: </label>
+                                <select id="hardwareMemoryId" name="hardwareMemoryId">
+                                    <c:forEach items="<%=ProductDAO.INSTANCE.getHardwareMemoryList()%>" var="hardwareMemory">
+                                        <option value="${hardwareMemory.hardwareMemoryId}" ${hardwareMemoryId==hardwareMemory.hardwareMemoryId?"selected":""}
+                                                >${hardwareMemory.hardwareMemory}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>   
+                                    
+                            <div class="mb-3">
+                                <label for="ramMemoryId" class="form-label">Ram memory: </label>
+                                <select id="ramMemoryId" name="ramMemoryId">
+                                    <!--<option></option>-->
+                                    <c:forEach items="<%=ProductDAO.INSTANCE.getRamMemoryList()%>" var="ramMemory">
+                                        <option value="${ramMemory.ramMemoryId}" ${ramMemoryId==ramMemory.ramMemoryId?"selected":""}>${ramMemory.ramMemory}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>  
                                     
                                 <!--option--> 
                             <%--
@@ -101,6 +154,15 @@
                             --%>
                                 
                             <div class="mb-3">
+                                <label for="colorId" class="form-label">Product color: </label>
+                                <select id="colorId" name="colorId">
+                                <c:forEach items="<%=ProductDAO.INSTANCE.getColorList()%>" var="color">
+                                    <option value="${color.colorId}" ${colorId==color.colorId?"selected":""}>${color.color}</option>
+                                </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
                                 <label for="optionDetail" class="form-label">Option detail</label>
                                 <input style="width: 300px;" name="optionDetail" id="optionDetail" placeholder="Red, 128Gb, etc" 
                                        value="${optionDetail}"/>
@@ -112,15 +174,20 @@
                                 <input name="productPrice" id="productPrice" type="number" min="0" placeholder="Product price" required="" autocomplete="off"
                                        value="${price}"/>
                             </div>
+                            
+                            
                             <div class="mb-3">
                                 <label for="image" class="form-label">Image: </label>
                                 <input style="width: 216px;" multiple
                                        name="image" id="productPrice" type="file" min="0" placeholder="image" autocomplete="off"/>
                             </div>
+                            
                             <div class="mb-3">
                                 <input name="submit" id="submit" type="submit" value="Add"/>
                                 <input name="clear" value="clear" style="margin-left: 40px;" type="submit"/>
                             </div>
+                            
+                            
                             
                         </form>
                     </div>
