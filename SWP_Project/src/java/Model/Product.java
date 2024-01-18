@@ -13,17 +13,29 @@ public class Product {
     private String productName;
     private Category category;
     private Coupon coupon;
-
+    private String productDetail;
+    
     public Product() {
     }
 
-    public Product(int productId, String productName, Category category, Coupon coupon) {
+    public Product(int productId, String productName, Category category, Coupon coupon, String productDetail) {
         this.productId = productId;
         this.productName = productName;
         this.category = category;
         this.coupon = coupon;
+        this.productDetail = productDetail;
     }
 
+    public String getProductDetail() {
+        return productDetail;
+    }
+
+    public void setProductDetail(String productDetail) {
+        this.productDetail = productDetail;
+    }
+    
+    
+    
     public int getProductId() {
         return productId;
     }
@@ -58,8 +70,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "productId=" + productId + ", productName=" + productName + ", category=" + category + ", coupon=" + coupon + '}';
+        return "Product{" + "productId=" + productId + ", productName=" + productName + ", category=" + category + ", coupon=" + coupon + ", productDetail=" + productDetail + '}';
     }
-    
+
     
 }

@@ -74,7 +74,7 @@
 
                         <form action="AddProduct" method="post" style="background-color: white; width: 90%; margin: auto;">
                             <div class="mb-3">
-                            <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Add product</h4>
+                                <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Add product  <span style="color: red;">(Please press clear button to insert other product)</span></h4>
                             <!--<table>-->
                                 <!--<tr>-->
                                     <!--<td>-->
@@ -114,6 +114,11 @@
                                 </select>
                             </div>        
                             
+                            <div class="mb-3">
+                                <label for="productDetail">Product detail: </label>
+                                <textarea id="productDetail" name="productDetail" rows="3" cols="20">${productDetail}</textarea>
+                            </div>
+                                    
                             <div class="mb-3">
                                 <label for="hardwareMemoryId" class="form-label">Hardware memory: </label>
                                 <select id="hardwareMemoryId" name="hardwareMemoryId">
@@ -163,12 +168,42 @@
                             </div>
                             
                             <div class="mb-3">
+                                <label for="screenSizeId" class="form-label">Screen size: </label>
+                                <select id="screenSizeId" name="screenSizeId">
+                                <c:forEach items="<%=ProductDAO.INSTANCE.getScreenSizeList()%>" var="ss">
+                                    <option value="${ss.screenSizeId}" ${screenSizeId==ss.screenSizeId?"selected":""}>${ss.screenSize}</option>
+                                </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="resolutionId" class="form-label">Resolution: </label>
+                                <select id="resolutionId" name="resolutionId">
+                                <c:forEach items="<%=ProductDAO.INSTANCE.getResolutionList()%>" var="resolution">
+                                    <option value="${resolution.resolutionId}" ${resolutionId==resolution.resolutionId?"selected":""}>${resolution.resolution}</option>
+                                </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="graphicCardId" class="form-label">Graphic card: </label>
+                                <select id="resolutionId" name="graphicCardId">
+                                <c:forEach items="<%=ProductDAO.INSTANCE.getGraphicCardList()%>" var="gc">
+                                    <option value="${gc.graphicCardId}" ${graphicCardId==gc.graphicCardId?"selected":""}>${gc.graphicCard}</option>
+                                </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <%--
+                            <div class="mb-3">
                                 <label for="optionDetail" class="form-label">Option detail</label>
                                 <input style="width: 300px;" name="optionDetail" id="optionDetail" placeholder="Red, 128Gb, etc" 
                                        value="${optionDetail}"/>
                             
                             </div>
-                                
+                            --%>
+                            
+                            
                             <div class="mb-3">
                                 <label for="product price" class="form-label">Product price: </label>
                                 <input name="productPrice" id="productPrice" type="number" min="0" placeholder="Product price" required="" autocomplete="off"
