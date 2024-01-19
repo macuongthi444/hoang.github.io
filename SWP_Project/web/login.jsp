@@ -69,7 +69,7 @@
                             <h2 class="title-head">Login to your <span>Account</span></h2>
                             <p>Don't have an account? <a href="register.jsp">Create one here</a></p>
                         </div>	
-                        <form class="contact-bx" action="login" method="get" >
+                        <form class="contact-bx" action="login" method="post" >
                             <div>${requestScope.error}</div>
                             <div class="row placeani">
                                 <div class="col-lg-12">

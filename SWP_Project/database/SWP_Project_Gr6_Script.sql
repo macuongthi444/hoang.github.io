@@ -297,3 +297,5 @@ select * From Brand
 insert into Account values('guest', '123', 'guest@gmail.com', 2, 1)
 --select coalesce(couponId, 0) from Product
 select * from Resolution
+
+
