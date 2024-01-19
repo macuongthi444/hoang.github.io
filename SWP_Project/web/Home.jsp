@@ -2,6 +2,7 @@
 <html lang="en">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
     <head>
         <meta charset="utf-8">
         <title>Fruitables - Vegetable Website Template</title>
@@ -58,6 +59,16 @@
                     </div>
                 </div>
             </div>
+            <c:if test ="${sessionScope.acc.role.roleId == 2}">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Manager</a>
+                        <div class="dropdown-menu m-0">     
+                            <a href="userprofile?userid=${acc.id}" class="dropdown-item">User profile</a>
+                            
+                        </div>
+                    </div>
+                </c:if>
+                
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
                     <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
