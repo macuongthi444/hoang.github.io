@@ -78,7 +78,7 @@ public class Account {
     }
 
     @Override
-    public String toString() {
+    public String toString() {  
         return "Account{" + "id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role=" + role + ", accountStatus=" + accountStatus + '}';
     }
 

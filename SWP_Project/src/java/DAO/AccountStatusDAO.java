@@ -17,8 +17,9 @@ public class AccountStatusDAO extends DBContext{
     public static final AccountStatusDAO INSTANCE = new AccountStatusDAO();
     public AccountStatus getAccountStatusById (int id){
         try {
-            String sql = "select * from accountStatus where accountStatusId = ?";
+            String sql = "select * from Account_Status where accountStatusId = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id); 
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return new AccountStatus(id, rs.getString("accountStatusDetail"));
@@ -28,6 +29,10 @@ public class AccountStatusDAO extends DBContext{
         }
         return null;
     }
-    
+    public static void main(String[] args) {
+        AccountStatusDAO dao = new AccountStatusDAO();
+        AccountStatus acc = dao.getAccountStatusById(1);
+        System.out.println(acc.getAccountStatusDetail());
+    }
     
 }

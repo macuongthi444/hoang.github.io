@@ -42,9 +42,33 @@ public class UserDao extends DBContext {
         return null;
     }
 
+    public void editAccountById(int id, String name, String password, String email) {
+
+        try {
+            String sql = "UPDATE [dbo].[Account]\n"
+                    + "   SET [username] =?\n"
+                    + "      ,[password] =?\n"
+                    + "      ,[email] = ?\n"
+                    + " WHERE accountId =?";
+            conn = new DBContext().connection;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, password);
+            ps.setString(3, email);
+           
+            ps.setInt(4, id);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
     public static void main(String[] args) {
         UserDao dao = new UserDao();
         Account acc = dao.getAccountById(1);
-        System.out.println(acc.getUsername());
+        System.out.println(acc.getAccountStatus());
+        
     }
 }

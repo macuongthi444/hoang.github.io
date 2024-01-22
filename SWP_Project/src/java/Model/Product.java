@@ -14,8 +14,21 @@ public class Product {
     private Category category;
     private Coupon coupon;
     private String productDetail;
+    private ProductOption productOption;
+
+    public ProductOption getProductOption() {
+        return productOption;
+    }
+
+    public void setProductOption(ProductOption productOption) {
+        this.productOption = productOption;
+    }
     
     public Product() {
+    }
+
+    public Product(String productName) {
+        this.productName = productName;
     }
 
     public Product(int productId, String productName, Category category, Coupon coupon, String productDetail) {

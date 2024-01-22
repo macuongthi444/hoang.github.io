@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.user;
 
 import DAO.CategoryDAO;
 import DAO.ProductDAO;
@@ -11,6 +11,7 @@ import Model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,9 +20,10 @@ import java.util.ArrayList;
 
 /**
  *
- * @author vinhp
+ * @author This PC
  */
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "ListProduct", urlPatterns = {"/listproduct"})
+public class ListProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +42,10 @@ public class HomeControl extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeControl</title>");
+            out.println("<title>Servlet ListProduct</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeControl at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListProduct at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,18 +64,16 @@ public class HomeControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO dao = new ProductDAO();
-        CategoryDAO cateDao = new CategoryDAO();
+        CategoryDAO cateDao =new CategoryDAO();
         String search = request.getParameter("search");
         String cateId = request.getParameter("cateId");
         String priceFrom = request.getParameter("priceFrom");
         String priceTo = request.getParameter("priceTo");
         String sortType = request.getParameter("sortType");
-        ArrayList<Product> plist = dao.getListProductSearch(search, cateId, priceFrom, priceTo, sortType);
-        ArrayList<Category> clist = cateDao.getCategoryList();
+        ArrayList<Product> plist =dao.getListProductSearch(search, cateId, priceFrom, priceTo, sortType);
+        ArrayList<Category> clist =cateDao.getCategoryList();
         HttpSession session = request.getSession();
         session.setAttribute("search", search);
-        session.setAttribute("priceFrom", priceFrom);
-        session.setAttribute("priceTo", priceTo);
         request.setAttribute("plist", plist);
         request.setAttribute("clist", clist);
         request.getRequestDispatcher("Home.jsp").forward(request, response);

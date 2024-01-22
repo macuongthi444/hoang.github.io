@@ -142,8 +142,48 @@
                         <h4 class="mb-3 text-secondary">100% Organic Foods</h4>
                         <h1 class="mb-5 display-3 text-primary">Organic Veggies & Fruits Foods</h1>
                         <div class="position-relative mx-auto">
-                            <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
-                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
+                            <form action="listproduct">
+           <h4 class="mb-3 text-secondary"> Search : <input type="text" name="search" value="${sessionScope.search}"><br></h4>
+           <h4 class="mb-3 text-secondary"> Price From : <input type="number" name="priceFrom" value="${sessionScope.priceFrom}"> <br>
+               To:<input type="number" name="priceTo" value="${sessionScope.priceTo}" ><br></h4>
+          <h4 class="mb-3 text-secondary">  Category <select id="id" name="cateId"></h4>
+                <c:forEach var="c" items="${clist}">
+                    <option value="${c.categoryId}">${c.categoryName}</option><br>
+                </c:forEach>
+                <br>
+            </select><br>
+            Sort:<select id="id" name="sortType">
+                <option value="order by po.price desc">Sort by price descending</option>
+                <option value="order by po.price asc">Sort by price ascending</option>
+
+            </select>
+            <br>
+           <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 10%;">Submit Now</button>
+        </form>
+        <c:if test="${not empty plist}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="p" items="${plist}"> 
+                    <tr>
+                        <td>${p.productId}</td>
+                        <td>${p.productName}</td>
+                        <td>${p.productOption.getPrice()}</td>
+                        <td>${p.category.getCategoryName()}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+            </c:if>
+                            
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-5">

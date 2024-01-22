@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CategoryDAO extends DBContext{
     public static final CategoryDAO INSTANCE = new CategoryDAO();
-    private List<Category> categoryList;
+    private ArrayList<Category> categoryList;
     
     public void loadCategory (){
         try {
@@ -33,9 +33,15 @@ public class CategoryDAO extends DBContext{
         }
     }
 
-    public List<Category> getCategoryList() {
+    public ArrayList<Category> getCategoryList() {
         loadCategory();
         return categoryList;
     }
-    
+    public static void main(String[] args) {
+        CategoryDAO dao = new CategoryDAO();
+ArrayList<Category> list1 = dao.getCategoryList();
+        for (Category category : list1) {
+            System.out.println(category.getCategoryName());
+    }
+}
 }

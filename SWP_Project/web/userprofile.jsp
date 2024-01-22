@@ -17,7 +17,7 @@
         <div class="profile-userpic">
             <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt="">
         </div>
-        <h1>User Profile</h1>
+
 
         <div class="container">
             <div class="row">
@@ -29,18 +29,19 @@
                             </div>
                             <div class="col-sm-6 col-md-8">
 
-                                <h1><small><cite title="San Francisco, USA">User Profile <i class="glyphicon glyphicon-map-marker">
-                                            </i></cite></small></h1>
+                                <h1><cite title="San Francisco, USA">User Profile <i class="glyphicon glyphicon-map-marker">
+                                            </i></cite>
                                 <p>
-                                    <i class="glyphicon glyphicon-envelope"> ${acc.email} </i>
+                                    <i class="glyphicon glyphicon-envelope">Email:  ${acc.email} </i>
                                     <br />
                                     <i class="glyphicon glyphicon-globe">User name :${acc.username}</i>
                                     <br />
                                     <i class="glyphicon glyphicon-gift"> Password :${acc.password}</i></p>
-
+                                     <i class="glyphicon glyphicon-envelope">Account Status : ${acc.accountStatus.getAccountStatusDetail()} </i>
+                                    <br />
 
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span><span class="sr-only"> <a href="#" >Edit profile</a></span>
+                                    <span class="caret"></span><span class="sr-only"> <a href="load?id=${acc.id}" >Edit profile</a></span>
                                 </button>
 
                             </div>
