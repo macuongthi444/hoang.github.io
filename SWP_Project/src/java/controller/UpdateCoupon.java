@@ -5,6 +5,7 @@
 package controller;
 
 import DAO.CouponDAO;
+import Model.Coupon;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,16 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 /**
  *
  * @author vinhp
  */
-@WebServlet(name = "AddCouponControl", urlPatterns = {"/addCoupon"})
-public class AddCouponControl extends HttpServlet {
+@WebServlet(name = "UpdateCoupon", urlPatterns = {"/updateCoupon"})
+public class UpdateCoupon extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +40,10 @@ public class AddCouponControl extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddCouponControl</title>");
+            out.println("<title>Servlet UpdateCoupon</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddCouponControl at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateCoupon at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +61,12 @@ public class AddCouponControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("adminView/AddCoupon.jsp").include(request, response);
+        String cidstr = request.getParameter("cid");
+        int couponId = Integer.parseInt(cidstr);
+        CouponDAO c = new CouponDAO();
+        Coupon coupon = c.getCouponByID(couponId);
+        request.setAttribute("coupon", coupon);
+        request.getRequestDispatcher("adminView/UpdateCoupon.jsp").include(request, response);
     }
 
     /**
@@ -76,7 +80,10 @@ public class AddCouponControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        CouponDAO c = new CouponDAO();
         try {
+            String couponIDstr = request.getParameter("cid");
+            int couponId = Integer.parseInt(couponIDstr);
             String discountRateStr = request.getParameter("discountRate");
             double discountRate = Double.parseDouble(discountRateStr);
             if (discountRate < 0 || discountRate > 1) {
@@ -91,22 +98,26 @@ public class AddCouponControl extends HttpServlet {
             // Kiểm tra nếu startDate >= endDate
             if (startDate1.isAfter(endDate1) || startDate1.isEqual(endDate1)) {
                 request.setAttribute("error", "Start Date must be < End Date !");
-                request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+                Coupon coupon = c.getCouponByID(couponId);
+                request.setAttribute("coupon", coupon);
+                request.getRequestDispatcher("adminView/UpdateCoupon.jsp").forward(request, response);
             }
             Date startDate = Date.valueOf(startDateStr);
             Date endDate = Date.valueOf(endDateStr);
             System.out.println(startDate + " " + endDate);
+            System.out.println(discountRate);
+
             String[] isUsedValues = request.getParameterValues("isUsed");
 
             // Kiểm tra xem checkbox có được chọn hay không
             boolean isUsed = isUsedValues != null && isUsedValues.length > 0;
-            CouponDAO c = new CouponDAO();
-            c.addCoupon(discountRate, startDate, endDate, isUsed, null);
+            System.out.println(isUsed);
+            c.updateCoupon(couponId, discountRate, startDate, endDate, isUsed, null);
 
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Invalid discount rate format(0->1)!");
             // Gửi thông báo lỗi về addCoupon.jsp
-            request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+            request.getRequestDispatcher("adminView/UpdateCoupon.jsp").forward(request, response);
 //        } catch (ParseException e) {
 //            request.setAttribute("error", "Invalid date format(yyyy-MM-dd).");
 //            // Gửi thông báo lỗi về addCoupon.jsp
@@ -114,10 +125,9 @@ public class AddCouponControl extends HttpServlet {
         } catch (Exception e) {
             request.setAttribute("error", "An error occurred.");
             System.out.println(e);
-            request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+            request.getRequestDispatcher("adminView/UpdateCoupon.jsp").forward(request, response);
         }
-        request.setAttribute("notify", "Added coupon sucessfully");
-        request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+        response.sendRedirect("couponList");
 
     }
 
