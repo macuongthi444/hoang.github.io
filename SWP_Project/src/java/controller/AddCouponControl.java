@@ -78,7 +78,8 @@ public class AddCouponControl extends HttpServlet {
             throws ServletException, IOException {
         try {
             String discountRateStr = request.getParameter("discountRate");
-            double discountRate = Double.parseDouble(discountRateStr);
+            double discountRateN = Double.parseDouble(discountRateStr);
+            double discountRate = discountRateN / 100;
             if (discountRate < 0 || discountRate > 1) {
                 throw new NumberFormatException();
             }
@@ -104,7 +105,7 @@ public class AddCouponControl extends HttpServlet {
             c.addCoupon(discountRate, startDate, endDate, isUsed, null);
 
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid discount rate format(0->1)!");
+            request.setAttribute("error", "Invalid discount rate format(0->100)!");
             // Gửi thông báo lỗi về addCoupon.jsp
             request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
 //        } catch (ParseException e) {

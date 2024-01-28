@@ -13,25 +13,15 @@ public class Product {
     private int productId;
     private String productName;
     private Category category;
-    private Coupon coupon;
     private String productDetail;
-    private String imageText;
 
     public Product() {
     }
 
-    public Product(int productId, String productName, String productDetail, String imageText) {
-        this.productId = productId;
-        this.productName = productName;
-        this.productDetail = productDetail;
-        this.imageText = imageText;
-    }
-
-    public Product(int productId, String productName, Category category, Coupon coupon, String productDetail) {
+    public Product(int productId, String productName, Category category, String productDetail) {
         this.productId = productId;
         this.productName = productName;
         this.category = category;
-        this.coupon = coupon;
         this.productDetail = productDetail;
     }
 
@@ -67,25 +57,9 @@ public class Product {
         this.category = category;
     }
 
-    public Coupon getCoupon() {
-        return coupon;
-    }
-
-    public void setCoupon(Coupon coupon) {
-        this.coupon = coupon;
-    }
-
-    public String getImageText() {
-        return imageText;
-    }
-
-    public void setImageText(String imageText) {
-        this.imageText = imageText;
-    }
-
     @Override
     public String toString() {
-        return "Product{" + "productId=" + productId + ", productName=" + productName + ", category=" + category + ", coupon=" + coupon + ", productDetail=" + productDetail + '}';
+        return "Product{" + "productId=" + productId + ", productName=" + productName + ", category=" + category + ", productDetail=" + productDetail + '}';
     }
 
 }

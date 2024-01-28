@@ -63,36 +63,36 @@ public class CartControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        ProductDAO p = new ProductDAO();
-        String rmpid = request.getParameter("pid");
-        try {
-            HashMap<Integer, Integer> hashCart = (HashMap<Integer, Integer>) session.getAttribute("hashCart");
-            if (hashCart == null) {
-                hashCart = p.getCart((Integer) session.getAttribute("accountID"));
-            }
-            List<ProductWithImage> listCart = new ArrayList<>();
-            List<Integer> it = new ArrayList<>();
-            int a = (Integer) session.getAttribute("accountID");   
-            System.out.println(a);
-            for (int productID : hashCart.keySet()) {
-                it.add(productID);
-                ProductWithImage pCart = p.getProductWithImageByPid(productID);
-                ProductWithImage pCart_Amount = new ProductWithImage(pCart.getProductID(), pCart.getProductName(), pCart.getProductDetail(), pCart.getImageText(), pCart.getPrice(), pCart.getQuantity());
-                listCart.add(pCart_Amount);
-            }
-//            if (rmpid != null) {
-//                pDAL.removeProductCart((String) session.getAttribute("user"), rmpid);
-//                session.setAttribute("hashCart", null);
-//                response.sendRedirect("cart");
+//        HttpSession session = request.getSession();
+//        ProductDAO p = new ProductDAO();
+//        String rmpid = request.getParameter("pid");
+//        try {
+//            HashMap<Integer, Integer> hashCart = (HashMap<Integer, Integer>) session.getAttribute("hashCart");
+//            if (hashCart == null) {
+//                hashCart = p.getCart((Integer) session.getAttribute("accountID"));
 //            }
-            request.setAttribute("a", a);
-            request.setAttribute("it", it);
-            session.setAttribute("listCart", listCart);
-            request.getRequestDispatcher("Cart.jsp").include(request, response);
-        } catch (Exception e) {
-            request.getRequestDispatcher("Cart.jsp").include(request, response);
-        }
+//            List<ProductWithImage> listCart = new ArrayList<>();
+//            List<Integer> it = new ArrayList<>();
+//            int a = (Integer) session.getAttribute("accountID");   
+//            System.out.println(a);
+//            for (int productID : hashCart.keySet()) {
+//                it.add(productID);
+//                ProductWithImage pCart = p.getProductWithImageByPid(productID);
+//                ProductWithImage pCart_Amount = new ProductWithImage(pCart.getProductID(), pCart.getProductName(), pCart.getProductDetail(), pCart.getImageText(), pCart.getPrice(), pCart.getQuantity());
+//                listCart.add(pCart_Amount);
+//            }
+////            if (rmpid != null) {
+////                pDAL.removeProductCart((String) session.getAttribute("user"), rmpid);
+////                session.setAttribute("hashCart", null);
+////                response.sendRedirect("cart");
+////            }
+//            request.setAttribute("a", a);
+//            request.setAttribute("it", it);
+//            session.setAttribute("listCart", listCart);
+//            request.getRequestDispatcher("Cart.jsp").include(request, response);
+//        } catch (Exception e) {
+//            request.getRequestDispatcher("Cart.jsp").include(request, response);
+//        }
 
     }
 
@@ -108,15 +108,15 @@ public class CartControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter pr = response.getWriter();
-        int pid = Integer.parseInt(request.getParameter("pid"));
-        HttpSession session = request.getSession();
-        List<ProductWithImage> listCart = (List<ProductWithImage>) session.getAttribute("listCart");
-        for (ProductWithImage p : listCart) {
-            if (p.getProductID() == pid) {
-                listCart.remove(p);
-            }
-        }
-        session.setAttribute("listCart", listCart);
+//        int pid = Integer.parseInt(request.getParameter("pid"));
+//        HttpSession session = request.getSession();
+//        List<ProductWithImage> listCart = (List<ProductWithImage>) session.getAttribute("listCart");
+//        for (ProductWithImage p : listCart) {
+//            if (p.getProductID() == pid) {
+//                listCart.remove(p);
+//            }
+//        }
+//        session.setAttribute("listCart", listCart);
     }
 
     /**

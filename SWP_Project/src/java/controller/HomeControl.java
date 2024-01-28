@@ -36,32 +36,11 @@ public class HomeControl extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String password = (String) session.getAttribute("password");
         List<ProductWithImage> productList = p.getProductListWithImage();
+        List<ProductWithImage> newestList = p.NewestProductWithImage();
         request.setAttribute("productList", productList);
+        request.setAttribute("newestList", newestList);
         ////////////////////////////////////////////////
-        try {
-            String pid = request.getParameter("pid");
-            int amount = Integer.parseInt(request.getParameter("amount"));
-            if (pid == null || amount == 0) {
-                request.getRequestDispatcher("Home.jsp").include(request, response);
-            } else {
-                int pid2 = Integer.parseInt(pid);
-                if (username != null) {
-                    hashCart = p.getCart(accountID);
-                }
-                if (hashCart.containsKey(pid2)) {
-                    hashCart.put(pid2, (hashCart.get(pid2) + amount));
-                    p.updateCart(accountID, pid2, hashCart.get(pid2));
-                    session.setAttribute("hashCart", hashCart);
-                } else {
-                    hashCart.put(pid2, amount);
-                    p.addToCart(accountID, pid2, hashCart.get(pid2));
-                    session.setAttribute("hashCart", hashCart);
-                }
-                request.getRequestDispatcher("Home.jsp").include(request, response);
-            }
-        } catch (Exception e) {
-            request.getRequestDispatcher("Home.jsp").include(request, response);
-        }
+        request.getRequestDispatcher("Home.jsp").include(request, response);
     }
 
     @Override

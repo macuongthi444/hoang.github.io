@@ -161,27 +161,6 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-item active open">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon fas fa-ticket-alt"></i>
-                                <div data-i18n="addCoupon">Coupon</div>                                
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item active">
-                                    <a href="/SWP_Project/couponList" class="menu-link">
-                                        <div data-i18n="addCoupon">Coupon List</div>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="menu-sub">
-                                <li class="menu-item active">
-                                    <a href="/SWP_Project/addCoupon" class="menu-link">
-                                        <div data-i18n="addCoupon">Add Coupon</div>
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </li>
 
                         <!-- Layouts -->
                         <li class="menu-item">
@@ -623,97 +602,198 @@
 
                         <div class="container-xxl flex-grow-1 container-p-y">
                             <div class="row">
+                                <!--                  <div class="col-md-12">
+                                                      Search by: 
+                                                      <input type="checkbox" id="nameSearch" name="search"/>
+                                                      <input name="nameSearch" placeholder="Name" style="width: 100px; padding-top: 0px; padding-bottom: 0px;"/>
+                                                      
+                                                      <input type="checkbox" name="search" />
+                                                      
+                                                      <label for="nameSearch">Name</label>
+                                                  </div>-->
                                 <div class="col-md-12 mb-4 order-0">
                                     <div class="card">
-                                        <h5 style="color: red;">${error}</h5>
-                                        <h5 style="color: red;">${notify}</h5>
-                                        <h2>Add Coupon</h2>
-                                        <form id="couponForm" action="addCoupon" method="post">
-                                            <label for="discountRate">Discount Rate:</label>
-                                            <input type="number" id="discountRate" name="discountRate" step="0.01" required>
-                                            <br>
-                                            <label for="startDate">Start Date:</label>
-                                            <input type="date" id="startDate" name="startDate" required>
-                                            <br>
-                                            <label for="endDate">End Date:</label>
-                                            <input type="date" id="endDate" name="endDate" required>
-                                            <br>
-                                            <label for="isUsed">Is Used:</label>
-                                            <input type="checkbox" id="isUsed" name="isUsed">
 
-                                            <button type="submit">Add Coupon</button>
-                                        </form>     
+                                        <table class="product-table" >
+                                            <tr>
+                                                <th style="width: 7%;">Name</th>
+                                                <th style="">
+                                                    <table style="width: 100%;">
+                                                        <tr>
+                                                            <th class="brand-width">Brand</th>
+                                                            <th class="hardware-width">Hardware</th>
+                                                            <th class="ram-width">Ram</th>
+                                                            <th class="color-width">Color</th>
+                                                            <th class="screen-size-width">Screen size</th>
+                                                            <th class="resolution-width">Resolution</th>
+                                                            <th class="graphic-card-width">Graphic card</th>
+                                                            <th class="price-width">Price</th>
+                                                            <th class="image-width">Image</th>
+                                                            <th class="action-width"></th>
+                                                        </tr>
+                                                    </table>
+                                                </th>
+                                            </tr>
+                                            <%
+                              
+                  //                              List<Product> productList = new ArrayList<>(${productMap.keySet()});
+                  //                              productList.sort((o1, o2) -> {
+                  //                                  return o1.getProductId() - o2.getProductId();
+                  //                              });
+                                            %>
+                                            <%--<c:forEach items="${productMap.entrySet()}" var="productEntry">--%>
+
+                                            <c:forEach items="${productList}" var="productEntry">
+                                                <tr>
+                                                    <td style="width: 7%;">${productEntry.productName}</td>
+                                                    <%--<td>${product.key.productDetail}</td>--%>
+                                                    <%--<td>${product.category.categoryName}</td>
+                                                    <td>${product.coupon==null?"no coupon":coupon}</td> --%>
+                                                    <td style="">
+                                                        <table  style="width: 100%;">
+                                                            <!--<tr>-->
+                                                            <!--                                            <th>Brand</th>
+                                                                                                        <th>Hardware</th>
+                                                                                                        <th>Ram</th>
+                                                                                                        <th>Screen size</th>
+                                                                                                        <th>Resolution</th>-->
+                                                            <!--</tr>-->
+                                                            <c:forEach items="${ProductDAO.INSTANCE.getProductOptionByProductId(productEntry.productId)}" var="poEntry">
+                                                                <tr>
+                                                                    <td class="brand-width">
+                                                                        ${ProductDAO.INSTANCE.getBrandById(poEntry.brandId).brandName}
+                                                                    </td>
+                                                                    <td class="hardware-width">
+                                                                        ${ProductDAO.INSTANCE.getHardwareMemoryById(poEntry.hardwareMemoryId).hardwareMemory}
+                                                                    </td>
+                                                                    <td class="ram-width">
+                                                                        ${ProductDAO.INSTANCE.getRamMemoryById(poEntry.ramMemoryId).ramMemory}
+                                                                    </td>
+                                                                    <td class="color-width">
+                                                                        ${ProductDAO.INSTANCE.getColorById(poEntry.colorId).color}
+                                                                    </td>
+                                                                    <td  class="screen-size-width">
+                                                                        ${ProductDAO.INSTANCE.getScreenSizeById(poEntry.screenSizeId).screenSize}
+                                                                    </td>
+                                                                    <td class="resolution-width">
+                                                                        ${ProductDAO.INSTANCE.getResolutionById(poEntry.resolutionId).resolution}
+                                                                    </td>        
+                                                                    <td class="graphic-card-width">
+                                                                        ${ProductDAO.INSTANCE.getGraphicCardById(poEntry.graphicCardId).graphicCard}
+                                                                    </td>
+                                                                    <td class="price-width">
+                                                                        ${poEntry.price}
+                                                                    </td>
+                                                                    <td class="image-width">
+                                                                <c:if test="${ProductDAO.INSTANCE.getImageListByProductOptionId(poEntry.getProductOptionId()).size() == 0}">
+                                                                    No image
+                                                                </c:if>
+                                                                <c:forEach items="${ProductDAO.INSTANCE.getImageListByProductOptionId(poEntry.getProductOptionId())}" var="image">
+                                                                    <img src="img/${image.imageText}" width="50px" height="50px" alt="alt"/> 
+                                                                </c:forEach>
+                                                                </td>
+                                                                <td class="action-width">
+                                                                    <a style="color:blue;" href="/SWP_Project/UpdateProduct?productOptionId=${poEntry.productOptionId}">Update</a>
+                                                                    <%--<a style="color: red;" href="/SWP_Project/DeleteProduct?productOptionId=${poEntry.key.productOptionId}">Delete</a>--%>
+                                                                    <a style="color: red;" onclick="confirmDeleteProductOption(${poEntry.productOptionId})" href="#">Delete</a>
+                                                                    &nbsp;
+                                                                    <%--<a href="/SWP_Project/AddProductOption?productId=${poEntry.key.productOptionId}" style="color: green;">Add option</a>
+                                                                    --%>
+                                                                </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+
+                                            <script type="text/javascript">
+                                                if (${deleteSuccess != null}) {
+                                                    alertDeleteSuccess();
+                                                }
+                                                if (${updateSuccess != null}) {
+                                                    alertUpdateSuccess();
+                                                }
+                                            </script>
+                                        </table>
+                                        <!--                    <div class="d-flex align-items-end row">
+                                                              <div class="col-sm-7">
+                                                                
+                                                              </div>
+                                                              <div class="col-sm-5 text-center text-sm-left">
+                                                                
+                                                              </div>
+                                                            </div>-->
                                     </div>
                                 </div>
-                            </div>
 
-                            <!--/ Transactions -->
+                                <!--/ Transactions -->
+                            </div>
                         </div>
+                        <!-- / Content -->
+
+                        <!-- Footer -->
+                        <footer class="content-footer footer bg-footer-theme">
+                            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                                <div class="mb-2 mb-md-0">
+                                    ©
+                                    <script>
+                                        document.write(new Date().getFullYear());
+                                    </script>
+                                    , made with ❤️ by
+                                    <a href="https://themeselection.com" target="_blank" class="footer-link fw-medium">ThemeSelection</a>
+                                </div>
+                                <div class="d-none d-lg-inline-block">
+                                    <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                                    <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+                                    <a
+                                        href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
+                                        target="_blank"
+                                        class="footer-link me-4"
+                                        >Documentation</a
+                                    >
+
+                                    <a
+                                        href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                                        target="_blank"
+                                        class="footer-link"
+                                        >Support</a
+                                    >
+                                </div>
+                            </div>
+                        </footer>
+                        <!-- / Footer -->
+
+                        <div class="content-backdrop fade"></div>
                     </div>
-                    <!-- / Content -->
-
-                    <!-- Footer -->
-                    <footer class="content-footer footer bg-footer-theme">
-                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                            <div class="mb-2 mb-md-0">
-                                ©
-                                <script>
-                                    document.write(new Date().getFullYear());
-                                </script>
-                                , made with ❤️ by
-                                <a href="https://themeselection.com" target="_blank" class="footer-link fw-medium">ThemeSelection</a>
-                            </div>
-                            <div class="d-none d-lg-inline-block">
-                                <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                                <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-                                <a
-                                    href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                                    target="_blank"
-                                    class="footer-link me-4"
-                                    >Documentation</a
-                                >
-
-                                <a
-                                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                                    target="_blank"
-                                    class="footer-link"
-                                    >Support</a
-                                >
-                            </div>
-                        </div>
-                    </footer>
-                    <!-- / Footer -->
-
-                    <div class="content-backdrop fade"></div>
+                    <!-- Content wrapper -->
                 </div>
-                <!-- Content wrapper -->
+                <!-- / Layout page -->
             </div>
-            <!-- / Layout page -->
+
+            <!-- Overlay -->
+            <div class="layout-overlay layout-menu-toggle"></div>
         </div>
 
-        <!-- Overlay -->
-        <div class="layout-overlay layout-menu-toggle"></div>
-    </div>
+        <script src="assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="assets/vendor/libs/popper/popper.js"></script>
+        <script src="assets/vendor/js/bootstrap.js"></script>
+        <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="assets/vendor/js/menu.js"></script>
 
-    <script src="assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="assets/vendor/libs/popper/popper.js"></script>
-    <script src="assets/vendor/js/bootstrap.js"></script>
-    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="assets/vendor/js/menu.js"></script>
+        <!-- endbuild -->
 
-    <!-- endbuild -->
+        <!-- Vendors JS -->
+        <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
-    <!-- Vendors JS -->
-    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+        <!-- Main JS -->
+        <script src="assets/js/main.js"></script>
 
-    <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
+        <!-- Page JS -->
+        <script src="assets/js/dashboards-analytics.js"></script>
 
-    <!-- Page JS -->
-    <script src="assets/js/dashboards-analytics.js"></script>
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-</body>
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+    </body>
 </html>

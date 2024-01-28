@@ -1,19 +1,65 @@
 
 /*** Spinner Start ***/
+.add-product-table{
+    margin-bottom: 20px;
+}
+
+.product-table > tr, th, td{
+    /*color: red;*/
+    border: solid 1px rgb(0, 0, 0, 0.4);
+}
+.product-table, .product-table > table{
+    border-collapse: collapse;
+}
+/*.product-table tr:first-child td:first-child, th:first-child{
+    width: 20px;
+    color: red;
+}*/
+.brand-width{
+    width: 6%;
+}
+.hardware-width{
+    width: 8%;
+}
+.ram-width{
+    width: 5.6%;
+}
+.screen-size-width{
+    width: 8%;
+}
+.resolution-width{
+    width: 8.9%;
+}
+.color-width{
+    width: 7%;
+}
+.graphic-card-width{
+    width: 13%;
+}
+.price-width{
+    width: 11%;
+}
+.image-width{
+    width: auto;
+}
+.action-width{
+    width: 9%;
+}
+
 #spinner {
     opacity: 0;
     visibility: hidden;
     transition: opacity .8s ease-out, visibility 0s linear .5s;
     z-index: 99999;
- }
+}
 
- #spinner.show {
-     transition: opacity .8s ease-out, visibility 0s linear .0s;
-     visibility: visible;
-     opacity: 1;
- }
+#spinner.show {
+    transition: opacity .8s ease-out, visibility 0s linear .0s;
+    visibility: visible;
+    opacity: 1;
+}
 
- .back-to-top {
+.back-to-top {
     position: fixed;
     right: 30px;
     bottom: 30px;
@@ -258,7 +304,7 @@
     transform: translate(-50%);
     transform: rotate(45deg);
     background: var(--bs-secondary);
-    
+
 }
 /*** featurs End ***/
 
@@ -266,10 +312,10 @@
 /*** service Start ***/
 .service .service-item .service-content {
     position: relative;
-    width: 250px; 
-    height: 130px; 
-    top: -50%; 
-    left: 50%; 
+    width: 250px;
+    height: 130px;
+    top: -50%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -282,7 +328,7 @@
 }
 
 .fruite .tab-class .nav-item a.active span {
-    color: var(--bs-white) !important; 
+    color: var(--bs-white) !important;
 }
 
 .fruite .fruite-categorie .fruite-name {
@@ -455,7 +501,7 @@
 .pagination {
     display: inline-block;
 }
-  
+
 .pagination a {
     color: var(--bs-dark);
     padding: 10px 16px;
@@ -464,14 +510,16 @@
     border: 1px solid var(--bs-secondary);
     margin: 0 4px;
 }
-  
+
 .pagination a.active {
     background-color: var(--bs-primary);
     color: var(--bs-light);
     border: 1px solid var(--bs-secondary);
 }
-  
-.pagination a:hover:not(.active) {background-color: var(--bs-primary)}
+
+.pagination a:hover:not(.active) {
+    background-color: var(--bs-primary)
+}
 
 .nav.nav-tabs .nav-link.active {
     border-bottom: 2px solid var(--bs-secondary) !important;

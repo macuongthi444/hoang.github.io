@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 
 /**
@@ -85,28 +86,32 @@ public class UpdateCoupon extends HttpServlet {
             String couponIDstr = request.getParameter("cid");
             int couponId = Integer.parseInt(couponIDstr);
             String discountRateStr = request.getParameter("discountRate");
-            double discountRate = Double.parseDouble(discountRateStr);
+            double discountRateN = Double.parseDouble(discountRateStr);
+            double discountRate = discountRateN / 100;
             if (discountRate < 0 || discountRate > 1) {
-                throw new NumberFormatException();
+                request.setAttribute("error", "Invalid discount rate format(0->100)!");
+                doGet(request, response);
             }
             // Chuyển đổi định dạng của startDateStr và endDateStr
             String startDateStr = request.getParameter("startDate");
             String endDateStr = request.getParameter("endDate");
             LocalDate startDate1 = LocalDate.parse(startDateStr);
             LocalDate endDate1 = LocalDate.parse(endDateStr);
-
+            LocalDate currentDate = LocalDate.now();
             // Kiểm tra nếu startDate >= endDate
             if (startDate1.isAfter(endDate1) || startDate1.isEqual(endDate1)) {
                 request.setAttribute("error", "Start Date must be < End Date !");
-                Coupon coupon = c.getCouponByID(couponId);
-                request.setAttribute("coupon", coupon);
-                request.getRequestDispatcher("adminView/UpdateCoupon.jsp").forward(request, response);
+                doGet(request, response);
             }
             Date startDate = Date.valueOf(startDateStr);
             Date endDate = Date.valueOf(endDateStr);
-            System.out.println(startDate + " " + endDate);
-            System.out.println(discountRate);
-
+            Date current1 = Date.valueOf(currentDate);
+            System.out.println(current1);
+            if (endDate.before(current1)) {
+                request.setAttribute("error", "End Date must > CurrentDate: " + current1);
+                doGet(request, response);            
+            }
+            System.out.println(current1);
             String[] isUsedValues = request.getParameterValues("isUsed");
 
             // Kiểm tra xem checkbox có được chọn hay không
@@ -116,12 +121,7 @@ public class UpdateCoupon extends HttpServlet {
 
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Invalid discount rate format(0->1)!");
-            // Gửi thông báo lỗi về addCoupon.jsp
-            request.getRequestDispatcher("adminView/UpdateCoupon.jsp").forward(request, response);
-//        } catch (ParseException e) {
-//            request.setAttribute("error", "Invalid date format(yyyy-MM-dd).");
-//            // Gửi thông báo lỗi về addCoupon.jsp
-//            request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+            doGet(request, response);
         } catch (Exception e) {
             request.setAttribute("error", "An error occurred.");
             System.out.println(e);
