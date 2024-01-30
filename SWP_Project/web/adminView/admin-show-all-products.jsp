@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="DAO.ProductDAO, DAO.CategoryDAO" %>
+<%@page import="DAO.ProductDAO, DAO.CategoryDAO, java.util.List, java.util.ArrayList, Model.Product" %>
 <!DOCTYPE html>
 <html
     lang="en"
@@ -47,7 +47,7 @@
         <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
         
         
-        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="css/style.css" />
         <!-- Page CSS -->
 
         <!-- Helpers -->
@@ -55,22 +55,13 @@
         <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <style>
-            #update-product-table {
-                /*margin-left: 50px*/
-                /*width: 50%;*/
-            }
-            #update-product-table select{
-                width: 200px;
-            }
-            #update-product-table tr > td:nth-child(2){
-                width: 30%;
-            }
-            #update-product-table input[type="number"], input:first-child{ 
-                /*color: red;*/
-                width: 200px;
-            }
+            
+           
+
         </style>
         <script src="assets/js/config.js"></script>
+        
+        <script src="js/main.js"></script>
     </head>
     <body>
 
@@ -616,188 +607,311 @@
 
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
-                <div class="col-md-12 mb-4 order-0">
-                  <div class="card">
-                      <c:if test="${productOption == null}">
-                          <c:if test="${updateSuccess != null}">
-                              <h3 style="color: green;">Update success</h3>
-                          </c:if>
-                          <c:if test="${updateSuccess == null}">
-                            <h3 style="color: red;">
-                                  Product not found
-                              </h3>
-                              
-                          </c:if>
-                      </c:if>
-                      <c:if test="${productOption != null}">
-                          <form action="UpdateProduct" method="post">
-                          <table id="update-product-table">
-                              <tr>
-                                  <th></th>
-                                  <th>Old value</th>
-                                  <th>New value</th>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Product name: </td> 
-                                  <td>${product.productName}
-                                  </td>
-                                  <td>
-                                      <input name="productName" id="productName" value="${product.productName}" required="" autocomplete="off"/>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>Category: </td>
-                                  <td>${product.category.categoryName}</td>
-                                  <td>
-                                      <select name="category" >
-                                         <c:forEach items="<%=CategoryDAO.INSTANCE.getCategoryList()%>" var="cat">
-                                           <option value="${cat.categoryId}" ${product.category.categoryName.equals(cat.categoryName)?"selected":""}>${cat.categoryName}</option>
-                                         </c:forEach>
-                                      </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Product detail: </td>
-                                  <td>${product.productDetail}</td>
-                                  <td>
-                                      <textarea id="productDetail" name="productDetail" rows="3" cols="20">${product.productDetail}</textarea>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Brand: </td>
-                                  <td>${ProductDAO.INSTANCE.getBrandById(productOption.brandId).brandName}</td>
-                                  <td>
+                  <div class="col-md-12">
+                      <form action="AdminShowAllProducts" method="post">
+                      <table class="search-table">
+                          <tr>
+                              <th>
+                                Search by: 
+                              </th>
+                              <th>
+                                  <input type="checkbox" id="nameSearch" name="search" value="productName" 
+                                         ${sessionScope.searchMap.containsKey("productName")?"checked":""} />
+                                  Name
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="categoryId"
+                                         ${sessionScope.searchMap.containsKey("categoryId")?"checked":""}/>
+                                  Category
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="brandId" 
+                                         ${sessionScope.searchMap.containsKey("brandId")?"checked":""}/>
+                                  Brand
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="hardwareMemoryId"
+                                         ${sessionScope.searchMap.containsKey("hardwareMemoryId")?"checked":""}/>
+                                  Hardware
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="ramMemoryId"
+                                         ${sessionScope.searchMap.containsKey("ramMemoryId")?"checked":""}/>
+                                  Ram
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="colorId"
+                                         ${sessionScope.searchMap.containsKey("colorId")?"checked":""}/>
+                                  Color
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="screenSizeId"
+                                         ${sessionScope.searchMap.containsKey("screenSizeId")?"checked":""}/>
+                                  Screen size
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="resolutionId"
+                                         ${sessionScope.searchMap.containsKey("resolutionId")?"checked":""}/>
+                                  resolution
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="graphicCardId"
+                                         ${sessionScope.searchMap.containsKey("graphicCardId")?"checked":""}/>
+                                  Graphic card
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="price"
+                                         ${sessionScope.searchMap.containsKey("price")?"checked":""}/>
+                                  Price
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="numberInStock"
+                                          ${sessionScope.searchMap.containsKey("numberInStock")?"checked":""}/>
+                                  Number in stock
+                              </th>
+                              <th>
+                                  <input type="checkbox" name="search" value="quantitySold" 
+                                         ${sessionScope.searchMap.containsKey("quantitySold")?"checked":""}/>
+                                  Quantity sold
+                              </th>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td>
+                                <input name="productName" placeholder="Name" style="width: 100px; padding-top: 0px; padding-bottom: 0px;"
+                                       value="${sessionScope.searchMap.containsKey("productName")?sessionScope.searchMap.get("productName").get(0):""}"/>
+                              </td>
+                              <td>
+                                <select name="categoryId">
+                                    <c:forEach items="<%=CategoryDAO.INSTANCE.getCategoryList()%>" var="category">
+                                        <option value="${category.categoryId}" 
+                                                ${sessionScope.searchMap.containsKey("categoryId")?(sessionScope.searchMap.get("categoryId").get(0).equals(category.categoryId.toString())?"selected":""):""}
+                                                >${category.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+                              </td>
+                              <td>
                                     <select id="brandId" name="brandId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getBrandList()%>" var="brand">
-                                        <option value="${brand.brandId}" ${productOption.brandId==brand.brandId?"selected":""}>${brand.brandName}</option>
-                                    </c:forEach>
-                                </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Hardware: </td>
-                                  <td>${ProductDAO.INSTANCE.getHardwareMemoryById(productOption.hardwareMemoryId).hardwareMemory}</td>
-                                  <td>
-                                    <select id="hardwareMemoryId" name="hardwareMemoryId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getHardwareMemoryList()%>" var="hardwareMemory">
-                                        <option value="${hardwareMemory.hardwareMemoryId}" ${productOption.hardwareMemoryId==hardwareMemory.hardwareMemoryId?"selected":""}
-                                                >${hardwareMemory.hardwareMemory}</option>
-                                    </c:forEach>
-                                    </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Ram: </td>
-                                  <td>${ProductDAO.INSTANCE.getRamMemoryById(productOption.ramMemoryId).ramMemory}</td>
-                                  <td>
-                                    <select id="ramMemoryId" name="ramMemoryId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getRamMemoryList()%>" var="ramMemory">
-                                        <option value="${ramMemory.ramMemoryId}" ${productOption.ramMemoryId==ramMemory.ramMemoryId?"selected":""}>${ramMemory.ramMemory}</option>
-                                    </c:forEach>
-                                    </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Color: </td>
-                                  <td>${ProductDAO.INSTANCE.getColorById(productOption.colorId).color}</td>
-                                  <td>
-                                    <select id="colorId" name="colorId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getColorList()%>" var="color">
-                                        <option value="${color.colorId}" ${productOption.colorId==color.colorId?"selected":""}>${color.color}</option>
-                                    </c:forEach>
-                                    </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Screen size: </td>
-                                  <td>${ProductDAO.INSTANCE.getScreenSizeById(productOption.screenSizeId).screenSize}</td>
-                                  <td>
-                                    <select id="screenSizeId" name="screenSizeId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getScreenSizeList()%>" var="ss">
-                                        <option value="${ss.screenSizeId}" ${screenSizeId==ss.screenSizeId?"selected":""}>${ss.screenSize}</option>
-                                    </c:forEach>
-                                </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Resolution: </td>
-                                  <td>${ProductDAO.INSTANCE.getResolutionById(productOption.resolutionId).resolution}</td>
-                                  <td>
-                                  <select id="resolutionId" name="resolutionId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getResolutionList()%>" var="resolution">
-                                        <option value="${resolution.resolutionId}" ${resolutionId==resolution.resolutionId?"selected":""}>${resolution.resolution}</option>
-                                    </c:forEach>
-                                  </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Graphic card: </td>
-                                  <td>${ProductDAO.INSTANCE.getGraphicCardById(productOption.graphicCardId).graphicCard}</td>
-                                  <td>
-                                    <select id="resolutionId" name="graphicCardId">
-                                        <c:forEach items="<%=ProductDAO.INSTANCE.getGraphicCardList()%>" var="gc">
-                                            <option value="${gc.graphicCardId}" hicCardId?"selected":""}>${gc.graphicCard}</option>
+                                        <c:forEach items="<%=ProductDAO.INSTANCE.getBrandList()%>" var="brand">
+                                            <option 
+                                                ${sessionScope.searchMap.containsKey("brandId")?(sessionScope.searchMap.get("brandId").get(0).equals(brand.brandId.toString())?"selected":""):""}
+                                                value="${brand.brandId}" ${brandId==brand.brandId?"selected":""}>${brand.brandName}</option>
                                         </c:forEach>
                                     </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Price: </td>
-                                  <td>${productOption.price}</td>
-                                  <td>
-                                      <input name="productPrice" id="productPrice" type="number" min="1" placeholder="Product price" required="" autocomplete="off"
-                                       value="${productOption.price}"/>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="width: 13%;">Quantity: </td>
-                                  <td>${productOption.numberInStock}</td>
-                                  <td>
-                                      <input type="number" min="0" name="numberInStock" placeholder="numberInStock" autocomplete="off" 
-                                             required="" value="${productOption.numberInStock}"/>
-                                  </td>
-                              <tr>
-                                  <td>
-                                      Images: 
-                                  </td>
-                                  <td>
-                                      <c:if test="${imageList.isEmpty()}" >
-                                          No image
-                                      </c:if>
-                                      <c:forEach items="${imageList}" var="image">
-                                          <img src="img/${image.imageText}" width="50px" height="50px" alt="alt"/>
-                                      </c:forEach>
-                                  </td>
-                                  <td>
-                                      <input style="width: 216px;" multiple
-                                         name="productImage" id="productImage" type="file" />
-                                      <br/>
-                                      <input type="radio" id="overrideImage" value="overrideImage" name="imageOption"/> <label for="overrideImage">Override image </label> <br/>
-                                      <input type="radio" name="imageOption" value="addMoreImage" id="addMoreImage" checked/><label for="addMoreImage">Add more image </label>
-                                      <span></span>
-                                  </td>
-                              </tr>
-                          </table>
-                           <input type="hidden" value="${productOption.productOptionId}" name="productOptionId"/>
-                          <input style="width: 100px;" type="submit" value="Update" name="Update"/>
-                      </form>
-                          <h4>Other options of this product</h4>
-                          <c:if test="${productOptionList.isEmpty()}">
-                              <h5 style="color: red;">None</h5>
-                          </c:if>
-                          <c:forEach items="${productOptionList}" var="po">
-                              ${ProductDAO.INSTANCE.getBrandById(po.brandId).brandName} - ${ProductDAO.INSTANCE.getHardwareMemoryById(po.hardwareMemoryId).hardwareMemory} 
-                              - ${ProductDAO.INSTANCE.getRamMemoryById(po.ramMemoryId).ramMemory} - ${ProductDAO.INSTANCE.getColorById(po.colorId).color} - ${ProductDAO.INSTANCE.getScreenSizeById(po.screenSizeId).screenSize} - ${ProductDAO.INSTANCE.getResolutionById(po.resolutionId).resolution} - ${ProductDAO.INSTANCE.getGraphicCardById(po.graphicCardId).graphicCard} - ${po.price}
-                              <br/>
-                          </c:forEach>
-                      </c:if>
+                              </td>
+                              <td>
+                                    <select name="hardwareMemoryId">
+                                        <c:forEach items="<%=ProductDAO.INSTANCE.getHardwareMemoryList()%>" var="hm">
+                                            <option 
+                                                ${sessionScope.searchMap.containsKey("hardwareMemoryId")?(sessionScope.searchMap.get("hardwareMemoryId").get(0).equals(hm.hardwareMemoryId.toString())?"selected":""):""}
+                                                value="${hm.hardwareMemoryId}">${hm.hardwareMemory}</option>
+                                        </c:forEach>
+                                    </select>
+                              </td>
+                              <td>
+                                    <select name="ramMemoryId">
+                                        <c:forEach items="<%=ProductDAO.INSTANCE.getRamMemoryList()%>" var="ramMemory">
+                                            <option 
+                                                ${sessionScope.searchMap.containsKey("ramMemoryId")?(sessionScope.searchMap.get("ramMemoryId").get(0).equals(ramMemory.ramMemoryId.toString())?"selected":""):""}
+                                                value="${ramMemory.ramMemoryId}" ${ramMemoryId==ramMemory.ramMemoryId?"selected":""}>${ramMemory.ramMemory}</option>
+                                        </c:forEach>
+                                    </select>
+                              </td>                        
+                              <td>
+                                  <select id="colorId" name="colorId">
+                                    <c:forEach items="<%=ProductDAO.INSTANCE.getColorList()%>" var="color">
+                                        <option 
+                                            ${sessionScope.searchMap.containsKey("colorId")?(sessionScope.searchMap.get("colorId").get(0).equals(color.colorId.toString())?"selected":""):""}
+                                            value="${color.colorId}" ${colorId==color.colorId?"selected":""}>${color.color}</option>
+                                    </c:forEach>
+                                    </select>
+                              </td>
+                              <td>
+                                  <select id="screenSizeId" name="screenSizeId">
+                                    <c:forEach items="<%=ProductDAO.INSTANCE.getScreenSizeList()%>" var="ss">
+                                        <option 
+                                            ${sessionScope.searchMap.containsKey("screenSizeId")?(sessionScope.searchMap.get("screenSizeId").get(0).equals(ss.screenSizeId.toString())?"selected":""):""}
+                                            value="${ss.screenSizeId}" ${screenSizeId==ss.screenSizeId?"selected":""}>${ss.screenSize}</option>
+                                    </c:forEach>
+                                    </select>
+                              </td>
+                              <td>
+                                  <select id="resolutionId" name="resolutionId">
+                                    <c:forEach items="<%=ProductDAO.INSTANCE.getResolutionList()%>" var="resolution">
+                                        <option 
+                                            ${sessionScope.searchMap.containsKey("resolutionId")?(sessionScope.searchMap.get("resolutionId").get(0).equals(resolution.resolutionId.toString())?"selected":""):""}
+                                            value="${resolution.resolutionId}" ${resolutionId==resolution.resolutionId?"selected":""}>${resolution.resolution}</option>
+                                    </c:forEach>
+                                    </select>
+                              </td>
+                              <td>
+                                  <select id="resolutionId" name="graphicCardId">
+                                    <c:forEach items="<%=ProductDAO.INSTANCE.getGraphicCardList()%>" var="gc">
+                                        <option 
+                                            ${sessionScope.searchMap.containsKey("graphicCardId")?(sessionScope.searchMap.get("graphicCardId").get(0).equals(gc.graphicCardId.toString())?"selected":""):""}
+                                            value="${gc.graphicCardId}" ${graphicCardId==gc.graphicCardId?"selected":""}>${gc.graphicCard}</option>
+                                    </c:forEach>
+                                    </select>
+                              </td>
+                              <td >
+<!--                                  From: <input style="width: 100px;" type="number" min="0" /> <br/>
+                                  To:   <input style="width: 100px;" type="number" min='0' />-->
+                                  <section class="range-slider">
+                                <span class="rangeValues"></span>
+                                <input value="${sessionScope.searchMap.containsKey("price")?(sessionScope.searchMap.get("price").get(0)):"0"}"
+                                       min="0" max="10000" name="priceBegin" type="range" step="1">
+                                <input value="${sessionScope.searchMap.containsKey("price")?(sessionScope.searchMap.get("price").get(1)):"5000"}" 
+                                       min="0" max="10000" name="priceEnd" type="range" step="1">
+                              </section>
+                              </td>
+                              <td>
+                                  <section class="range-slider">
+                                <span class="rangeValues"></span>
+                                <input value="${sessionScope.searchMap.containsKey("numberInStock")?(sessionScope.searchMap.get("numberInStock").get(0)):"0"}"
+                                       min="0" max="2000" name="numberInStockBegin" type="range" step="1">
+                                <input value="${sessionScope.searchMap.containsKey("numberInStock")?(sessionScope.searchMap.get("numberInStock").get(1)):"20"}" 
+                                       min="0" max="1000" name="numberInStockEnd" type="range" step="1">
+                              </section>
+                              </td>
+                              <td>
+                                  <section class="range-slider">
+                                <span class="rangeValues"></span>
+                                <input value="${sessionScope.searchMap.containsKey("quantitySold")?(sessionScope.searchMap.get("quantitySold").get(0)):"0"}"
+                                       min="0" max="2000" name="quantitySoldBegin" type="range" step="1">
+                                <input value="${sessionScope.searchMap.containsKey("quantitySold")?(sessionScope.searchMap.get("quantitySold").get(1)):"100"}" 
+                                       min="0" max="2000" name="quantitySoldEnd" type="range" step="1">
+                              </section>
+                              </td>
+                        </tr>
+                     </table>
+                          <input type="submit" value="Clear Option" name="searchSubmit" />
+                          <input type="submit" value="Search" name="searchSubmit"/>
+                  </form>
+                  </div>
+                <div class="col-md-12 mb-4 order-0">
+                  <div class="card">
+                      
+                      <table class="product-table" >
+                          <tr>
+                              <th style="width: 7%;">Name</th>
+                              <th class="category-width">Category</th>
+                              <th class="product-detail-width">Detail</th>
+                              <th>
+                                  <table style="width: 100%;">
+                                      <tr>
+                                            <th class="brand-width">Brand</th>
+                                            <th class="hardware-width">Hardware</th>
+                                            <th class="ram-width">Ram</th>
+                                            <th class="color-width">Color</th>
+                                            <th class="screen-size-width">Screen size</th>
+                                            <th class="resolution-width">Resolution</th>
+                                            <th class="graphic-card-width">Graphic card</th>
+                                            <th class="price-width">Price</th>
+                                            <th class="number-in-stock-width">Number in stock</th>
+                                            <th class="quantity-sold-width">Quantity sold</th>
+                                            <th class="image-width">Image</th>
+                                            <th class="action-width"></th>
+                                      </tr>
+                                  </table>
+                              </th>
+                          </tr>
+                          <%
+                              
+//                              List<Product> productList = new ArrayList<>(${productMap.keySet()});
+//                              productList.sort((o1, o2) -> {
+//                                  return o1.getProductId() - o2.getProductId();
+//                              });
+                          %>
+                        <%--<c:forEach items="${productMap.entrySet()}" var="productEntry">--%>
+                        
+                        <c:forEach items="${productList}" var="productEntry">
+                            <tr>
+                                <td style="width: 7%;">${ProductDAO.INSTANCE.getProductById(productEntry).productName} <br/>
+                                    <a style="color: green; font-size: 13px; text-decoration: underline;" href="/SWP_Project/AddProductOption?productId=${productEntry}">Add other option</a>
+                                </td>
+                                <td class="category-width">${ProductDAO.INSTANCE.getProductById(productEntry).category.categoryName}</td>
+                                <td class="product-detail-width">${ProductDAO.INSTANCE.getProductById(productEntry).productDetail}</td>
+                                <%--<td>${product.coupon==null?"no coupon":coupon}</td> --%>
+                                <td style="">
+                                    <table  style="width: 100%; height: 90px;">
+                                        <%--<c:forEach items="${ProductDAO.INSTANCE.getProductOptionByProductId(productEntry.productId)}" var="poEntry">--%>
+                                        <c:forEach items="${productMap.get(productEntry)}" var="poEntry">
+                                            <tr>
+                                                <td class="brand-width">
+                                                    ${ProductDAO.INSTANCE.getBrandById(poEntry.brandId).brandName}
+                                                </td>
+                                                <td class="hardware-width">
+                                                    ${ProductDAO.INSTANCE.getHardwareMemoryById(poEntry.hardwareMemoryId).hardwareMemory}
+                                                </td>
+                                                <td class="ram-width">
+                                                    ${ProductDAO.INSTANCE.getRamMemoryById(poEntry.ramMemoryId).ramMemory}
+                                                </td>
+                                                <td class="color-width">
+                                                    ${ProductDAO.INSTANCE.getColorById(poEntry.colorId).color}
+                                                </td>
+                                                <td  class="screen-size-width">
+                                                    ${ProductDAO.INSTANCE.getScreenSizeById(poEntry.screenSizeId).screenSize}
+                                                </td>
+                                                <td class="resolution-width">
+                                                    ${ProductDAO.INSTANCE.getResolutionById(poEntry.resolutionId).resolution}
+                                                </td>        
+                                                <td class="graphic-card-width">
+                                                    ${ProductDAO.INSTANCE.getGraphicCardById(poEntry.graphicCardId).graphicCard}
+                                                </td>
+                                                <td class="price-width">
+                                                    ${poEntry.price}
+                                                </td>
+                                                <td class="number-in-stock-width">
+                                                    ${poEntry.numberInStock}
+                                                </td>
+                                                <td class="quantity-sold-width">
+                                                    ${poEntry.quantitySold}
+                                                </td>
+                                                <td class="image-width">
+                                                    <c:if test="${ProductDAO.INSTANCE.getImageListByProductOptionId(poEntry.getProductOptionId()).size() == 0}">
+                                                        No image
+                                                    </c:if>
+                                                    <c:forEach items="${ProductDAO.INSTANCE.getImageListByProductOptionId(poEntry.getProductOptionId())}" var="image">
+                                                        <img src="img/${image.imageText}" width="50px" height="50px" alt="alt"/> 
+                                                    </c:forEach>
+                                                </td>
+                                                
+                                                <td class="action-width">
+                                                    <a style="color:blue;" href="/SWP_Project/UpdateProduct?productOptionId=${poEntry.productOptionId}">Update</a>
+                                                    <%--<a style="color: red;" href="/SWP_Project/DeleteProduct?productOptionId=${poEntry.key.productOptionId}">Delete</a>--%>
+                                                    <a style="color: red;" onclick="confirmDeleteProductOption(${poEntry.productOptionId})" href="#">Delete</a>
+                                                    &nbsp;
+                                                    <%--<a href="/SWP_Project/AddProductOption?productId=${poEntry.key.productOptionId}" style="color: green;">Add option</a>
+                                                    --%>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </table>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        
+                        <script type="text/javascript">
+                            if(${deleteSuccess != null}){
+                                alertDeleteSuccess();
+                            }
+                            if(${updateSuccess != null}){
+                                alertUpdateSuccess();
+                            }
+                        </script>
+                      </table>
+<!--                    <div class="d-flex align-items-end row">
+                      <div class="col-sm-7">
+                        
+                      </div>
+                      <div class="col-sm-5 text-center text-sm-left">
+                        
+                      </div>
+                    </div>-->
                   </div>
                 </div>
                 
-                <!-- Total Revenue -->
-                
-                <!--/ Total Revenue -->
-                
+                <!--/ Transactions -->
               </div>
             </div>
             <!-- / Content -->
@@ -845,11 +959,6 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-        <script>
-            if(${updateSuccess} === 'updateSuccess'){
-                alert("Update success");
-            }
-        </script>
 
     <script src="assets/vendor/libs/jquery/jquery.js"></script>
     <script src="assets/vendor/libs/popper/popper.js"></script>

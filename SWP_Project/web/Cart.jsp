@@ -292,8 +292,8 @@
             </div>
         </div>
         <!-- Cart Page End -->
-
-
+        
+        
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
             <div class="container py-5">

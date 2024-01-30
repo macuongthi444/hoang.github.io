@@ -9,6 +9,7 @@ package Model;
  * @author nguye
  */
 public class ProductOption {
+    private int productOptionId;
     private int productId;
 //    private Option optionId;
 //    private String optionDetail;
@@ -21,7 +22,8 @@ public class ProductOption {
     public ProductOption() {
     }
 
-    public ProductOption(int productId, int brandId, int hardwareMemoryId, int ramMemoryId, int colorId, int ScreenSizeId, int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold) {
+    public ProductOption(int productOptionId, int productId, int brandId, int hardwareMemoryId, int ramMemoryId, int colorId, int ScreenSizeId, int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold) {
+        this.productOptionId = productOptionId;
         this.productId = productId;
         this.brandId = brandId;
         this.hardwareMemoryId = hardwareMemoryId;
@@ -33,6 +35,14 @@ public class ProductOption {
         this.price = price;
         this.numberInStock = numberInStock;
         this.quantitySold = quantitySold;
+    }
+
+    public int getProductOptionId() {
+        return productOptionId;
+    }
+
+    public void setProductOptionId(int productOptionId) {
+        this.productOptionId = productOptionId;
     }
 
     
@@ -127,8 +137,9 @@ public class ProductOption {
 
     @Override
     public String toString() {
-        return "ProductOption{" + "productId=" + productId + ", brandId=" + brandId + ", hardwareMemoryId=" + hardwareMemoryId + ", ramMemoryId=" + ramMemoryId + ", colorId=" + colorId + ", ScreenSizeId=" + ScreenSizeId + ", resolutionId=" + resolutionId + ", graphicCardId=" + graphicCardId + ", price=" + price + ", numberInStock=" + numberInStock + ", quantitySold=" + quantitySold + '}';
+        return "ProductOption{" + "productOptionId=" + productOptionId + ", productId=" + productId + ", brandId=" + brandId + ", hardwareMemoryId=" + hardwareMemoryId + ", ramMemoryId=" + ramMemoryId + ", colorId=" + colorId + ", ScreenSizeId=" + ScreenSizeId + ", resolutionId=" + resolutionId + ", graphicCardId=" + graphicCardId + ", price=" + price + ", numberInStock=" + numberInStock + ", quantitySold=" + quantitySold + '}';
     }
+
     
     
 }

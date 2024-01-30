@@ -8,6 +8,18 @@
         <servlet-name>UpdateProduct</servlet-name>
         <servlet-class>controller.UpdateProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminShowAllProducts</servlet-name>
+        <servlet-class>controller.AdminShowAllProducts</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProduct</servlet-name>
+        <servlet-class>controller.DeleteProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductOption</servlet-name>
+        <servlet-class>controller.AddProductOption</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeControl</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -15,6 +27,18 @@
     <servlet-mapping>
         <servlet-name>UpdateProduct</servlet-name>
         <url-pattern>/UpdateProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminShowAllProducts</servlet-name>
+        <url-pattern>/AdminShowAllProducts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProduct</servlet-name>
+        <url-pattern>/DeleteProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductOption</servlet-name>
+        <url-pattern>/AddProductOption</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

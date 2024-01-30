@@ -119,14 +119,6 @@ create table GraphicCard(
 insert into GraphicCard values('Card Onboard'), ('NVIDIA GeForce Series'), ('AMD Radeon Series')
 
 --------------------------------------		Product     ------------------------------------------------------------
-if(OBJECT_ID('coupon') is null)
-create table Coupon(
-	couponId int identity(1, 1) primary key not null,
-	discountRate numeric(3, 3) not null,
-	startDate datetime not null,
-	endDate datetime not null,
-	isUsed bit not null default 0
-)
 
 if Object_Id('dbo.Category') is null
 create table Category(
@@ -139,7 +131,6 @@ create table Product(
 	productId int not null primary key,
 	productName nvarchar(255) not null,
 	categoryId int foreign key references Category(categoryId), 	
-	couponId int foreign key references Coupon(couponId),
 	productDetail nvarchar(2000) 
 )
 
@@ -182,6 +173,8 @@ create table Product_Option(
 	quantitySold int not null default 0,
 	primary key(productOptionId)
 )
+
+
 
 create table [Image](
 	imageId int identity(1, 1) not null,
@@ -280,13 +273,15 @@ insert into Account values('admin', '123', 'admin@gmail.com', 1, 1);
 insert into Product values (1, 'Macbook Air M1', 1, null, N'Bíu tỳ phùn')
 insert into Product_Option values(1, (select brandId from Brand where brandName = 'apple'), 1, 1, 1, 1, 1, (select colorId from Color where color = 'black'), 10000, 0, 0)
 
-select p.productId, p.productName, c.color, hm.hardwareMemory, rm.ramMemory, b.brandName from Brand b, Product_Option po, product p, HardwareMemory hm, RamMemory rm, Color c where po.productId = p.productId and po.hardwareMemoryId = hm.hardwareMemoryId
-	and po.ramMemoryId = rm.ramMemoryId and po.colorId = c.colorId and po.brandId = b.brandId
+	--select * from Brand b, Product_Option po, product p, HardwareMemory hm, RamMemory rm,
 
 select * from product
 select * from Product_Option
+select po.productOptionId, p.productId, p.productName, p.categoryId, p.productDetail, b.brandName, c.color, hm.hardwareMemory, rm.ramMemory, sc.screenSize, r.resolution, gc.graphicCard, po.price, po.numberInStock, po.quantitySold from
+	Brand b, Product_Option po, product p, HardwareMemory hm, RamMemory rm, Color c, ScreenSize sc, Resolution r, GraphicCard gc where po.productId = p.productId and po.hardwareMemoryId = hm.hardwareMemoryId and po.resolutionId = r.resolutionId
+	and po.ramMemoryId = rm.ramMemoryId and po.colorId = c.colorId and po.brandId = b.brandId and po.graphicCardId = gc.graphicCardId and po.ScreenSizeId = sc.screenSizeId
 select * from [image]
-
+delete from Product_Option where productOptionId = 16
 select * From category
 --delete from [option] where optionId = 2
 --delete from product where productId in (1, 2, 3)
@@ -298,4 +293,11 @@ insert into Account values('guest', '123', 'guest@gmail.com', 2, 1)
 --select coalesce(couponId, 0) from Product
 select * from Resolution
 
+select * from coupon
+
+select * from product_option
+select * from Product where productId = (select productId from Product_Option where productOptionId = 1)
+select * from Product_Option where productId = (select productId from Product_Option where productOptionId = 2) 
+
+select * From Image
 

@@ -5,6 +5,8 @@
 
 package controller;
 
+import DAO.ProductDAO;
+import Model.ProductOption;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -53,7 +55,22 @@ public class UpdateProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+//        request.setAttribute("ProductDAO.INSTANCE", ProductDAO.INSTANCE);
+//        System.out.println(ProductDAO.INSTANCE.getProductOptionList());
+//        request.setAttribute("productOptionList", ProductDAO.INSTANCE.getProductOptionList());
+//        request.setAttribute("productList", ProductDAO.INSTANCE.getProductList());
+        int productOptionId;
+        try {
+            productOptionId = Integer.parseInt(request.getParameter("productOptionId"));
+        } catch (NumberFormatException e) {
+            productOptionId = 0;
+        }
+        ProductOption productOption = ProductDAO.INSTANCE.getProductOptionById(productOptionId);
+        request.setAttribute("product", ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId));
+        request.setAttribute("productOption", productOption);
+        request.setAttribute("productOptionList", ProductDAO.INSTANCE.getOtherProductOptionByProductId(productOptionId));
+        request.setAttribute("imageList", ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId));
+        request.getRequestDispatcher("adminView/update-product.jsp").forward(request, response);
     } 
 
     /** 
@@ -66,8 +83,43 @@ public class UpdateProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        
+        String productName = request.getParameter("productName");
+        int category = Integer.parseInt(request.getParameter("category"));
+        String productDetail = request.getParameter("productDetail");
+        int productOptionId = Integer.parseInt(request.getParameter("productOptionId"));
+        int brandId = Integer.parseInt(request.getParameter("brandId"));
+        int hardwareMemoryId = Integer.parseInt(request.getParameter("hardwareMemoryId"));
+        int ramMemoryId = Integer.parseInt(request.getParameter("ramMemoryId"));
+        int colorId = Integer.parseInt(request.getParameter("colorId"));
+        int screenSizeId = Integer.parseInt(request.getParameter("screenSizeId"));
+        int resolutionId = Integer.parseInt(request.getParameter("resolutionId"));
+        int graphicCardId = Integer.parseInt(request.getParameter("graphicCardId"));
+        double productPrice = Double.parseDouble(request.getParameter("productPrice"));
+        int numberInStock = Integer.parseInt(request.getParameter("numberInStock"));
+        String[] images = request.getParameterValues("productImage");
+        
+        ProductDAO.INSTANCE.updateProduct(ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(),  productName, category, productDetail);
+        ProductDAO.INSTANCE.updateProductOption(productOptionId, ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(), 
+                brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, numberInStock, 0);
+        
+        String imageOption = request.getParameter("imageOption");
+        if(imageOption.equalsIgnoreCase("overrideImage")){
+            ProductDAO.INSTANCE.deleteImageByProductOptionId(productOptionId);
+        }
+        if(images.length != 0){
+            for (String image : images) {
+                System.out.println(image);
+                if(!image.trim().equals("")){
+                    ProductDAO.INSTANCE.insertImage(image, productOptionId);
+                }
+            }
+        }
+        request.getSession().setAttribute("updateSuccess", "updateSuccess");
+        response.sendRedirect("/SWP_Project/AdminShowAllProducts");
+//        request.getRequestDispatcher("adminView/admin-show-all-products.jsp").forward(request, response);
+//        System.out.println(images + " " + productOptionId);
+    } 
 
     /** 
      * Returns a short description of the servlet.
