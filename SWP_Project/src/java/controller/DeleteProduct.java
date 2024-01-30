@@ -72,11 +72,12 @@ public class DeleteProduct extends HttpServlet {
             ProductDAO.INSTANCE.deleteImage(image.getImageId());
         }
         ProductDAO.INSTANCE.deleteProductOption(productOptionId);
-        if(ProductDAO.INSTANCE.getProductOptionByProductId(productOption.getProductId()).isEmpty()){
+        if(ProductDAO.INSTANCE.getProductByProductOptionId(productOption.getProductId()) == null){
             ProductDAO.INSTANCE.deleteProduct(productOption.getProductId());
         }
         
         request.getSession().setAttribute("deleteSuccess", "deleteSuccess");
+        request.getSession().removeAttribute("productOptionListAfterSearching");
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
     } 
 

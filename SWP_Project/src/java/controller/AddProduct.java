@@ -213,6 +213,7 @@ public class AddProduct extends HttpServlet {
         }
             request.setAttribute("addSuccess", "Add success");
         }
+        request.getSession().removeAttribute("productOptionListAfterSearching");
         doGet(request, response);
     }
 

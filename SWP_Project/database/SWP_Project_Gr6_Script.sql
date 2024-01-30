@@ -120,6 +120,7 @@ insert into GraphicCard values('Card Onboard'), ('NVIDIA GeForce Series'), ('AMD
 
 --------------------------------------		Product     ------------------------------------------------------------
 
+
 if Object_Id('dbo.Category') is null
 create table Category(
 	categoryId int identity(1, 1) primary key not null,
@@ -133,6 +134,7 @@ create table Product(
 	categoryId int foreign key references Category(categoryId), 	
 	productDetail nvarchar(2000) 
 )
+
 
 
 --if Object_Id('dbo.Option') is null

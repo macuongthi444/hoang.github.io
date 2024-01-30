@@ -827,7 +827,7 @@
                         <c:forEach items="${productList}" var="productEntry">
                             <tr>
                                 <td style="width: 7%;">${ProductDAO.INSTANCE.getProductById(productEntry).productName} <br/>
-                                    <a style="color: green; font-size: 13px; text-decoration: underline;" href="/SWP_Project/AddProductOption?productId=${productEntry}">Add other option</a>
+                                    <a style="color: green; font-size: 12px; " href="/SWP_Project/AddProductOption?productId=${productEntry}">Add other option</a>
                                 </td>
                                 <td class="category-width">${ProductDAO.INSTANCE.getProductById(productEntry).category.categoryName}</td>
                                 <td class="product-detail-width">${ProductDAO.INSTANCE.getProductById(productEntry).productDetail}</td>

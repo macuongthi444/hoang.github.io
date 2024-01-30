@@ -1319,7 +1319,7 @@ public class ProductDAO extends DBContext {
     public static void main(String[] args) {
 //        System.out.println(ProductDAO.INSTANCE.checkOptionNameIsExist("color"));
 //        ProductDAO.INSTANCE.insertProduct(3, "test", 1, null);
-        System.out.println(ProductDAO.INSTANCE.getCategoryByName("mouse"));
 //        System.out.println(ProductDAO.INSTANCE.getProductOptionId(1, ProductDAO.INSTANCE.getOptionIdByName("color").getOptionId(), "red"));
+        System.out.println(ProductDAO.INSTANCE.getProductOptionList());
     }
 }

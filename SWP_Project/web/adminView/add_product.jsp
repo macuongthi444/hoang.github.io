@@ -98,6 +98,7 @@
                                         <h5 class="card-header">Input Sizing</h5>-->
                     <div class="col-md-6">
                     <div class="card-body">
+                        <form action="AddProduct" method="post">
                             <table class="add-product-table">
                                 <tr>
                                     

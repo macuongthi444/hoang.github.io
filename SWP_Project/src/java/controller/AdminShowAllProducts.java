@@ -81,24 +81,24 @@ public class AdminShowAllProducts extends HttpServlet {
 //                poImageMap.put(productOption, ProductDAO.INSTANCE.getImagesByProductOptionId(productOption.getProductOptionId()));
 //            }
 //            productValue.add(productOptionList);
-            Product product = ProductDAO.INSTANCE.getProductByProductOptionId(productOption.getProductOptionId());
+//            Product product = ProductDAO.INSTANCE.getProductByProductOptionId(productOption.getProductOptionId());
 //            if(!productList.contains(product)){
 //                productList.add(product);
 //            }
             List<ProductOption> list;
-            if(productMap.containsKey(product.getProductId())){
-                list = productMap.get(product.getProductId());
+            if(productMap.containsKey(productOption.getProductId())){
+                list = productMap.get(productOption.getProductId());
             }
             else{
                 list = new ArrayList<>();
             }
             list.add(productOption);
-            productMap.put(product.getProductId(), list);
+            productMap.put(productOption.getProductId(), list);
         }
         List<Integer> productList = new ArrayList<>(productMap.keySet()); 
 //        productList.sort((o1, o2) -> {return o1.getProductId() - o2.getProductId();});
         productList.sort((o1, o2) -> {return o1 - o2;});
-        request.setAttribute("productList", productList); 
+        request.setAttribute("productList", productList);  
 //        List<Product>productKey = new ArrayList<>(productMap.keySet());
 //        productKey.sort((o1, o2) -> {
 //            return o1.getProductId() - o2.getProductId();
