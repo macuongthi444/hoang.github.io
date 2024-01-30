@@ -7,6 +7,7 @@ package controller.user;
 import DAO.CategoryDAO;
 import DAO.ProductDAO;
 import Model.Category;
+<<<<<<< HEAD
 import Model.Color;
 import Model.GraphicCard;
 import Model.HardwareMemory;
@@ -15,6 +16,9 @@ import Model.ProductWithImage;
 import Model.RamMemory;
 import Model.Resolution;
 import Model.ScreenSize;
+=======
+import Model.Product;
+>>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,7 +28,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
 
 /**
  *
@@ -72,6 +79,7 @@ public class ListProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO dao = new ProductDAO();
+<<<<<<< HEAD
         CategoryDAO cateDao = new CategoryDAO();
         String search = request.getParameter("search");
         String priceFrom = request.getParameter("priceFrom");
@@ -98,6 +106,21 @@ public class ListProduct extends HttpServlet {
         request.setAttribute("colorlist", listColor);
         request.setAttribute("cardlist", listCard);
         request.getRequestDispatcher("search_product.jsp").forward(request, response);
+=======
+        CategoryDAO cateDao =new CategoryDAO();
+        String search = request.getParameter("search");
+        String cateId = request.getParameter("cateId");
+        String priceFrom = request.getParameter("priceFrom");
+        String priceTo = request.getParameter("priceTo");
+        String sortType = request.getParameter("sortType");
+        ArrayList<Product> plist =dao.getListProductSearch(search, cateId, priceFrom, priceTo, sortType);
+        ArrayList<Category> clist =cateDao.getCategoryList();
+        HttpSession session = request.getSession();
+        session.setAttribute("search", search);
+        request.setAttribute("plist", plist);
+        request.setAttribute("clist", clist);
+        request.getRequestDispatcher("Home.jsp").forward(request, response);
+>>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
     }
 
     /**

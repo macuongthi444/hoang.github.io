@@ -5,10 +5,15 @@
 
 package controller.user;
 
+<<<<<<< HEAD
 import DAO.DAOAccount;
 import DAO.UserDao;
 import Model.Account;
 import Model.AccountProfile;
+=======
+import DAO.UserDao;
+import Model.Account;
+>>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -59,6 +64,7 @@ public class EditUserProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+<<<<<<< HEAD
        int id = Integer.parseInt(request.getParameter("userid"));
        String name = request.getParameter("firstName");
        String gender1 =request.getParameter("gender");
@@ -72,6 +78,16 @@ public class EditUserProfile extends HttpServlet {
        UserDao dao = new UserDao();
        dao.editAccountById(id, name, birth, gender);
         AccountProfile acc = dao.getAccountProfileById(id);
+=======
+       int id = Integer.parseInt(request.getParameter("id"));
+       String name = request.getParameter("name");
+       String pass = request.getParameter("pass");
+       String email =request.getParameter("email");
+       
+       UserDao dao = new UserDao();
+       dao.editAccountById(id, name, pass, email);
+        Account acc =dao.getAccountById(id);
+>>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
         request.setAttribute("acc",acc);
         request.getRequestDispatcher("userprofile.jsp").forward(request, response);
     } 
