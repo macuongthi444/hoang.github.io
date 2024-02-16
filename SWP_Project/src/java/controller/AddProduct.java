@@ -69,7 +69,6 @@ public class AddProduct extends HttpServlet {
 //        request.getSession().removeAttribute("productId");
         if(request.getParameter("productName") == null && request.getSession().getAttribute("productId") == null){
             request.getSession().removeAttribute("productId");
-            System.out.println("sefkjhsejfhskefh");
         }
 //        System.out.println(request.getParameter("productName"));
         request.setAttribute("CategoryDAO.INSTANCE", CategoryDAO.INSTANCE);
@@ -95,6 +94,7 @@ public class AddProduct extends HttpServlet {
             throws ServletException, IOException {
         if (request.getParameter("clear") != null) {
             request.getSession().removeAttribute("productId");
+            request.getSession().removeAttribute("product");
             doGet(request, response);
             return;
         }

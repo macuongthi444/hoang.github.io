@@ -1,3 +1,9 @@
+function removeSessionStorage(productOptionIds){
+    for (var i = 0; i < productOptionIds.length; i++) {
+        sessionStorage.removeItem(productOptionIds[i]);
+    }
+}
+
 function getVals(){
   // Get slider values
   var parent = this.parentNode;

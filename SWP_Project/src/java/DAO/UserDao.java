@@ -18,26 +18,25 @@ import java.util.logging.Logger;
  */
 public class UserDao extends DBContext {
 
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
-
     public Account getAccountById(int id) {
-
+//        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from Account where accountId=?";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            connection = new DBContext().connection;
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
-
                 Account acc = new Account(rs.getInt("accountId"), rs.getString("username"), rs.getString("password"), rs.getString("email"), RoleDAO.INSTANCE.getRoleById(rs.getInt("roleId")), AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
                 return acc;
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getAccountById");
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }

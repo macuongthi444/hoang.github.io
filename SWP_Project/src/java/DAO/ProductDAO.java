@@ -39,6 +39,22 @@ public class ProductDAO extends DBContext {
 //        
 //    }
     
+    public void updateProductOptionQuantity(int productOptionId, int quantity){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "update product_Option set quantity = ? where productOptionId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, quantity);
+            ps.setInt(2, productOptionId);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error at updateProductOptionQuantity " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+    }
+    
     public List<ProductOption> getProductOptionListAfterSearching(String sql, List<String> searchValue){
         List<ProductOption> list = new ArrayList<>();
         PreparedStatement ps = null;

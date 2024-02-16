@@ -44,13 +44,13 @@ public class LoginControl extends HttpServlet {
             System.out.println("null");
 
         } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("account", acc);
             if(acc.getRole().getRoleName().equalsIgnoreCase("Admin")){
                 response.sendRedirect("/SWP_Project/adminView/index.html");
             }
             else{
-               HttpSession session = request.getSession();
-            session.setAttribute("acc", acc);
-            response.sendRedirect("Home.jsp");
+                response.sendRedirect("Home.jsp");
             }
 
         }

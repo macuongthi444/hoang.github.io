@@ -1,5 +1,5 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@page import="DAO.CartItemDAO, DAO.PaymentDAO" %>
+<%@page import="DAO.CartItemDAO, DAO.PaymentDAO, java.util.ArrayList, Model.PaymentMethod, java.util.stream.Collectors" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
@@ -31,6 +31,12 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        
+        <style>
+            .paymentInfo > table > tbody > tr > td{
+                border: 0px;
+            }
+        </style>
     </head>
 
     <body>
@@ -207,12 +213,32 @@
                                     <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                         <div class="col-12">
                                            <div class="form-check text-start my-3">
-                                               <input type="radio" class="form-check-input bg-primary border-0 paymentMethod" id="paymentMethod${paymentMethod.paymentMethodId}" 
+                                               <input onclick="showPaymentInput()"
+                                                   type="radio" class="form-check-input bg-primary border-0 paymentMethod" id="paymentMethod${paymentMethod.paymentMethodId}" 
                                                       name="paymentMethodId" value="${paymentMethod.paymentMethodId}" />
                                                <label class="form-check-label" for="paymentMethod${paymentMethod.paymentMethodId}">${paymentMethod.paymentMethod}</label>
                                            </div>
                                            <p class="text-start text-dark"></p>
                                        </div>   
+                                       <c:set value="${paymentMethod.paymentMethodId}" var="paymentMethodId"/>
+                                       <c:if test="${paymentMethodId == 2}">
+                                           <div id="paymentInfo${paymentMethodId}"style="margin: 2px 0 30px 0; display: none;" class="paymentInfo">
+                                            <table border="0px" style="text-align: left;">
+                                                <tr>
+                                                    <td>
+                                                        <label for="creaditCard" class="form-label my-3">Card Number<sup>*</sup></label>
+                                                    </td>
+                                                    <td>
+                                                        <input id="txtAddress" type="text" class="form-control" placeholder="0000 0000 0000 0000" required="">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Expiration Date<sup>*</sup></td>
+                                                    <td><input type="month" /></td>
+                                                </tr>
+                                            </table>
+                                           </div>
+                                       </c:if>
                                     </div>
                                 </c:forEach>
                             </div>
@@ -235,7 +261,10 @@
                                     </thead>
                                     <tbody>
                                         <c:forEach items="${selectedItemList}" var="cartItem">
+                                        <c:set value="${cartItem.productOption}" var="productOption"/>
                                         <input name="productOptionSelected" value="${cartItem.productOption.productOptionId}" type="hidden"/>
+                                        <input name="quantity${productOption.productOptionId}" value="${cartItem.quantity}" type="hidden"/>
+                                        <input name="price${productOption.productOptionId}" value="${productOption.price}" type="hidden"/>
                                          <tr>
                                             <th scope="row">
                                                 <div class="d-flex align-items-center mt-2">
@@ -273,7 +302,25 @@
                                         }
                                         document.getElementById("totalPrice").innerHTML = totalPrice;
                                         
+                                        <%! 
+                                            ArrayList<Integer> paymentMethodIdList = PaymentDAO.INSTANCE.getPaymentMethodList().stream()
+                                            .map(PaymentMethod::getPaymentMethodId)
+                                            .collect(Collectors.toCollection(ArrayList::new));
+                                        %>
+                                        function showPaymentInput(){
+                                            for(var id of <%=paymentMethodIdList%>){
+                                                var element = document.getElementById("paymentInfo" + id);
+                                                if(element === null) continue;
+                                                if(document.getElementById("paymentMethod" + id).checked){
+                                                    document.getElementById("paymentInfo" + id).style.display = "block";
+                                                }
+                                                else{
+                                                    document.getElementById("paymentInfo" + id).style.display = "none";
+                                                }
+                                            }
+                                        }
                                     </script>
+                                    
 <!--                                        <tr>
                                             <th scope="row">
                                             </th>
@@ -348,6 +395,7 @@
         <!-- Checkout Page End -->
         <script type="text/javascript">
             function submitCheckout(){
+                
                 window.console.log("account Id: " + "${account.id}");
                 if("${CartItemDAO.INSTANCE.getCommunicationsListByAccountId(account.id)}" === "[]"){
                     alert("You don't have any communications. Please create one!");
@@ -361,6 +409,19 @@
                         alert("Please choose one payment method!");
                         return;
                     }
+                    if(!confirm("Are you sure to checkout?")){
+                        return;
+                    }
+                    
+                    // process checkout
+//                    $.ajax({
+//                       url: "/SWP_Project/CheckoutServlet",
+//                       type: 'POST',
+//                       success: function(data){
+//                           window.location.reload(false);
+//                       }
+//                    });
+                    window.location.reload();
                     document.getElementById("checkoutForm").submit();
                 }
             }
@@ -402,6 +463,10 @@
                 if(display === "none" ){
                     element.style.display = "block";
                 }
+            }
+            
+            function choosePaymentMethod(){
+                
             }
             
             function checkCommunications(){

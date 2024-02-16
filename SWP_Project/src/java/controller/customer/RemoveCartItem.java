@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.customer;
 
-import DAO.ProductDAO;
+import DAO.CartItemDAO;
+import Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,8 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author zenzen1
  */
-@WebServlet(name = "AddProductOption", urlPatterns = {"/AddProductOption"})
-public class AddProductOption extends HttpServlet {
+@WebServlet(name="RemoveCartItem", urlPatterns={"/RemoveCartItem"})
+public class RemoveCartItem extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +37,10 @@ public class AddProductOption extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddProductOption</title>");  
+            out.println("<title>Servlet RemoveCartItem</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddProductOption at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet RemoveCartItem at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,18 +57,7 @@ public class AddProductOption extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        Object productId = request.getParameter("productId");
-        if(productId != null && (productId + "").matches("\\d+")){
-            try {
-                request.getSession().setAttribute("product", ProductDAO.INSTANCE.getProductById(Integer.parseInt(productId + "")));
-                request.getSession().setAttribute("productId", productId);
-                System.out.println(request.getSession().getAttribute("productId"));
-            } catch (NumberFormatException e) {
-                
-            }
-            response.sendRedirect("/SWP_Project/AddProduct");
-        }
-        
+        processRequest(request, response);
     } 
 
     /** 
@@ -80,7 +70,16 @@ public class AddProductOption extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        try {
+            int productOptionId = Integer.parseInt(request.getParameter("productOptionId"));
+            Account account = (Account)request.getSession().getAttribute("account");
+            CartItemDAO.INSTANCE.deleteCartItem(account.getId(), productOptionId);
+            out.print("success");
+        } catch (NumberFormatException e) {
+            out.print("fail");
+        }
     }
 
     /** 

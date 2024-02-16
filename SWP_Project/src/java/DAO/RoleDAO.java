@@ -16,16 +16,20 @@ import java.sql.SQLException;
 public class RoleDAO extends DBContext{
     public static final RoleDAO INSTANCE = new RoleDAO();
     public Role getRoleById(int id) throws SQLException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         String sql = "select * from [Role] where roleId = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, id);  
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()){
                 return new Role(rs.getInt("roleId"), rs.getString("roleName"));
             }
         } catch (SQLException e) {
             status = "Error at RoleDAO. getRoleById " + e.getMessage();
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }

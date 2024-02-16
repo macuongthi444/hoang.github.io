@@ -7,6 +7,8 @@ package controller.customer;
 
 import DAO.CartItemDAO;
 import DAO.OrderDAO;
+import DAO.PaymentDAO;
+import DAO.ProductDAO;
 import Model.Account;
 import Model.CartItem;
 import Model.Communications;
@@ -19,6 +21,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -47,11 +51,22 @@ public class CheckoutServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             String html = "";
-            html += "<script tyle=\"text/javascript\"> alert('Order success'); </script>";
+            String[] productOptionIds = request.getParameterValues("productOptionSelected");
+            html += "<script tyle=\"text/javascript\">";
+            for (String productOptionId : productOptionIds) {
+                html += "sessionStorage.removeItem(" + productOptionId + ");";
+            }
+            String homeUrl = "/SWP_Project/Home.jsp";
+            html += "window.location.replace(\"" + homeUrl + "\");";
+//            html += "alert('Order success');";
+            request.getSession().setAttribute("checkoutSuccess", "checkoutSuccess");
+            html += " </script>\n";
             out.print(html);
             out.println("</body>");
             out.println("</html>");
         }
+//        response.sendRedirect("/SWP_Project/Home.jsp");
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -87,19 +102,36 @@ public class CheckoutServlet extends HttpServlet {
             // order success
             try {
                 String[] productOptionsId = request.getParameterValues("productOptionSelected");
-                OrderDAO.INSTANCE.insertOrder(productOptionId, productOptionId, orderDate);
+                int orderId = util.Util.generateId("orderId", "Order");
+                int communicationsId = Integer.parseInt(request.getParameter("communications"));
+                int paymentMethodId = Integer.parseInt(request.getParameter("paymentMethodId"));
+                Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+                    // insert order
+                OrderDAO.INSTANCE.insertOrder(orderId, account.getId(), timestamp, communicationsId);
+                    // insert order status
+                OrderDAO.INSTANCE.insertOrderStatus(orderId, 1, timestamp);
                 for (String string : productOptionsId) {
                     int productOptionId = Integer.parseInt(string);
+                    ProductOption productOption = ProductDAO.INSTANCE.getProductOptionById(productOptionId);
+                    double price = Double.parseDouble(request.getParameter("price" + productOptionId));
+                    int quantity = Integer.parseInt(request.getParameter("quantity" + productOptionId));
                     CartItemDAO.INSTANCE.deleteCartItem(account.getId(), productOptionId);
+                    OrderDAO.INSTANCE.insertOrderInfo(orderId, productOptionId, price, quantity);
+                    ProductDAO.INSTANCE.updateProductOption(productOptionId, productOption.getProductId(), productOption.getBrandId(), productOption.getHardwareMemoryId(), 
+                            productOption.getRamMemoryId(), productOption.getColorId(), productOption.getScreenSizeId(), productOption.getResolutionId(), 
+                            productOption.getGraphicCardId(), productOption.getPrice(),
+                            productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);
+                    
                 }
-                int communicationId = Integer.parseInt(request.getParameter("communications"));
+                PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
                 processRequest(request, response);
+                return;
+//                response.sendRedirect("customerView/CheckoutSuccess");
             } catch (NumberFormatException e) {
-                
+                System.out.println(e.getMessage());
             }
         }
         session.setAttribute("error", "error");
-        
     }
     
     private boolean checkCommunications(HttpServletRequest request, HttpServletResponse response)

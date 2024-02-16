@@ -47,6 +47,10 @@
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <script src="/SWP_Project/assets/js/config.js"></script>
         <style>
+            input[readonly], textarea[readonly]{
+                background-color: #f8f8f8;
+                border: solid 1px rgba(0, 0, 0, 0.2);
+            }
             .mb-3:first-of-type{
                 padding-top: 0px;
             }
@@ -280,7 +284,9 @@
                                 </td>
                                 <td>
                                     <input name="productPrice" id="productPrice" type="number" min="0" placeholder="Product price" required="" autocomplete="off"
-                                           value="${price}"/>
+                                           value="${price}" 
+                                           <%--oninput="inputProductPrice()"--%>
+                                           />
                                 </td>
                             </tr>
                             <tr>
@@ -364,7 +370,66 @@
 
             </div>
         </div>
-
+        
+        <script type="text/javascript">
+            function inputProductPrice(){
+                var priceElement = document.getElementById("productPrice");
+                var price = priceElement.value.toString();
+                if(price.endsWith(" ")){
+                    priceElement.value = price.substring(0, price.length - 1);
+                    return;
+                }
+                if (!isNumeric(removeSpace(price))){
+                    priceElement.value = price.substring(0, price.length - 1);
+                    return;
+                }
+                price = removeSpace(price);
+//                parseInt(price);
+                // 1 293 123 221
+//                var len = price.length;
+//                var noOfLoop = parseInt((len - len % 3) / 3);
+//                for (var i = 0; i < noOfLoop; i++) {
+//                    var index = (len % 3) + i * 3 + 1;
+//                    
+//                    price = price.substring(0, index) + " " + price.substring(index);
+//                }
+//                window.console.log(noOfLoop + "  " + price.length + "  " + price);
+                priceElement.value = addSpace(price);
+    
+            }
+            
+            function addSpace(string){
+                var len = string.length;
+                var noOfLoop = parseInt((len - 1) / 3);
+                // 1 293 -> 1
+                // 12 345 -> 2
+                // 100 000 -> 3
+                // 100 000 000 -> 3
+                // 3 123 221
+                // 3 - (len % 3)
+                var num = len % 3 === 0 ? 3 : len % 3;
+                for (var i = 0; i < noOfLoop; i++) {
+                    var index = num + i * 3 + i;
+                    var firstString = string.substring(0, index);
+                    var lastString = string.substring(index);
+                    window.console.log(firstString + "  " + lastString);
+                    string = firstString + " " + lastString;
+                }
+                window.console.log(noOfLoop + "  " + string.length + "  " + string);
+                return string;
+//                priceElement.value = price;
+            }
+            
+            function removeSpace(string){
+                return string.toString().replaceAll(" ", "");
+            }
+            
+            function isNumeric(str) {
+                if (typeof str !== "string") return false;
+                return !isNaN(str) && !isNaN(parseFloat(str)) ; 
+            }
+        </script>
+                                
         <script src="/SWP_Project/assets/vendor/libs/jquery/jquery.js"></script>
         <script src="/SWP_Project/assets/vendor/libs/popper/popper.js"></script>
         <script src="/SWP_Project/assets/vendor/js/bootstrap.js"></script>

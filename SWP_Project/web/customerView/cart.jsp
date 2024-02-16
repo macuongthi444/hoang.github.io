@@ -147,7 +147,7 @@
 
         <!-- Cart Page Start -->
         <div class="container-fluid py-5">
-            <form action="CartServlet" method="post">
+            <form action="CartServlet" method="post" id="submitForm">
             <div class="container py-5">
                 <div class="table-responsive">
                     <table class="table">
@@ -164,11 +164,12 @@
                         </thead>
                         <tbody>
                             <c:forEach items="${cartItemList}" var="cartItem">
+                            <c:set value="${cartItem.productOption.productOptionId}" var="productOptionId"/>
                             <tr>
                                 <td style="text-align: center; align-items: center; ">
                                     <input onclick="selectOption(${cartItem.productOption.productOptionId})"
-                                        id="selectedOption${cartItem.productOption.productOptionId}"
-                                        type="checkbox" name="select${cartItem.productOption.productOptionId}" id="select${cartItem.productOption.productOptionId}"/>
+                                        id="selectedOption${productOptionId}"
+                                        type="checkbox" name="select${productOptionId}" id="select${productOptionId}"/>
                                 </td>
                             
                                 <th scope="row">
@@ -218,7 +219,7 @@
                                     Handle 
                                 --%>
                                 <td>
-                                    <button type="button" onclick="removeItem()"
+                                    <button type="button" onclick="removeCartItem(${productOptionId})"
                                         class="btn btn-md rounded-circle bg-light border mt-4" >
                                         <i class="fa fa-times text-danger"></i>
                                     </button>
@@ -373,6 +374,47 @@
                                     calculatePrice(id, quantity);
                                     updateCart(id, quantity);
                                 }
+                                
+                                function checkSelectedOption(){
+                                    for(var id of ${productOptionIdList}){
+                                        if(document.getElementById("selectedOption" + id).checked){
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                }
+                                
+                                function submitForm(){
+                                    window.console.log("${productOptionIdList}");
+                                    if("${productOptionIdList}" === "[]"){
+                                        alert("You don't have any product to checkout!");
+                                    }
+                                    else{
+                                        if(!checkSelectedOption()){
+                                            alert("You didn't choose anything to checkout!");
+                                            return;
+                                        }
+                                        document.getElementById("submitForm").submit();
+                                    }
+                                }
+                                
+                                function removeCartItem(productOptionId){
+                                    $.ajax({
+                                       url: "/SWP_Project/RemoveCartItem",
+                                       type: 'POST',
+                                       data: {
+                                           "productOptionId": productOptionId
+                                       },
+                                       success: function(data){
+                                           if(data === "success"){
+                                               sessionStorage.removeItem(productOptionId);
+                                               window.location.reload();
+                                           }
+                                           
+                                       }
+                                    });
+                                }
+                                
 //                                if(${requestScope.CartError != null}){
 //                                    alert("Please choose at least one item to checkout!");
 //                                }
@@ -412,7 +454,7 @@
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
                                 <p class="mb-0 pe-4">$99.00</p>
                             </div>-->
-                            <button type="submit"
+                                <button onclick="submitForm()"
                                 class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
                         <!--</div>-->
                     </div>
@@ -537,7 +579,7 @@
 //            var scrollpos = localStorage.getItem('scrollpos');
 //            if (scrollpos) window.scrollTo(0, scrollpos);
 //        });
-//
+
 //        window.onbeforeunload = function(e) {
 //            localStorage.setItem('scrollpos', window.scrollY);
 //        };

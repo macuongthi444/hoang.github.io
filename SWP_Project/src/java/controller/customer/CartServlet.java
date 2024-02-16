@@ -109,10 +109,6 @@ public class CartServlet extends HttpServlet {
         }
         
         // customer doesn't select any option
-        if(selectedItemList.isEmpty()){
-            doGet(request, response);
-            return;
-        }
         
 //        HashMap <Integer, PaymentMethod> paymentMethodMap = new HashMap<>();
 //        for (PaymentMethod paymentMethod : PaymentDAO.INSTANCE.getPaymentMethodList()) {
@@ -123,6 +119,10 @@ public class CartServlet extends HttpServlet {
         request.setAttribute("ProductDAO", ProductDAO.INSTANCE);
         request.setAttribute("selectedItemList", selectedItemList);
         request.setAttribute("productOptionIdList", productOptionIdList);
+        if(selectedItemList.isEmpty()){
+            doGet(request, response);
+            return;
+        }
         request.getRequestDispatcher("customerView/checkout.jsp").forward(request, response);
         
     }
