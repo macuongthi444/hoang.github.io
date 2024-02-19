@@ -14,6 +14,7 @@ import Model.Image;
 import Model.Option;
 import Model.Product;
 import Model.ProductOption;
+import Model.ProductWithImage;
 import Model.RamMemory;
 import Model.Resolution;
 import Model.ScreenSize;
@@ -24,8 +25,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
+import java.util.logging.Level;
+
+import DAO.CouponDAO;
 
 /**
  *
@@ -403,7 +407,25 @@ public class ProductDAO extends DBContext {
         return list;
     }
     
-    public List<ProductOption> getOtherProductOptionByProductId(int productOptionid){
+    public int get1ProductOptionIdByProductId(int pid) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select distinct productOptionId from Product_Option where productId= ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, pid);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at get1ProductOptionIdByProductId " + e.getMessage());
+        } closeStatement(ps, rs);
+        return 0;
+    }
+
+
+    public List<ProductOption> getOtherProductOptionByProductId(int productOptionid) {
         String sql = "select * from product_option where productId = (select productId from Product_Option where productOptionId = ?) and productOptionId != ?";
         List<ProductOption> list = new ArrayList<>();
         PreparedStatement ps = null;
@@ -485,8 +507,25 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-    
-    public Category getCategoryById(int id){
+
+    public Image getImageByProductOptionId(int id) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from [image] where product_OptionId = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Image(rs.getInt(1), rs.getString(2), id);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getImageByProductOptionId " + e.getMessage());
+        } closeStatement(ps, rs);
+        return null;
+    }
+
+    public Category getCategoryById(int id) {
         String sql = "select * from category where categoryId = ?";
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -494,7 +533,7 @@ public class ProductDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return new Category(id, rs.getString("categoryName"));
             }
         } catch (SQLException e) {
@@ -1202,7 +1241,6 @@ public class ProductDAO extends DBContext {
 //            System.out.println(status);
 //        }
 //    }
-
 //    public void insertProductOption(int productId, String optionDetail, double price, int numberInStock, int quantitySold){
 //        String sql = "insert into [product_option] values (?, ?, ?, ?, ?, ?) ";
 //        try {
@@ -1303,7 +1341,47 @@ public class ProductDAO extends DBContext {
 
     }
 
-    public List<Image> getImageListByProductOptionId(int productOptionid){
+    
+    public List<ProductWithImage> getProductListWithImage() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select distinct p.productId,p.productName,p.productDetail,i.imageText,po.price,po.numberInStock "
+                + "from Product p, Product_Option po,Image i where p.productId=po.productId "
+                + "and po.productOptionId=i.product_OptionId";
+        List<ProductWithImage> list = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductWithImage(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getInt(6)));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } closeStatement(ps, rs);
+        return list;
+    }
+
+    public List<ProductWithImage> NewestProductWithImage() {
+        String sql = "select distinct top 4  p.productId,p.productName,p.productDetail,i.imageText,po.price,po.numberInStock\n"
+                + "from Product p, Product_Option po,Image i where p.productId=po.productId \n"
+                + "and po.productOptionId=i.product_OptionId order by p.productId desc";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<ProductWithImage> list = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductWithImage(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getInt(6)));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } closeStatement(ps, rs);
+        return list;
+    }
+    
+
+    public List<Image> getImageListByProductOptionId(int productOptionid) {
         String sql = "select * from [image] where product_OptionId = ?";
         List<Image> list = new ArrayList<>();
         PreparedStatement ps = null;
@@ -1331,11 +1409,63 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-    
+
+    public ProductWithImage getProductWithImageByPid(int pid) {
+
+        String sql = "SELECT DISTINCT p.productId,p.productName, p.productDetail, i.imageText, po.price, po.numberInStock\n"
+                + "FROM Product p\n"
+                + "JOIN Product_Option po ON p.productId = po.productId\n"
+                + "JOIN Image i ON po.productOptionId = i.product_OptionId\n"
+                + "WHERE p.productId = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, pid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductWithImage p = new ProductWithImage(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getInt(6));
+                return p;
+            }
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public List<ProductWithImage> getListByPage(List<ProductWithImage> list, int start, int end) {
+        ArrayList<ProductWithImage> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(ProductDAO.INSTANCE.checkOptionNameIsExist("color"));
 //        ProductDAO.INSTANCE.insertProduct(3, "test", 1, null);
-//        System.out.println(ProductDAO.INSTANCE.getProductOptionId(1, ProductDAO.INSTANCE.getOptionIdByName("color").getOptionId(), "red"));
-        System.out.println(ProductDAO.INSTANCE.getProductOptionList());
+//        System.out.println(ProductDAO.INSTANCE.getCategoryByName("mouse"));
+////        System.out.println(ProductDAO.INSTANCE.getProductOptionId(1, ProductDAO.INSTANCE.getOptionIdByName("color").getOptionId(), "red"));
+//        ProductDAO.INSTANCE.getBrandList().forEach((e) -> System.out.print(e + " "));
+//        System.out.println("");
+//        ProductDAO.INSTANCE.getHardwareMemoryList().forEach((e) -> System.out.print(e + " "));
+//        System.out.println("");
+//        ProductDAO.INSTANCE.getRamMemoryList().forEach((e) -> System.out.print(e + " "));
+//        System.out.println("");
+//
+//        ProductDAO.INSTANCE.getResolutionList().forEach((e) -> {
+//            System.out.println(e);
+//        });
+//        ProductDAO.INSTANCE.getGraphicCardList().forEach((e) -> {
+//            System.out.println(e);
+//        });
+//        ProductDAO.INSTANCE.getScreenSizeList().forEach((e) -> {
+//            System.out.println(e);
+//        });
+//        ProductDAO.INSTANCE.getProductOptionList().forEach((e) -> System.out.println(e));
+//        
+//        Image i = ProductDAO.INSTANCE.getImageByProductOptionId(1);
+//        System.out.println(i);
+//        System.out.println(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1));
+
+        System.out.println(CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1)));
     }
 }

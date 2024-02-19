@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  *
  * @author nguye
@@ -128,7 +127,6 @@ public class AddProduct extends HttpServlet {
 //        
 //        ProductDAO.INSTANCE.insertProductOption(productId, optionDetail, price, ProductDAO.INSTANCE.getProductNumberInStock(), 
 //                ProductDAO.INSTANCE.getProductQuantitySold(productId, optionDetail));
-
         insertToDB(request, response);
 
 //        if(request.getParameter("submit") != null){

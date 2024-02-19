@@ -4,8 +4,8 @@
  */
 package controller;
 
-import DAO.DAOAccount;
-import Model.Account;
+import DAO.CouponDAO;
+import Model.Coupon;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +13,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  *
- * @author MH
+ * @author vinhp
  */
-@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
-public class LoginControl extends HttpServlet {
+@WebServlet(name = "CouponList", urlPatterns = {"/couponList"})
+public class CouponList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,27 +36,17 @@ public class LoginControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String username = request.getParameter("dzName");
-        String password = request.getParameter("dzEmail");
-        DAOAccount dao = new DAOAccount();
-        Account acc = dao.login(username, password);
-
-        if (acc == null) {
-            request.setAttribute("message", "Wrong user or pass");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-            System.out.println("null");
-
-        } else {
-            if (acc.getRole().getRoleName().equalsIgnoreCase("Admin")) {
-                response.sendRedirect("/SWP_Project/adminView/index.html");
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("accountID", acc.getId());
-                session.setAttribute("username", acc.getUsername());
-                session.setAttribute("password", acc.getPassword());
-                response.sendRedirect("home");
-            }
-
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CouponList</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CouponList at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -70,8 +62,18 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-        request.getRequestDispatcher("homepageView/login.jsp").forward(request, response);
+        CouponDAO c = new CouponDAO();
+        c.removeProductIdWhenHaveOutDatedCoupon();
+        List<Coupon> list = c.getAllCoupon();
+        LocalDate currentDate = LocalDate.now();
+        Date currentDate1 = Date.valueOf(currentDate);
+        for (Coupon coupon : list) {
+            if (coupon.getEndDate().before(currentDate1)) {
+                c.banCouponByCouponId(coupon.getCouponId());
+            }
+        }
+        request.setAttribute("couponList", list);
+        request.getRequestDispatcher("adminView/CouponList.jsp").include(request, response);
     }
 
     /**
@@ -85,7 +87,12 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        CouponDAO c = new CouponDAO();
+        String BanCIdStr = request.getParameter("banid");
+        int couponID = Integer.parseInt(BanCIdStr);
+        c.banCouponByCouponId(couponID);
+        doGet(request, response);
+
     }
 
     /**

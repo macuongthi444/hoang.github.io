@@ -207,7 +207,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+<!--                                        <tr>
                                             <th scope="row">
                                                 <div class="d-flex align-items-center mt-2">
                                                     <img src="img/vegetable-item-2.jpg" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
@@ -288,7 +288,7 @@
                                                     <p class="mb-0 text-dark">$135.00</p>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr>-->
                                     </tbody>
                                 </table>
                             </div>
