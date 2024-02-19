@@ -63,6 +63,7 @@ public class CouponList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CouponDAO c = new CouponDAO();
+        c.removeProductIdWhenHaveOutDatedCoupon();
         List<Coupon> list = c.getAllCoupon();
         LocalDate currentDate = LocalDate.now();
         Date currentDate1 = Date.valueOf(currentDate);
@@ -86,11 +87,12 @@ public class CouponList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String couponIDStr = request.getParameter("cid");
-        int couponID = Integer.parseInt(couponIDStr);
         CouponDAO c = new CouponDAO();
+        String BanCIdStr = request.getParameter("banid");
+        int couponID = Integer.parseInt(BanCIdStr);
         c.banCouponByCouponId(couponID);
         doGet(request, response);
+
     }
 
     /**

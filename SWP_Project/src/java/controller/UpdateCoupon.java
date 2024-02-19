@@ -6,6 +6,7 @@ package controller;
 
 import DAO.CouponDAO;
 import Model.Coupon;
+import com.oracle.wls.shaded.org.apache.bcel.generic.DSUB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -81,6 +82,7 @@ public class UpdateCoupon extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         CouponDAO c = new CouponDAO();
         try {
             String couponIDstr = request.getParameter("cid");
@@ -91,6 +93,7 @@ public class UpdateCoupon extends HttpServlet {
             if (discountRate < 0 || discountRate > 1) {
                 request.setAttribute("error", "Invalid discount rate format(0->100)!");
                 doGet(request, response);
+                return;
             }
             // Chuyển đổi định dạng của startDateStr và endDateStr
             String startDateStr = request.getParameter("startDate");
@@ -102,25 +105,30 @@ public class UpdateCoupon extends HttpServlet {
             if (startDate1.isAfter(endDate1) || startDate1.isEqual(endDate1)) {
                 request.setAttribute("error", "Start Date must be < End Date !");
                 doGet(request, response);
+                return;
             }
             Date startDate = Date.valueOf(startDateStr);
             Date endDate = Date.valueOf(endDateStr);
             Date current1 = Date.valueOf(currentDate);
-            System.out.println(current1);
             if (endDate.before(current1)) {
                 request.setAttribute("error", "End Date must > CurrentDate: " + current1);
-                doGet(request, response);            
+                doGet(request, response);    
+                return;
             }
             System.out.println(current1);
+            
             String[] isUsedValues = request.getParameterValues("isUsed");
 
             // Kiểm tra xem checkbox có được chọn hay không
             boolean isUsed = isUsedValues != null && isUsedValues.length > 0;
             System.out.println(isUsed);
+            System.out.println(startDate);
+            System.out.println(endDate);
+            System.out.println(discountRate);
             c.updateCoupon(couponId, discountRate, startDate, endDate, isUsed, null);
 
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid discount rate format(0->1)!");
+            request.setAttribute("error", "Invalid discount rate format(0->100%)!");
             doGet(request, response);
         } catch (Exception e) {
             request.setAttribute("error", "An error occurred.");

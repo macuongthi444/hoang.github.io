@@ -37,7 +37,21 @@ public class HomeControl extends HttpServlet {
         String password = (String) session.getAttribute("password");
         List<ProductWithImage> productList = p.getProductListWithImage();
         List<ProductWithImage> newestList = p.NewestProductWithImage();
-        request.setAttribute("productList", productList);
+        int page, numperpage = 4;
+        String xpage = request.getParameter("page");
+        if (xpage == null) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
+        }
+        int size = productList.size();
+        int num = (size % 4 == 0 ? (size / 4) : ((size / 4)) + 1);//so trang
+        int start, end;
+        start = (page - 1) * numperpage;
+        end = Math.min(page * numperpage, size);
+        List<ProductWithImage> list = p.getListByPage(productList, start, end);
+        request.setAttribute("num", num);
+        request.setAttribute("productList", list);
         request.setAttribute("newestList", newestList);
         ////////////////////////////////////////////////
         request.getRequestDispatcher("Home.jsp").include(request, response);

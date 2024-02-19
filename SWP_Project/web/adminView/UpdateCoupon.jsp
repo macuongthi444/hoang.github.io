@@ -661,14 +661,9 @@
 
                                             <input type="submit" value="Update">
                                         </form>
-                                        <!--                    <div class="d-flex align-items-end row">
-                                                              <div class="col-sm-7">
-                                                                
-                                                              </div>
-                                                              <div class="col-sm-5 text-center text-sm-left">
-                                                                
-                                                              </div>
-                                                            </div>-->
+                                        <form action="couponList" method="get">
+                                            <input type="submit" value="Cancel">
+                                        </form>
                                     </div>
                                 </div>
 

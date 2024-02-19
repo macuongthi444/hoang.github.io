@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import DAO.CouponDAO;
 
 /**
  *
@@ -248,6 +249,20 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+    public int get1ProductOptionIdByProductId(int pid) {
+        String sql = "select distinct productOptionId from Product_Option where productId= ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, pid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     public List<ProductOption> getOtherProductOptionByProductId(int productOptionid) {
         String sql = "select * from product_option where productId = (select productId from Product_Option where productOptionId = ?) and productOptionId != ?";
         List<ProductOption> list = new ArrayList<>();
@@ -302,6 +317,21 @@ public class ProductDAO extends DBContext {
             }
         }
         return list;
+    }
+
+    public Image getImageByProductOptionId(int id) {
+        String sql = "select * from [image] where product_OptionId = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Image(rs.getInt(1), rs.getString(2), id);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getImageByProductOptionId " + e.getMessage());
+        }
+        return null;
     }
 
     public Category getCategoryById(int id) {
@@ -991,30 +1021,42 @@ public class ProductDAO extends DBContext {
         }
         return null;
     }
-    
-    
+
+    public List<ProductWithImage> getListByPage(List<ProductWithImage> list, int start, int end) {
+        ArrayList<ProductWithImage> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
 
     public static void main(String[] args) {
 //        System.out.println(ProductDAO.INSTANCE.checkOptionNameIsExist("color"));
 //        ProductDAO.INSTANCE.insertProduct(3, "test", 1, null);
-        System.out.println(ProductDAO.INSTANCE.getCategoryByName("mouse"));
-//        System.out.println(ProductDAO.INSTANCE.getProductOptionId(1, ProductDAO.INSTANCE.getOptionIdByName("color").getOptionId(), "red"));
-        ProductDAO.INSTANCE.getBrandList().forEach((e) -> System.out.print(e + " "));
-        System.out.println("");
-        ProductDAO.INSTANCE.getHardwareMemoryList().forEach((e) -> System.out.print(e + " "));
-        System.out.println("");
-        ProductDAO.INSTANCE.getRamMemoryList().forEach((e) -> System.out.print(e + " "));
-        System.out.println("");
+//        System.out.println(ProductDAO.INSTANCE.getCategoryByName("mouse"));
+////        System.out.println(ProductDAO.INSTANCE.getProductOptionId(1, ProductDAO.INSTANCE.getOptionIdByName("color").getOptionId(), "red"));
+//        ProductDAO.INSTANCE.getBrandList().forEach((e) -> System.out.print(e + " "));
+//        System.out.println("");
+//        ProductDAO.INSTANCE.getHardwareMemoryList().forEach((e) -> System.out.print(e + " "));
+//        System.out.println("");
+//        ProductDAO.INSTANCE.getRamMemoryList().forEach((e) -> System.out.print(e + " "));
+//        System.out.println("");
+//
+//        ProductDAO.INSTANCE.getResolutionList().forEach((e) -> {
+//            System.out.println(e);
+//        });
+//        ProductDAO.INSTANCE.getGraphicCardList().forEach((e) -> {
+//            System.out.println(e);
+//        });
+//        ProductDAO.INSTANCE.getScreenSizeList().forEach((e) -> {
+//            System.out.println(e);
+//        });
+//        ProductDAO.INSTANCE.getProductOptionList().forEach((e) -> System.out.println(e));
+//        
+//        Image i = ProductDAO.INSTANCE.getImageByProductOptionId(1);
+//        System.out.println(i);
+//        System.out.println(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1));
 
-        ProductDAO.INSTANCE.getResolutionList().forEach((e) -> {
-            System.out.println(e);
-        });
-        ProductDAO.INSTANCE.getGraphicCardList().forEach((e) -> {
-            System.out.println(e);
-        });
-        ProductDAO.INSTANCE.getScreenSizeList().forEach((e) -> {
-            System.out.println(e);
-        });
-        ProductDAO.INSTANCE.getProductOptionList().forEach((e) -> System.out.println(e));
+        System.out.println(CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1)));
     }
 }

@@ -622,31 +622,39 @@
                         <!-- Content -->
 
                         <div class="container-xxl flex-grow-1 container-p-y">
-                            <div class="row">
-                                <div class="col-md-12 mb-4 order-0">
-                                    <div class="card">
-                                        <h5 style="color: red;">${error}</h5>
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-6 mb-8 order-0">
+                                            <h5 style="color: red;">${error}</h5>
+                                            <h5 style="color: red;">${notify}</h5>
+                                            <h2>Add Coupon</h2>
+                                            <form id="couponForm" action="addCoupon" method="post">
+                                                <label for="discountRate">Discount Rate:</label>
+                                                <input type="number" id="discountRate" name="discountRate" step="0.01" required>
+                                                <br>
+                                                <label for="startDate">Start Date:</label>
+                                                <input type="date" id="startDate" name="startDate" required>
+                                                <br>
+                                                <label for="endDate">End Date:</label>
+                                                <input type="date" id="endDate" name="endDate" required>
+                                                <br>
+                                                <label for="isUsed">Is Used:</label>
+                                                <input type="checkbox" id="isUsed" name="isUsed">
+                                                <br>
+                                                <button type="submit">Add Coupon</button>
+                                            </form>     
+                                    </div>
+                                    <div class="col-md-6 mb-8 order-0">
                                         <h5 style="color: red;">${notify}</h5>
-                                        <h2>Add Coupon</h2>
-                                        <form id="couponForm" action="addCoupon" method="post">
-                                            <label for="discountRate">Discount Rate:</label>
-                                            <input type="number" id="discountRate" name="discountRate" step="0.01" required>
-                                            <br>
-                                            <label for="startDate">Start Date:</label>
-                                            <input type="date" id="startDate" name="startDate" required>
-                                            <br>
-                                            <label for="endDate">End Date:</label>
-                                            <input type="date" id="endDate" name="endDate" required>
-                                            <br>
-                                            <label for="isUsed">Is Used:</label>
-                                            <input type="checkbox" id="isUsed" name="isUsed">
-
-                                            <button type="submit">Add Coupon</button>
-                                        </form>     
+                                        <c:if test="${notify != null}">
+                                            <h5>Discount Rate: ${discountRate *100}%</h5>
+                                            <h5>Start Date: ${startDate}</h5>
+                                            <h5>End Date: ${endDate}</h5>
+                                            <h5>Is used: ${isUsed}</h5>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
-
                             <!--/ Transactions -->
                         </div>
                     </div>
