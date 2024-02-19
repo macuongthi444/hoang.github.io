@@ -576,7 +576,7 @@ public class ProductDAO extends DBContext {
     }
 
     public List<ProductWithImage> getProductListWithImage() {
-        String sql = "select distinct p.productId,p.productName,p.productDetail,i.imageText,po.price,po.numberInStock "
+        String sql = "select  p.productId,p.productName,p.productDetail,i.imageText,po.price,po.numberInStock "
                 + "from Product p, Product_Option po,Image i where p.productId=po.productId "
                 + "and po.productOptionId=i.product_OptionId";
         List<ProductWithImage> list = new ArrayList<>();

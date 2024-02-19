@@ -46,6 +46,8 @@ public class LoginControl extends HttpServlet {
 
         } else {
             if (acc.getRole().getRoleName().equalsIgnoreCase("Admin")) {
+                HttpSession session = request.getSession();
+                session.setAttribute("acc", acc);
                 response.sendRedirect("/SWP_Project/adminView/index.html");
             } else {
                 HttpSession session = request.getSession();

@@ -1,16 +1,7 @@
-<%-- 
-<<<<<<< HEAD
-    Document   : edituser
-    Created on : Jan 19, 2024, 10:21:45 PM
-=======
-    Document   : userprofile
-    Created on : Jan 19, 2024, 8:27:48 AM
->>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
-    Author     : This PC
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<<<<<<< HEAD
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
@@ -58,6 +49,19 @@
         <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <script src="/SWP_Project/assets/js/config.js"></script>
+         <script>
+                                            function encodeFullName() {
+                                                var fullNameInput = document.getElementById('firstName');
+                                                var encodedFullName = encodeURIComponent(fullNameInput.value);
+                                                fullNameInput.value = encodedFullName;
+                                            }
+
+                                            function decodeFullName() {
+                                                var fullNameInput = document.getElementById('firstName');
+                                                var decodedFullName = decodeURIComponent(fullNameInput.value);
+                                                fullNameInput.value = decodedFullName;
+                                            }
+                                        </script>
     </head>
 
     <body>
@@ -201,31 +205,36 @@
                                                     height="100"
                                                     width="100"
                                                     id="uploadedAvatar" />
-                                                <div class="button-wrapper">
-                                                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                                        <span class="d-none d-sm-block">Upload new photo</span>
-                                                        <i class="bx bx-upload d-block d-sm-none"></i>
-                                                        <input
-                                                            type="file"
-                                                            id="upload"
-                                                            class="account-file-input"
-                                                            hidden
-                                                            accept="image/png, image/jpeg" />
-                                                    </label>
-                                                    <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-                                                        <i class="bx bx-reset d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Reset</span>
-                                                    </button>
-
-                                                    <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
-                                                </div>
+                                                <!--                                                <div class="button-wrapper">
+                                                                                                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                                                                                        <span class="d-none d-sm-block">Upload new photo</span>
+                                                                                                        <i class="bx bx-upload d-block d-sm-none"></i>
+                                                                                                        <input
+                                                                                                            type="file"
+                                                                                                            id="upload"
+                                                                                                            class="account-file-input"
+                                                                                                            hidden
+                                                                                                            accept="image/png, image/jpeg" />
+                                                                                                    </label>
+                                                                                                    <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                                                                                                        <i class="bx bx-reset d-block d-sm-none"></i>
+                                                                                                        <span class="d-none d-sm-block">Reset</span>
+                                                                                                    </button>
+                                                
+                                                                                                    <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                                                                                                </div>-->
                                             </div>
                                         </div>
                                         <hr class="my-0" />
+                                       
+
+                                        ${error}
                                         <div class="card-body">
                                             <form action="edituser">
                                                 <div class="row">
+
                                                     <div class="mb-3 col-md-6">
+
                                                         <label for="firstName" class="form-label">Full Name</label>
                                                         <input
                                                             class="form-control"
@@ -233,11 +242,12 @@
                                                             id="firstName"
                                                             name="firstName"
                                                             value="${acc.fullName}"
-                                                            autofocus > </i>
+                                                            
+                                                            > </i>
                                                     </div>
                                                     <div class="mb-3 col-md-6">
                                                         <label for="lastName" class="form-label">Birth Date</label>
-                                                        <input class="form-control" type="text" name="birth" id="date" value="${acc.birthDate}" />
+                                                        <input class="form-control" type="date" name="birth" id="date" value="${acc.birthDate}" />
                                                     </div>
                                                     <div class="mb-3 col-md-6">
                                                         <label for="email" class="form-label">E-mail</label>
@@ -262,7 +272,7 @@
                                                                 checked="checked"
                                                             </c:if>
                                                             />
-                                                        
+
                                                         <label for="organizationFemale">Female</label>
                                                         <input 
                                                             type="radio"
@@ -274,7 +284,7 @@
                                                                 checked="checked"
                                                             </c:if>
                                                             />
-                                                        
+
 
 
 
@@ -371,55 +381,7 @@
             <!-- Place this tag in your head or just before your close body tag. -->
             <script async defer src="https://buttons.github.io/buttons.js"></script>
     </body>
-=======
-
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-
-    <body>
-        <div class="profile-userpic">
-            <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt="">
-        </div>
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="well well-sm">
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4">
-                                <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
-                            </div>
-                            <div class="col-sm-6 col-md-8">
 
-                                <h1><cite title="San Francisco, USA">User Profile <i class="glyphicon glyphicon-map-marker">
-                                            </i></cite>
-                                <p>
-                                    <i class="glyphicon glyphicon-envelope">Email:  ${acc.email} </i>
-                                    <br />
-                                    <i class="glyphicon glyphicon-globe">User name :${acc.username}</i>
-                                    <br />
-                                    <i class="glyphicon glyphicon-gift"> Password :${acc.password}</i></p>
-                                     <i class="glyphicon glyphicon-envelope">Account Status : ${acc.accountStatus.getAccountStatusDetail()} </i>
-                                    <br />
 
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span><span class="sr-only"> <a href="load?id=${acc.id}" >Edit profile</a></span>
-                                </button>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</body>
->>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
-</html>

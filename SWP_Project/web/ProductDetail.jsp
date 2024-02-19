@@ -50,8 +50,8 @@
                         </div>
                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
                             <h2>Brand: ${detail.productName}&nbsp;&nbsp;&reg;</h2>
-                           
-                           
+                            <h3>Description: ${detail.productDetail}</h3>
+                            <h3>Option :</h3>
                                 <table border="1">
                                     <thead>
                                         <tr>
@@ -98,5 +98,56 @@
             <div class="buy">
                 <button type="button" class="btn btn-success">Buy</button>
             </div>
+          <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">-->
+            <h5><span>${countAllReview}</span> review for <span>${detail.productName}</span></h5>
+            
+             <h5 class="mt-4">Add a review</h5>
+            <p></p>
+             <c:forEach items="${listAllReview}" var="r">
+            
+             <div class="media mt-3 mb-4">
+              <img class="d-flex mr-3 z-depth-1" src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg"
+                width="62" alt="Generic placeholder image">
+              <div class="media-body">
+                <div class="d-flex justify-content-between">
+                  <p class="mt-1 mb-2">
+                  <c:forEach items="${listAllAcount}" var="a">
+                  <c:if test="${r.accountID == a.id }">
+                    <strong>${a.username} </strong>
+                    </c:if>
+                     </c:forEach>
+                    <span>– </span><span>${r.dateReview}</span>
+                  </p>
+                </div>
+                <p class="mb-0">${r.contentReview }</p>
+              </div>
+            </div>
+            <hr>    
+                 
+ 		</c:forEach>
+            </div>
         </body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+           <script>
+      
+        
+        function addReview(pID){
+           var cntReview = document.getElementById("form76").value;
+            $.ajax({
+                url: "/SWP_Project/addReview",
+                type: "get", //send it through get method
+                data: {
+                	productID: pID,
+                	contentReview: cntReview
+                },
+                success: function (data) {
+                    var row = document.getElementById("reviews");
+                    row.innerHTML += data;
+                },
+                error: function (xhr) {
+                    //Do Something to handle error
+                }
+            });
+        }
+        </script>
     </html>

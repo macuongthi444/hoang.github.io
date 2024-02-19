@@ -6,18 +6,18 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< HEAD
+
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-=======
->>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<<<<<<< HEAD
+
         <title></title>
         <style>
             body {
@@ -38,7 +38,7 @@
         </style>
     </head>
     <body>
-        <form action="listproduct" >
+        <form action="listproduct" method="post" >
             <table border="1">
                 <thead>
                     <tr>
@@ -56,7 +56,7 @@
                 <tbody>
                     <tr>
                         <td><label for="inputdefault">
-                                <input type="text"   name="search" value="${sessionScope.search}"  ><br>
+                                <input type="text"   name="search"   ><br>
                             </label> </td>
                         <td> <label for="inputdefault">
                                 <input type="number" name="priceFrom"> To:<input type="number" name="priceTo"><br>
@@ -140,50 +140,3 @@
         </div>
     </body>
 
-=======
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <form action="listproduct" >
-            Search : <input type="text" name="search" value="${sessionScope.search}"><br>
-            Price From : <input type="number" name="priceFrom"> To:<input type="number" name="priceTo"><br>
-            Category <select id="id" name="cateId">
-                <c:forEach var="c" items="${clist}">
-                    <option value="${c.categoryId}">${c.categoryName}</option><br>
-                </c:forEach>
-                <br>
-            </select><br>
-            Sort:<select id="id" name="sortType">
-                <option value="order by po.price desc">Sort by price descending</option>
-                <option value="order by po.price asc">Sort by price ascending</option>
-
-            </select>
-            <br>
-            <button type="submit" value="search">Search</button>
-        </form>
-        <c:if test="${not empty plist}">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="p" items="${plist}"> 
-                    <tr>
-                        <td>${p.productId}</td>
-                        <td>${p.productName}</td>
-                        <td>${p.productOption.getPrice()}</td>
-                        <td>${p.category.getCategoryName()}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-            </c:if>
-    </body>
->>>>>>> a74c4a13193ce1fa35eadb6c257daf8fad0e4b20
-</html>

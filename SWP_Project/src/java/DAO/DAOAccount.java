@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,6 +64,26 @@ public class DAOAccount extends DBContext {
             Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+        
+    }
+     public List<Account> getAllAccount(){
+        String sql = "select * from [Account]";
+        List<Account> list = new ArrayList<>();
+        try {
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            
+            while (rs.next()) {   
+            int id = rs.getInt(1);
+            Account ac = new Account(id, rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+                       RoleDAO.INSTANCE.getRoleById(rs.getInt("RoleId")), AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")) );
+                list.add(ac);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
         
     }
 //     public void signup(String user, String email, String pass) {
@@ -142,8 +164,10 @@ public AccountProfile getAccountProfileById(int id) {
     
     public static void main(String[] args) {
         DAOAccount dao = new DAOAccount();
-        Account ac = dao.login("nice","oke" );
-        System.out.println(ac.toString());
+        List<Account> ac = dao.getAllAccount();
+        for (Account account : ac) {
+            System.out.println(account.getUsername());
+        }
     }
     
 }

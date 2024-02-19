@@ -5,9 +5,13 @@
 
 package controller.user;
 
+import DAO.DAOAccount;
 import DAO.ProductDAO;
+import DAO.ReviewDAO;
+import Model.Account;
 import Model.ProductWithImage;
 import Model.ProductWithOption;
+import Model.Review;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -63,7 +67,15 @@ public class ProductDetail extends HttpServlet {
         int id=Integer.parseInt(id_raw);
         ProductDAO dao = new ProductDAO();
         ProductWithImage product =dao.getProductById(id);
+        ReviewDAO reviewDao = new ReviewDAO();
+        DAOAccount daoAcc = new DAOAccount();
+         List<Review> listAllReview = reviewDao.getAllReviewByProductID(id_raw);
+         int countAllReview = listAllReview.size();
         List<ProductWithOption> option = dao.getProductWithOptionById(id);
+        List<Account> listAcc = daoAcc.getAllAccount();
+        request.setAttribute("listAllAcount", listAcc);
+        request.setAttribute("listAllReview", listAllReview);
+         request.setAttribute("countAllReview", countAllReview);
         request.setAttribute("option", option);
         request.setAttribute("detail", product);
         request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
