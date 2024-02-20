@@ -23,8 +23,7 @@ import jakarta.servlet.http.HttpSession;
 public class LoginControl extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -41,18 +40,17 @@ public class LoginControl extends HttpServlet {
 
         if (acc == null) {
             request.setAttribute("message", "Wrong user or pass");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
             System.out.println("null");
 
         } else {
-            if (acc.getRole().getRoleName().equalsIgnoreCase("Admin")) {
+            HttpSession session = request.getSession();
+            session.setAttribute("account", acc);
+            if(acc.getRole().getRoleName().equalsIgnoreCase("Admin")){
                 response.sendRedirect("/SWP_Project/adminView/index.html");
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("accountID", acc.getId());
-                session.setAttribute("username", acc.getUsername());
-                session.setAttribute("password", acc.getPassword());
-                response.sendRedirect("home");
+            }
+            else{
+                response.sendRedirect("Home.jsp");
             }
 
         }
