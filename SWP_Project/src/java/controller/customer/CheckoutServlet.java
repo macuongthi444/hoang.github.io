@@ -56,7 +56,7 @@ public class CheckoutServlet extends HttpServlet {
             for (String productOptionId : productOptionIds) {
                 html += "sessionStorage.removeItem(" + productOptionId + ");";
             }
-            String homeUrl = "/SWP_Project/Home.jsp";
+            String homeUrl = "/SWP_Project/home";
             html += "window.location.replace(\"" + homeUrl + "\");";
 //            html += "alert('Order success');";
             request.getSession().setAttribute("checkoutSuccess", "checkoutSuccess");
@@ -102,16 +102,23 @@ public class CheckoutServlet extends HttpServlet {
             // order success
             try {
                 String[] productOptionsId = request.getParameterValues("productOptionSelected");
+                if(!CartItemDAO.INSTANCE.checkIfCartItemIsExist(account.getId(), Integer.parseInt(productOptionsId[0]))){
+                    response.sendRedirect("/SWP_Project/CartServlet");
+                    return;
+                }
                 int orderId = util.Util.generateId("orderId", "Order");
                 int communicationsId = Integer.parseInt(request.getParameter("communications"));
                 int paymentMethodId = Integer.parseInt(request.getParameter("paymentMethodId"));
+                double moneyAmount = Double.parseDouble(request.getParameter("moneyAmount"));
                 Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+
                     // insert order
                 OrderDAO.INSTANCE.insertOrder(orderId, account.getId(), timestamp, communicationsId);
                     // insert order status
                 OrderDAO.INSTANCE.insertOrderStatus(orderId, 1, timestamp);
                 for (String string : productOptionsId) {
                     int productOptionId = Integer.parseInt(string);
+                    
                     ProductOption productOption = ProductDAO.INSTANCE.getProductOptionById(productOptionId);
                     double price = Double.parseDouble(request.getParameter("price" + productOptionId));
                     int quantity = Integer.parseInt(request.getParameter("quantity" + productOptionId));
@@ -123,8 +130,12 @@ public class CheckoutServlet extends HttpServlet {
                             productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);
                     
                 }
-                
-                PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
+                if(paymentMethodId == 1){
+                    PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
+                }
+                else if(paymentMethodId == 2){
+                    PaymentDAO.INSTANCE.insertPayment(orderId, new Timestamp(Calendar.getInstance().getTimeInMillis()), moneyAmount, paymentMethodId);
+                }
                 processRequest(request, response);
                 return;
 //                response.sendRedirect("customerView/CheckoutSuccess");

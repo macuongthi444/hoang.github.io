@@ -1411,22 +1411,26 @@ public class ProductDAO extends DBContext {
     }
 
     public ProductWithImage getProductWithImageByPid(int pid) {
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         String sql = "SELECT DISTINCT p.productId,p.productName, p.productDetail, i.imageText, po.price, po.numberInStock\n"
                 + "FROM Product p\n"
                 + "JOIN Product_Option po ON p.productId = po.productId\n"
                 + "JOIN Image i ON po.productOptionId = i.product_OptionId\n"
                 + "WHERE p.productId = ?;";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, pid);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 ProductWithImage p = new ProductWithImage(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getInt(6));
                 return p;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println("Error at getProductWithImageByPid " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }

@@ -82,7 +82,7 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="/SWP_Project/home" class="nav-item nav-link">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
                             <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -137,7 +137,7 @@
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Cart</h1>
             <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="/SWP_Project/home">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
                 <li class="breadcrumb-item active text-white">Cart</li>
             </ol>
@@ -175,7 +175,8 @@
                                 <th scope="row">
                                     <label for="selectedOption${cartItem.productOption.productOptionId}">
                                     <div class="d-flex align-items-center" style="width: max-content;">
-                                        <img src="img/${ProductDAO.getImagesByProductOptionId(cartItem.productOption.productOptionId).get(0).imageText}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                        <c:set value="${ProductDAO.getImagesByProductOptionId(cartItem.productOption.productOptionId)}" var="imageList"/>
+                                        <img src="img/${imageList.isEmpty()?"":imageList.get(0).imageText}" class="img-fluid me-5" style="width: 80px; height: 80px;" alt="">
                                     </div>
                                     </label>
                                 </th>
@@ -471,7 +472,7 @@
                 <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
                     <div class="row g-4">
                         <div class="col-lg-3">
-                            <a href="#">
+                            <a href="/SWP_Project/home">
                                 <h1 class="text-primary mb-0">Fruitables</h1>
                                 <p class="text-secondary mb-0">Fresh products</p>
                             </a>

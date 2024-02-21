@@ -47,14 +47,16 @@ public class CartItemDAO extends DBContext{
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String sql = "select * from Cart_item where accountId = ? and productOptionid = ?";
+            String sql = "select * from Cart_item where accountId = ? and productOptionId = ?";
             ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setInt(2, productOptionId);
             rs = ps.executeQuery();
             if(rs.next()){
                 return rs.getInt("quantity");
             }
         } catch (SQLException e) {
-            System.out.println("Error at getCartItemQuantity");
+            System.out.println("Error at getCartItemQuantity " + e.getMessage());
         } finally {
             closeStatement(ps, rs);
         }

@@ -144,7 +144,7 @@
                 <button style="text-decoration: underline blue 1px;" onclick="showInsertCommunications()" class="btn">add communications</button>
                 <form id="checkoutForm" action="CheckoutServlet" method="post">
                     <div class="row g-5">
-                        <div class="col-md-12 col-lg-6 col-xl-7">
+                        <div class="col-md-12 col-lg-6 col-xl-6">
                             <div style="display: none;" id="insertAddress">
                              <div class="form-item">
                                  <label for="txtAddress" class="form-label my-3">Address<sup>*</sup></label>
@@ -247,7 +247,7 @@
                             <label for="rememberOption">Remember selections</label>
                         </div>
                             
-                        <div class="col-md-12 col-lg-6 col-xl-5">
+                        <div class="col-md-12 col-lg-6 col-xl-6">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -260,6 +260,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <input type="hidden" id="moneyAmount" name="moneyAmount"/>
                                         <c:forEach items="${selectedItemList}" var="cartItem">
                                         <c:set value="${cartItem.productOption}" var="productOption"/>
                                         <input name="productOptionSelected" value="${cartItem.productOption.productOptionId}" type="hidden"/>
@@ -268,7 +269,8 @@
                                          <tr>
                                             <th scope="row">
                                                 <div class="d-flex align-items-center mt-2">
-                                                    <img src="img/${ProductDAO.getImagesByProductOptionId(cartItem.productOption.productOptionId).get(0).imageText}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
+                                                    <c:set value="${ProductDAO.getImagesByProductOptionId(cartItem.productOption.productOptionId)}" var="imageList"/>
+                                                    <img src="img/${imageList.isEmpty()?"":imageList.get(0).imageText}" class="img-fluid me-5" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
                                                 </div>
                                             </th>
                                             <td class="py-5">${ProductDAO.getProductById(cartItem.productOption.productId).productName}</td>
@@ -301,6 +303,7 @@
                                             totalPrice += totalProductPrice;
                                         }
                                         document.getElementById("totalPrice").innerHTML = totalPrice;
+                                        document.getElementById("moneyAmount").value = totalPrice;
                                         
                                         <%! 
                                             ArrayList<Integer> paymentMethodIdList = PaymentDAO.INSTANCE.getPaymentMethodList().stream()
@@ -488,8 +491,11 @@
                 }
                 return false;
             }
+            
+//            window.location.reload();
         </script>
-
+        
+        
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
             <div class="container py-5">

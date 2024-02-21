@@ -50,7 +50,7 @@ public class LoginControl extends HttpServlet {
                 response.sendRedirect("/SWP_Project/adminView/index.html");
             }
             else{
-                response.sendRedirect("Home.jsp");
+                response.sendRedirect("/SWP_Project/home");
             }
 
         }

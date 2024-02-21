@@ -81,8 +81,10 @@ public class CartServlet extends HttpServlet {
         Account account = (Account)request.getSession().getAttribute("account");
         List<CartItem> cartItemList = CartItemDAO.INSTANCE.getCartItemListByAccountId(account.getId());
         List<Integer> productOptionIdList = new ArrayList<>();
-        for (CartItem cartItem : cartItemList) {
-            productOptionIdList.add(cartItem.getProductOption().getProductOptionId());
+        if(!cartItemList.isEmpty()){
+            for (CartItem cartItem : cartItemList) {
+                productOptionIdList.add(cartItem.getProductOption().getProductOptionId());
+            }
         }
         request.setAttribute("cartItemList", cartItemList);
         request.setAttribute("ProductDAO", ProductDAO.INSTANCE);

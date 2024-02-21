@@ -365,6 +365,7 @@
                                         <br/>
                                         <h2>choose from here please</h2>
                                         <c:forEach items="${productOptionList}" var="productOption">
+                                            <c:if test="${productOption.numberInStock > 0}">
                                             <div class="col-md-6 col-lg-4 col-xl-3">
                                                 <div class="rounded position-relative fruite-item">
                                                      
@@ -383,6 +384,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </c:if>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -844,6 +846,10 @@
             },
             success: function (data, textStatus, jqXHR) {
 //                        window.console.log(data);
+                if(data === "accountNotFound"){
+                    alert("Please login before add product to cart!");
+                    return;
+                }
                 if(data !== ""){
                     window.console.log(data);
                     alert("Add success");

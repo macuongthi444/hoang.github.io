@@ -73,12 +73,23 @@ public class AddToCartServlet extends HttpServlet {
         if(request.getParameter("productOptionId") == null){
             return;
         }
+        if(request.getSession().getAttribute("account") == null){
+            out.print("accountNotFound");
+            return;
+        }
         Account account = (Account)request.getSession().getAttribute("account");
         int productOptionId = Integer.parseInt(request.getParameter("productOptionId") + "");
         if(CartItemDAO.INSTANCE.checkIfCartItemIsExist(account.getId(), productOptionId)){
-            CartItemDAO.INSTANCE.updateCart(account.getId(), productOptionId, CartItemDAO.INSTANCE.getCartItemQuantity(account.getId(), productOptionId) + 1);
+            int quantity = CartItemDAO.INSTANCE.getCartItemQuantity(account.getId(), productOptionId);
+            if(quantity ==  -1){
+                return;
+            }
+            CartItemDAO.INSTANCE.updateCart(account.getId(), productOptionId, quantity + 1);
         }
-        CartItemDAO.INSTANCE.insertCartItem(account.getId(), productOptionId, 1);
+        else{
+            CartItemDAO.INSTANCE.insertCartItem(account.getId(), productOptionId, 1);
+        }
+        out.print("Add success");
     }
 
     /** 

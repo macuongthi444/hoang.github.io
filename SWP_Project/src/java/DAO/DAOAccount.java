@@ -18,10 +18,10 @@ import java.util.logging.Logger;
  */
 public class DAOAccount extends DBContext {
 
-    PreparedStatement stm = null;
-    ResultSet rs = null;
 
     public Account login(String username, String password) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             String sql = "select *from Account\n"
                     + "		where username=?\n"
@@ -40,13 +40,16 @@ public class DAOAccount extends DBContext {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            closeStatement(stm, rs);
         }
         return null;
     }
 
     public Account checkAccountExist(String username) {
         String sql = "select * from [Account] where username=?";
-
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             stm = connection.prepareStatement(sql);
             stm.setString(1, username);
@@ -60,6 +63,8 @@ public class DAOAccount extends DBContext {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            closeStatement(stm, rs);
         }
         return null;
     }
@@ -91,26 +96,20 @@ public class DAOAccount extends DBContext {
         String sql = "INSERT INTO [dbo].[Account] "
                 + "([username], [email], [roleId], [password]) "
                 + "VALUES (?, ?, ?, ?)";
-
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             stm = connection.prepareStatement(sql);
             stm.setString(1, user);
             stm.setString(2, email);
             stm.setString(3, "1"); // Sử dụng giá trị roleId cố định, có thể thay đổi tùy thuộc vào logic của ứng dụng
             stm.setString(4, pass);
-
             stm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // Đảm bảo đóng các tài nguyên như PreparedStatement
-            try {
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeStatement(stm, rs);
         }
     }
 
