@@ -22,6 +22,22 @@ import java.util.logging.Logger;
 public class CartItemDAO extends DBContext{
     public static final CartItemDAO INSTANCE = new CartItemDAO();
     
+    public void insertCartItem(int accountId, int productOptionId, int quantity){
+        PreparedStatement ps = null;
+        try {
+            String sql = "insert into cart_Item values(?, ?, ?)";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setInt(2, productOptionId);
+            ps.setInt(3, quantity);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error at insertCartItem " + e.getMessage());
+        } finally {
+            closeStatement(ps, null);
+        }
+    }
+    
     public void deleteCartItem(int accountId, int productOptionId){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -88,7 +104,7 @@ public class CartItemDAO extends DBContext{
                 return new CartItem(getAccountById(accountId), ProductDAO.INSTANCE.getProductOptionById(productOptionId), rs.getInt("quantity"));
             }
         } catch (SQLException e) {
-            System.out.println("Error at getCartItem");
+            System.out.println("Error at getCartItem " + e.getMessage());
         } finally{
             closeStatement(ps, rs);
         }
@@ -166,7 +182,8 @@ public class CartItemDAO extends DBContext{
     public static void main(String[] args) {
         System.out.println(CartItemDAO.INSTANCE.getCartItemListByAccountId(2));
 //        CartItemDAO.INSTANCE.updateCart(2, 2, 8);
-        CartItemDAO.INSTANCE.getCommunicationsListByAccountId(2).forEach((t) -> {System.out.println(t);});
+//        CartItemDAO.INSTANCE.getCommunicationsListByAccountId(2).forEach((t) -> {System.out.println(t);});
+//        CartItemDAO.INSTANCE.insertCartItem(2, 20, 2);
     }
     
     
