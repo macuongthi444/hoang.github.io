@@ -1466,6 +1466,10 @@ public class ProductDAO extends DBContext {
 //        System.out.println(i);
 //        System.out.println(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1));
 
-        System.out.println(CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1)));
+//        System.out.println(CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1)));
+//        System.out.println(ProductDAO.INSTANCE.getProductListWithImage().size());
+//        ProductDAO.INSTANCE.getProductOptionById(1).getProductOptionId();
+        System.out.println(ProductDAO.INSTANCE.getImageListByProductOptionId(19).get(0).getImageText());
+        System.out.println();
     }
 }

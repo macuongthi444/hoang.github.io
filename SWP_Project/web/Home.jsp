@@ -90,7 +90,7 @@
                             <div class="nav-item dropdown">
                                 <a href="HomePageShop.jsp" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="Cart.jsp" class="dropdown-item">Cart</a>
+                                    <a href="/SWP_Project/CartServlet" class="dropdown-item">Cart</a>
                                     <a href="CheckOut.jsp" class="dropdown-item">Checkout</a>
                                     <a href="Testimonial.jsp" class="dropdown-item">Testimonial</a>
                                     <a href="404.html" class="dropdown-item">404 Page</a>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            <a href="Cart.jsp" class="position-relative me-4 my-auto">
+                            <a href="/SWP_Project/CartServlet" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
@@ -294,20 +294,21 @@
                                                         <div class="d-flex justify-content-between flex-lg-wrap">
                                                             <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
                                                                 <p class="text-dark fs-5 fw-bold mb-0">
-                                                                    $<c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
+                                                                    <c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
                                                                     ${discountedPrice}
                                                                 </p>
-                                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                                                             </c:if>
                                                             <c:if test="${!CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">    
                                                                 <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>                                                                                                                                                      
-                                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                                                             </c:if>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </c:forEach>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -337,7 +338,7 @@
                                             <div class="col-md-6 col-lg-4 col-xl-3">
                                                 <div class="rounded position-relative fruite-item">
                                                     <div class="fruite-img">
-                                                        <img src="img/${product.imageText}" class="img-fluid w-100 rounded-top" alt="">
+                                                        <img src="img/${product.imageText}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
                                                     </div>
                                                     <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Sale ${100 * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}%</div>
@@ -347,15 +348,37 @@
                                                         <div class="d-flex justify-content-between flex-lg-wrap">
                                                             <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
                                                                 <p class="text-dark fs-5 fw-bold mb-0">
-                                                                    $<c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
+                                                                    <c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
                                                                     ${discountedPrice}
                                                                 </p>
-                                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                                                             </c:if>
                                                             <c:if test="${!CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">    
                                                                 <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>                                                                                                                                                      
-                                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                                                             </c:if>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                        <br/>
+                                        <h2>choose from here please</h2>
+                                        <c:forEach items="${productOptionList}" var="productOption">
+                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                <div class="rounded position-relative fruite-item">
+                                                     
+                                                    <!--${productDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}-->
+                                                    <div class="fruite-img">
+                                                        <c:set value="${ProductDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}" var="imageList"/>
+                                                        <img src="img/${imageList.isEmpty()?"":imageList.get(0).getImageText()}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
+                                                    </div>
+                                                   
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                                        <h4 style="font-size: large" >${product.productName}</h4>                        
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>                                                                                                                                                      
+                                                                <button onclick="addToCart(${productOption.productOptionId})" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -439,7 +462,8 @@
 <!--        <div class="container-fluid vesitable py-5">
             <div class="container py-5">
                 <h1 class="mb-0">Newest Products</h1>
->>>>>>> coupon
+>>>>>> coupon
+
                 <div class="owl-carousel vegetable-carousel justify-content-center">
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="vesitable-img">
@@ -450,7 +474,7 @@
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
                                 <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> </a>
                             </div>
                         </div>
                     </div>
@@ -464,7 +488,7 @@
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
                                 <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> </a>
                             </div>
                         </div>
                     </div>
@@ -808,6 +832,28 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    
+    function addToCart(productOptionId){
+        window.console.log(productOptionId === undefined);
+        $.ajax({
+            url: "/SWP_Project/AddToCartServlet",
+            type: 'POST',
+            data: {
+                "productOptionId": productOptionId
+            },
+            success: function (data, textStatus, jqXHR) {
+//                        window.console.log(data);
+                if(data !== ""){
+                    window.console.log(data);
+                    alert("Add success");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+    }
+</script>
 <!-- Copyright End -->
 
 

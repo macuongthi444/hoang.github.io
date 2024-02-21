@@ -70,11 +70,15 @@ public class CartServlet extends HttpServlet {
 //            return;
 //        }
         
-        Account account = (Account)request.getSession().getAttribute("account");
-        if(account == null) {
-            account = CartItemDAO.INSTANCE.getAccountById(2);
-            request.getSession().setAttribute("account", account);
+        Object accountObject = request.getSession().getAttribute("account");
+        if(accountObject == null) {
+//            account = CartItemDAO.INSTANCE.getAccountById(2);
+//            request.getSession().setAttribute("account", account);
+            System.out.println("null");
+            response.sendRedirect("/SWP_Project/login");
+            return;
         }
+        Account account = (Account)request.getSession().getAttribute("account");
         List<CartItem> cartItemList = CartItemDAO.INSTANCE.getCartItemListByAccountId(account.getId());
         List<Integer> productOptionIdList = new ArrayList<>();
         for (CartItem cartItem : cartItemList) {

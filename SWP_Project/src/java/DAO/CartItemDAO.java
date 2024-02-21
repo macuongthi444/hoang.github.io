@@ -22,6 +22,45 @@ import java.util.logging.Logger;
 public class CartItemDAO extends DBContext{
     public static final CartItemDAO INSTANCE = new CartItemDAO();
     
+    public boolean checkIfCartItemIsExist(int accountId, int productOptionId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from Cart_item where accountId = ? and productOptionid = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setInt(2, productOptionId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at checkIfCartItemIsExist " + e.getMessage());
+            return true;
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return false;
+    }
+    
+    public int getCartItemQuantity(int accountId, int productOptionId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from Cart_item where accountId = ? and productOptionid = ?";
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getCartItemQuantity");
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return -1;
+    }
+    
     public void insertCartItem(int accountId, int productOptionId, int quantity){
         PreparedStatement ps = null;
         try {

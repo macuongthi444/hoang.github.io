@@ -123,6 +123,7 @@ public class CheckoutServlet extends HttpServlet {
                             productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);
                     
                 }
+                
                 PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
                 processRequest(request, response);
                 return;

@@ -70,6 +70,10 @@ public class HomeControl extends HttpServlet {
         request.setAttribute("num", num);
         request.setAttribute("productList", list);
         request.setAttribute("newestList", newestList);
+        request.setAttribute("productOptionList", ProductDAO.INSTANCE.getProductOptionList());
+        System.out.println(num);
+        System.out.println(list);
+        System.out.println(newestList);
         ////////////////////////////////////////////////
         request.getRequestDispatcher("Home.jsp").include(request, response);
     }
