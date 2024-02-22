@@ -67,6 +67,18 @@ public class AdminShowAllProducts extends HttpServlet {
 //        request.setAttribute("productOptionList", ProductDAO.INSTANCE.getProductOptionList());
 //        HashMap<Product, HashMap<ProductOption, List<Image>>> productMap = new HashMap<>();
         
+//        if(request.getSession().getAttribute("searchMap") != null){
+//            System.out.println(request.getSession().getAttribute("searchMap in get"));
+//            doPost(request, response);
+//            return;
+//        }
+        if(request.getSession().getAttribute("searchMap") != null){
+            String sql = request.getSession().getAttribute("searchingSql") + "";
+            List<String> searchValue = (List<String>)request.getSession().getAttribute("searchValue");
+//            HashMap<String, List<String>> searchMap = (HashMap)request.getSession().getAttribute("searchMap");
+            request.getSession().setAttribute("productOptionListAfterSearching", ProductDAO.INSTANCE.getProductOptionListAfterSearching(sql, searchValue));
+        }
+
         HashMap<Integer, List<ProductOption>> productMap = new HashMap<>();
 //        List<Product> productList = new ArrayList<>();
 //        List<List<ProductOption>> productValue = new ArrayList<>();
@@ -149,16 +161,18 @@ public class AdminShowAllProducts extends HttpServlet {
 //        doGet(request, response);
         processSearch(request, response);
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
+        
     }
     private void processSearch(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        
         if(request.getParameter("searchSubmit") != null && request.getParameter("searchSubmit").equals("Clear Option")){
             request.getSession().removeAttribute("productOptionListAfterSearching");
             request.getSession().removeAttribute("searchMap");
             return;
         }
         HashMap<String, List<String>> searchMap = new HashMap<>();
-        List<String> searchOption = Arrays.asList(request.getParameterValues("search")==null?new String[]{}:request.getParameterValues("search"));
+        List<String> searchOption = Arrays.asList(request.getParameterValues("search")==null?(new String[]{}):request.getParameterValues("search"));
         if(searchOption.isEmpty()) {
             request.getSession().removeAttribute("productOptionListAfterSearching");
             request.getSession().removeAttribute("searchMap");
@@ -217,8 +231,10 @@ public class AdminShowAllProducts extends HttpServlet {
                     break;
             }
         }
-        System.out.println(searchMap);
+        System.out.println("searchMap " + searchMap);
         request.getSession().setAttribute("searchMap", searchMap);
+        request.getSession().setAttribute("searchingSql", sql);
+        request.getSession().setAttribute("searchValue", searchValue);
         request.getSession().setAttribute("productOptionListAfterSearching", ProductDAO.INSTANCE.getProductOptionListAfterSearching(sql, searchValue));
         
     }

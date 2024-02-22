@@ -153,8 +153,6 @@ public class AddProduct extends HttpServlet {
         int productId;
         if (request.getSession().getAttribute("productId") == null) {
             productId = util.Util.generateId("productId", "product");
-            
-            //
             request.getSession().setAttribute("productId", productId);
         } else {
             productId = Integer.parseInt(request.getSession().getAttribute("productId") + "");
@@ -166,52 +164,55 @@ public class AddProduct extends HttpServlet {
             System.out.println(e);
         });
        
+        try{
+            int brandId = Integer.parseInt(request.getParameter("brandId"));
+            int hardwareMemoryId = Integer.parseInt(request.getParameter("hardwareMemoryId"));
+            int ramMemoryId = Integer.parseInt(request.getParameter("ramMemoryId"));
+            int colorId = Integer.parseInt(request.getParameter("colorId"));
+            int screenSizeId = Integer.parseInt(request.getParameter("screenSizeId"));
+            int resolutionId = Integer.parseInt(request.getParameter("resolutionId"));
+            int graphicCardId = Integer.parseInt(request.getParameter("graphicCardId"));
+            System.out.println(brandId + "  " + hardwareMemoryId + " " + colorId);
+        
+            if(ProductDAO.INSTANCE.getProductById(productId) == null){
+                ProductDAO.INSTANCE.insertProduct(productId, productName, category.getCategoryId(), productDetail);
+            }
 
-        int brandId = Integer.parseInt(request.getParameter("brandId"));
-        int hardwareMemoryId = Integer.parseInt(request.getParameter("hardwareMemoryId"));
-        int ramMemoryId = Integer.parseInt(request.getParameter("ramMemoryId"));
-        int colorId = Integer.parseInt(request.getParameter("colorId"));
-        int screenSizeId = Integer.parseInt(request.getParameter("screenSizeId"));
-        int resolutionId = Integer.parseInt(request.getParameter("resolutionId"));
-        int graphicCardId = Integer.parseInt(request.getParameter("graphicCardId"));
-        System.out.println(brandId + "  " + hardwareMemoryId + " " + colorId);
-        
-        if(ProductDAO.INSTANCE.getProductById(productId) == null){
-            ProductDAO.INSTANCE.insertProduct(productId, productName, category.getCategoryId(), productDetail);
+
+
+            request.setAttribute("productName", productName);
+            request.setAttribute("categoryName", categoryName);
+            request.setAttribute("price", price);
+    //            request.setAttribute("optionName", optionName);
+    //        request.setAttribute("optionDetail", optionDetail);
+            request.setAttribute("brandId", brandId);
+            request.setAttribute("hardwareMemoryId", hardwareMemoryId);
+            request.setAttribute("ramMemoryId", ramMemoryId);
+            request.setAttribute("colorId", colorId);
+            request.setAttribute("screenSizeId", screenSizeId);
+            request.setAttribute("resolutionId", resolutionId);
+            request.setAttribute("graphicCardId", graphicCardId);
+            request.setAttribute("productDetail", productDetail);
+            request.setAttribute("quantity", quantity);
+            request.setAttribute("product", ProductDAO.INSTANCE.getProductById(productId));
+
+            if(ProductDAO.INSTANCE.checkProductOptionIsExist(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId)){
+                request.setAttribute("addFail", "Add fail");
+            }
+            else{
+                ProductDAO.INSTANCE.insertProductOption(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
+                    quantity, 0);
+                for (String imageText : images) {
+                    if(imageText != null && !"".equals(imageText.trim()))
+                        ProductDAO.INSTANCE.insertImage(imageText.trim(), 
+                          ProductDAO.INSTANCE.getProductOptionId(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
+            }
+                request.setAttribute("addSuccess", "Add success");
+            }
+            request.getSession().removeAttribute("productOptionListAfterSearching");
+        }catch(NumberFormatException e){
+            
         }
-       
-        
-        
-        request.setAttribute("productName", productName);
-        request.setAttribute("categoryName", categoryName);
-        request.setAttribute("price", price);
-//            request.setAttribute("optionName", optionName);
-//        request.setAttribute("optionDetail", optionDetail);
-        request.setAttribute("brandId", brandId);
-        request.setAttribute("hardwareMemoryId", hardwareMemoryId);
-        request.setAttribute("ramMemoryId", ramMemoryId);
-        request.setAttribute("colorId", colorId);
-        request.setAttribute("screenSizeId", screenSizeId);
-        request.setAttribute("resolutionId", resolutionId);
-        request.setAttribute("graphicCardId", graphicCardId);
-        request.setAttribute("productDetail", productDetail);
-        request.setAttribute("quantity", quantity);
-        request.setAttribute("product", ProductDAO.INSTANCE.getProductById(productId));
-        
-        if(ProductDAO.INSTANCE.checkProductOptionIsExist(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId)){
-            request.setAttribute("addFail", "Add fail");
-        }
-        else{
-            ProductDAO.INSTANCE.insertProductOption(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
-                quantity, 0);
-            for (String imageText : images) {
-                if(imageText != null && !"".equals(imageText.trim()))
-                    ProductDAO.INSTANCE.insertImage(imageText.trim(), 
-                      ProductDAO.INSTANCE.getProductOptionId(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
-        }
-            request.setAttribute("addSuccess", "Add success");
-        }
-        request.getSession().removeAttribute("productOptionListAfterSearching");
         doGet(request, response);
     }
 

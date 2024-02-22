@@ -59,6 +59,10 @@ public class ProductDAO extends DBContext {
         }
     }
     
+//    public List<ProductOption> getProductOptionListAfterSearching(String sql, HashMap<String, List<String>> searchMap){
+//        return null;
+//    }
+    
     public List<ProductOption> getProductOptionListAfterSearching(String sql, List<String> searchValue){
         List<ProductOption> list = new ArrayList<>();
         PreparedStatement ps = null;
@@ -951,17 +955,7 @@ public class ProductDAO extends DBContext {
             System.out.println("Error at ProductDAO.getColorList " + e.getMessage());
 
         } finally {
-            if (ps != null)
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if(rs != null) try {
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            closeStatement(ps, rs);
         }
         return list;
     }
@@ -981,17 +975,7 @@ public class ProductDAO extends DBContext {
             System.out.println("Error at ProductDAO.getRamMemoryList " + e.getMessage());
 
         } finally {
-            if (ps != null)
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if(rs != null) try {
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            closeStatement(ps, rs);
         }
         return list;
     }
@@ -1012,17 +996,7 @@ public class ProductDAO extends DBContext {
             System.out.println("Error at ProductDAO.getHardwareMemoryList " + e.getMessage());
 
         } finally {
-            try {
-                if (ps != null)
-                    try {
-                        ps.close();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                if(rs != null) rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            closeStatement(ps, rs);
         }
         return list;
     }
@@ -1041,23 +1015,7 @@ public class ProductDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println("Error at ProductDAO.getBrandList " + e.getMessage());
         } finally {
-            if (ps != null)
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-            } finally{
-                if(ps != null) try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if(rs != null) try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            closeStatement(ps, rs);
         }
         return brandList;
     }

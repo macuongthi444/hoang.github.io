@@ -376,7 +376,7 @@
                                                     </div>
                                                    
                                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                        <h4 style="font-size: large" >${product.productName}</h4>                        
+                                                        <h4 style="font-size: large" >${ProductDAO.INSTANCE.getProductByProductOptionId(productOption.productOptionId).productName}</h4>                        
                                                         <div class="d-flex justify-content-between flex-lg-wrap">
                                                                 <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>                                                                                                                                                      
                                                                 <button onclick="addToCart(${productOption.productOptionId})" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
