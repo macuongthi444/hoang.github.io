@@ -20,6 +20,7 @@ import java.util.Calendar;
 public class OrderDAO extends DBContext{
     public static OrderDAO INSTANCE = new OrderDAO();
     
+    
     public void insertOrderStatus(int orderId, int orderStatusDetailId, Timestamp changeStatusTime){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -35,9 +36,7 @@ public class OrderDAO extends DBContext{
         } finally {
             closeStatement(ps, rs);
         }
-    }
-    
-    
+    }   
     
     public void insertOrder(int orderId, int accountId, Timestamp orderDate, int communicationsId){
         PreparedStatement ps = null;
