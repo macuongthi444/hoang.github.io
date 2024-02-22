@@ -5,13 +5,19 @@
 
 package controller.admin;
 
+import Model.ProductOption;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -56,7 +62,17 @@ public class DeletedProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 //        processRequest(request, response);
-        request.getRequestDispatcher("adminView/deleted-product.jsp").forward(request, response);
+//        request.getRequestDispatcher("adminView/deleted-product.jsp").forward(request, response);
+        Cookie[] cookies = request.getCookies();
+        List<ProductOption> productOptionList = new ArrayList<>();
+        Gson gson = new Gson();
+        for (Cookie cookie : cookies) {
+            if(cookie.getName().equalsIgnoreCase("cookieProductOption")){
+                String jsonProductOption = URLDecoder.decode(cookie.getValue(), "UTF-8");
+                productOptionList.add(gson.fromJson(jsonProductOption, ProductOption.class));
+            }
+        }
+        System.out.println(productOptionList);
     } 
 
     /** 
@@ -71,7 +87,7 @@ public class DeletedProductServlet extends HttpServlet {
     throws ServletException, IOException {
         
     }
-
+    
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

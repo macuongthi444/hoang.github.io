@@ -8,12 +8,15 @@ package controller;
 import DAO.ProductDAO;
 import Model.Image;
 import Model.ProductOption;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 
 /**
  *
@@ -68,19 +71,27 @@ public class DeleteProduct extends HttpServlet {
             response.sendRedirect("AdminShowAllProducts");
             return;
         }
-        for (Image image : ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId)) {
-            ProductDAO.INSTANCE.deleteImage(image.getImageId());
-        }
-        ProductDAO.INSTANCE.deleteProductOption(productOptionId);
-        if(ProductDAO.INSTANCE.getProductByProductOptionId(productOption.getProductId()) == null){
-            ProductDAO.INSTANCE.deleteProduct(productOption.getProductId());
-        }
+        // Delete
+//        for (Image image : ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId)) {
+//            ProductDAO.INSTANCE.deleteImage(image.getImageId());
+//        }
+//        ProductDAO.INSTANCE.deleteProductOption(productOptionId);
+////        if(ProductDAO.INSTANCE.getProductByProductOptionId(productOption.getProductId()) == null){
+//        if(ProductDAO.INSTANCE.getProductOptionByProductId(productOption.getProductId()).isEmpty()){
+//            ProductDAO.INSTANCE.deleteProduct(productOption.getProductId());
+//        }
+        // -----------------------
+        
+//        Gson gson = new Gson();
+//        Cookie cookieProductOption = new Cookie("cookieProductOption", URLEncoder.encode(gson.toJson(productOption), "UTF-8"));
+//        cookieProductOption.setMaxAge(60); 
+//        response.addCookie(cookieProductOption);
         
         request.getSession().setAttribute("deleteSuccess", "deleteSuccess");
         request.getSession().removeAttribute("productOptionListAfterSearching");
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
     } 
-
+    
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request

@@ -192,7 +192,7 @@ public class ProductDAO extends DBContext {
             ps.setInt(1, productOptionid);
             ps.execute();
         } catch (SQLException e) {
-            System.out.println("Error at deleteProductOption");
+            System.out.println("Error at deleteProductOption " + e.getMessage());
         } finally{
             if(ps != null) try {
                 ps.close();

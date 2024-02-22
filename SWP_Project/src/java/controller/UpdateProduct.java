@@ -103,18 +103,18 @@ public class UpdateProduct extends HttpServlet {
                 brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, numberInStock, 0);
         
         String imageOption = request.getParameter("imageOption");
-        if(imageOption.equalsIgnoreCase("overrideImage")){
-            ProductDAO.INSTANCE.deleteImageByProductOptionId(productOptionId);
-        }
-        if(images.length != 0){
+        if(images.length != 0 && !images[0].trim().equals("")){
+            if(imageOption.equalsIgnoreCase("overrideImage")){
+                ProductDAO.INSTANCE.deleteImageByProductOptionId(productOptionId);
+            }
             for (String image : images) {
-                System.out.println(image);
                 if(!image.trim().equals("")){
                     ProductDAO.INSTANCE.insertImage(image, productOptionId);
                 }
             }
         }
         request.getSession().setAttribute("updateSuccess", "updateSuccess");
+        request.getSession().removeAttribute("productOptionListAfterSearching");
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
 //        request.getRequestDispatcher("adminView/admin-show-all-products.jsp").forward(request, response);
 //        System.out.println(images + " " + productOptionId);

@@ -805,8 +805,8 @@
                       
                       <table class="product-table" >
                           <tr>
-                              <th style="width: 7%;">Name</th>
-                              <th class="category-width">Category</th>
+                              <th style="width: 8.8%;">Name</th>
+                              <!--<th class="category-width">Category</th>-->
                               <th class="product-detail-width">Detail</th>
                               <th>
                                   <table style="width: 100%;">
@@ -838,10 +838,12 @@
                         
                         <c:forEach items="${productList}" var="productEntry">
                             <tr>
-                                <td style="width: 7%;">${ProductDAO.INSTANCE.getProductById(productEntry).productName} <br/>
+                                <td style="width: 8.8%;">${ProductDAO.INSTANCE.getProductById(productEntry).productName} <br/>
                                     <a style="color: green; font-size: 12px; " href="/SWP_Project/AddProductOption?productId=${productEntry}">Add other option</a>
                                 </td>
+                                <%--
                                 <td class="category-width">${ProductDAO.INSTANCE.getProductById(productEntry).category.categoryName}</td>
+                                --%>
                                 <td class="product-detail-width">${ProductDAO.INSTANCE.getProductById(productEntry).productDetail}</td>
                                 <%--<td>${product.coupon==null?"no coupon":coupon}</td> --%>
                                 <td style="">
@@ -855,11 +857,13 @@
                                                 <td class="hardware-width">
                                                     ${ProductDAO.INSTANCE.getHardwareMemoryById(poEntry.hardwareMemoryId).hardwareMemory}
                                                 </td>
-                                                <td class="ram-width">
+                                                <td class="ram-width" >
                                                     ${ProductDAO.INSTANCE.getRamMemoryById(poEntry.ramMemoryId).ramMemory}
+                                                    
                                                 </td>
-                                                <td class="color-width">
-                                                    ${ProductDAO.INSTANCE.getColorById(poEntry.colorId).color}
+                                                <c:set value="${ProductDAO.INSTANCE.getColorById(poEntry.colorId).color}" var="color"/>
+                                                <td class="color-width" style="color: ${color.toLowerCase().equalsIgnoreCase("white")?"grey":color.toLowerCase()};">
+                                                    ${color}
                                                 </td>
                                                 <td  class="screen-size-width">
                                                     ${ProductDAO.INSTANCE.getScreenSizeById(poEntry.screenSizeId).screenSize}
@@ -906,9 +910,11 @@
                         <script type="text/javascript">
                             if(${deleteSuccess != null}){
                                 alertDeleteSuccess();
+                                window.location.reload();
                             }
                             if(${updateSuccess != null}){
                                 alertUpdateSuccess();
+                                window.location.reload();
                             }
                         </script>
                       </table>
