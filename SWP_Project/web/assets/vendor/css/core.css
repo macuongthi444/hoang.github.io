@@ -2706,7 +2706,7 @@ textarea.form-control-lg {
 .btn {
   --bs-btn-padding-x: 1.25rem;
   --bs-btn-padding-y: 0.4375rem;
-  --bs-btn-font-family: ;
+  /*--bs-btn-font-family: ;*/
   --bs-btn-font-size: 0.9375rem;
   --bs-btn-font-weight: 400;
   --bs-btn-line-height: 1.53;
@@ -3486,7 +3486,7 @@ fieldset:disabled .btn {
 .navbar-nav {
   --bs-nav-link-padding-x: 0;
   --bs-nav-link-padding-y: 0.5rem;
-  --bs-nav-link-font-weight: ;
+  /*--bs-nav-link-font-weight: ;*/
   --bs-nav-link-color: var(--bs-navbar-color);
   --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
   --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
@@ -3859,7 +3859,7 @@ fieldset:disabled .btn {
   --bs-card-spacer-x: 1.5rem;
   --bs-card-title-spacer-y: 0.875rem;
   --bs-card-title-color: #566a7f;
-  --bs-card-subtitle-color: ;
+  /*--bs-card-subtitle-color: ;*/
   --bs-card-border-width: 0;
   --bs-card-border-color: #d9dee3;
   --bs-card-border-radius: 0.5rem;
@@ -3868,9 +3868,9 @@ fieldset:disabled .btn {
   --bs-card-cap-padding-y: 1.5rem;
   --bs-card-cap-padding-x: 1.5rem;
   --bs-card-cap-bg: transparent;
-  --bs-card-cap-color: ;
+/*  --bs-card-cap-color: ;
   --bs-card-height: ;
-  --bs-card-color: ;
+  --bs-card-color: ;*/
   --bs-card-bg: #fff;
   --bs-card-img-overlay-padding: 1.5rem;
   --bs-card-group-margin: 0.8125rem;
@@ -4182,7 +4182,7 @@ fieldset:disabled .btn {
   --bs-breadcrumb-padding-y: 0;
   --bs-breadcrumb-margin-bottom: 1rem;
   --bs-breadcrumb-bg: transparent;
-  --bs-breadcrumb-border-radius: ;
+  /*--bs-breadcrumb-border-radius: ;*/
   --bs-breadcrumb-divider-color: #a1acb8;
   --bs-breadcrumb-item-padding-x: 0.5rem;
   --bs-breadcrumb-item-active-color: #697a8d;
@@ -4904,7 +4904,7 @@ fieldset:disabled .btn {
   --bs-toast-spacing: 1.25rem;
   --bs-toast-max-width: 350px;
   --bs-toast-font-size: 0.9375rem;
-  --bs-toast-color: ;
+  /*--bs-toast-color: ;*/
   --bs-toast-bg: #fff;
   --bs-toast-border-width: 0;
   --bs-toast-border-color: rgba(67, 89, 113, 0.1);
@@ -5262,7 +5262,7 @@ fieldset:disabled .btn {
   --bs-tooltip-max-width: 200px;
   --bs-tooltip-padding-x: 0.7rem;
   --bs-tooltip-padding-y: 0.25rem;
-  --bs-tooltip-margin: ;
+  /*--bs-tooltip-margin: ;*/
   --bs-tooltip-font-size: 0.9375rem;
   --bs-tooltip-color: #fff;
   --bs-tooltip-bg: #233446;
@@ -8397,7 +8397,7 @@ button:focus-visible {
   width: 100%;
 }
 
-.nav-pills .nav-link:not(.active, .disabled) {
+.nav-pills .nav-link:not(.active .disabled) {
   color: #566a7f;
 }
 

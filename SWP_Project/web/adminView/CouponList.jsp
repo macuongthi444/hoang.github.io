@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="DAO.ProductDAO, java.util.List, java.util.ArrayList, Model.Product" %>
+<%@page import="DAO.ProductDAO, java.util.List, java.util.ArrayList, Model.Product,DAO.CouponDAO" %>
 <!DOCTYPE html>
 <html
     lang="en"
@@ -637,6 +637,21 @@
                                         <table class="product-table" >
                                             <h2>Coupon List</h2>
                                             <h5>${error}</h5>
+<!--                                            <div>Sort By: </div>
+                                            <form action="couponList" method="post">
+                                                <select name="sortType" style="width: 12%">
+                                                    <option value="discountRate">Discount Rate</option>
+                                                    <option value="startDate">Start Date</option>
+                                                    <option value="endDate">End Date</option>
+                                                    <option value="isUsed">Is Used</option>
+                                                </select>
+                                                <input type="checkbox" name="sortOrder" value="increase"> Increase
+                                                <input type="checkbox" name="sortOrder" value="decrease"> Decrease-->
+
+                                                <button type="submit">Sort</button>
+                                            </form>
+                                            <br>
+                                            <br>
                                             <table border="1">
                                                 <thead>
                                                     <tr>
@@ -645,8 +660,10 @@
                                                         <th>Start Date</th>
                                                         <th>End Date</th>
                                                         <th>Is Used</th>
+                                                        <th>Product Option ID</th>
                                                         <th>Ban Coupon</th>
                                                         <th>Update Coupon</th>
+                                                        <th>Attach Coupon</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -658,9 +675,12 @@
                                                             <td>${coupon.endDate}</td>
                                                             <td>${coupon.isUsed}</td>
                                                             <td>
+                                                                ${CouponDAO.INSTANCE.getProductOptionIdByCouponId(coupon.couponId)}                      
+                                                            </td>
+                                                            <td>
                                                                 <c:if test="${coupon.isUsed}">
                                                                     <form action="couponList" method="post">
-                                                                        <button type="submit" name="cid" value="${coupon.couponId}" style="color: red">Ban</button>
+                                                                        <button type="submit" name="banid" value="${coupon.couponId}" style="color: red">Ban</button>
                                                                     </form>
                                                                 </c:if>
                                                             </td>
@@ -669,19 +689,19 @@
                                                                     <button type="submit" name="cid" value="${coupon.couponId}">Update</button>
                                                                 </form>
                                                             </td>
+                                                            <td>
+                                                                <c:if test="${coupon.isUsed}">
+                                                                <form action="attachCoupon" method="get">
+                                                                    <button type="submit" name="cid" value="${coupon.couponId}">Attach</button>
+                                                                </form>
+                                                                </c:if>
+                                                            </td>
                                                         </tr>
                                                     </c:forEach>
+
                                                 </tbody>
                                             </table>
                                         </table>
-                                        <!--                    <div class="d-flex align-items-end row">
-                                                              <div class="col-sm-7">
-                                                                
-                                                              </div>
-                                                              <div class="col-sm-5 text-center text-sm-left">
-                                                                
-                                                              </div>
-                                                            </div>-->
                                     </div>
                                 </div>
 

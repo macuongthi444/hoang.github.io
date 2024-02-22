@@ -9,12 +9,11 @@ package Model;
  * @author nguye
  */
 public class Product {
-
     private int productId;
     private String productName;
     private Category category;
     private String productDetail;
-
+    
     public Product() {
     }
 
@@ -32,7 +31,9 @@ public class Product {
     public void setProductDetail(String productDetail) {
         this.productDetail = productDetail;
     }
-
+    
+    
+    
     public int getProductId() {
         return productId;
     }
@@ -57,9 +58,12 @@ public class Product {
         this.category = category;
     }
 
+
+
     @Override
     public String toString() {
-        return "Product{" + "productId=" + productId + ", productName=" + productName + ", category=" + category + ", productDetail=" + productDetail + '}';
+        return "Product{" + "productId=" + productId + ", productName=" + productName + ", category=" + category  + ", productDetail=" + productDetail + '}';
     }
 
+    
 }

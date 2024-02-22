@@ -44,5 +44,6 @@
             <!--<h1>skjefheskf</h1>-->
         </c:forEach>
             --%>
+        <img src="/SWP_Project/img/${productOption.img}" />
     </body>
 </html>

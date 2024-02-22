@@ -92,31 +92,35 @@ public class AddCouponControl extends HttpServlet {
             // Kiểm tra nếu startDate >= endDate
             if (startDate1.isAfter(endDate1) || startDate1.isEqual(endDate1)) {
                 request.setAttribute("error", "Start Date must be < End Date !");
-                request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+                doGet(request, response);
+                return;
             }
             Date startDate = Date.valueOf(startDateStr);
             Date endDate = Date.valueOf(endDateStr);
-            System.out.println(startDate + " " + endDate);
+            LocalDate currentDate = LocalDate.now();
+            Date current1 = Date.valueOf(currentDate);
+            if (endDate.before(current1)) {
+                request.setAttribute("error", "End Date must > CurrentDate: " + current1);
+                doGet(request, response);
+                return;
+            }
             String[] isUsedValues = request.getParameterValues("isUsed");
 
-            // Kiểm tra xem checkbox có được chọn hay không
             boolean isUsed = isUsedValues != null && isUsedValues.length > 0;
             CouponDAO c = new CouponDAO();
             c.addCoupon(discountRate, startDate, endDate, isUsed, null);
-
+            request.setAttribute("discountRate", discountRate);
+            request.setAttribute("startDate", startDate);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("isUsed", isUsed);
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Invalid discount rate format(0->100)!");
-            // Gửi thông báo lỗi về addCoupon.jsp
-            request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
-//        } catch (ParseException e) {
-//            request.setAttribute("error", "Invalid date format(yyyy-MM-dd).");
-//            // Gửi thông báo lỗi về addCoupon.jsp
-//            request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+            doGet(request, response);
         } catch (Exception e) {
             request.setAttribute("error", "An error occurred.");
-            System.out.println(e);
-            request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
+            doGet(request, response);
         }
+
         request.setAttribute("notify", "Added coupon sucessfully");
         request.getRequestDispatcher("adminView/AddCoupon.jsp").forward(request, response);
 

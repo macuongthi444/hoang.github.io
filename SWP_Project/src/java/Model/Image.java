@@ -9,7 +9,6 @@ package Model;
  * @author nguye
  */
 public class Image {
-
     private int imageId;
     private String imageText;
     private int productOptionId;
@@ -51,5 +50,6 @@ public class Image {
     public String toString() {
         return "Image{" + "imageId=" + imageId + ", imageText=" + imageText + ", productOptionId=" + productOptionId + '}';
     }
-
+    
+    
 }

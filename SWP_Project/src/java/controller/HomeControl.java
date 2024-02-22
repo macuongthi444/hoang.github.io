@@ -25,7 +25,24 @@ import java.util.List;
 public class HomeControl extends HttpServlet {
 
     HashMap<Integer, Integer> hashCart = new HashMap<>();
-
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    try ( PrintWriter out = response.getWriter()) {
+        /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet HomeControl</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet HomeControl at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }   
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,8 +54,26 @@ public class HomeControl extends HttpServlet {
         String password = (String) session.getAttribute("password");
         List<ProductWithImage> productList = p.getProductListWithImage();
         List<ProductWithImage> newestList = p.NewestProductWithImage();
-        request.setAttribute("productList", productList);
+        int page, numperpage = 4;
+        String xpage = request.getParameter("page");
+        if (xpage == null) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
+        }
+        int size = productList.size();
+        int num = (size % 4 == 0 ? (size / 4) : ((size / 4)) + 1);//so trang
+        int start, end;
+        start = (page - 1) * numperpage;
+        end = Math.min(page * numperpage, size);
+        List<ProductWithImage> list = p.getListByPage(productList, start, end);
+        request.setAttribute("num", num);
+        request.setAttribute("productList", list);
         request.setAttribute("newestList", newestList);
+        request.setAttribute("productOptionList", ProductDAO.INSTANCE.getProductOptionList());
+        System.out.println(num);
+        System.out.println(list);
+        System.out.println(newestList);
         ////////////////////////////////////////////////
         request.getRequestDispatcher("Home.jsp").include(request, response);
     }

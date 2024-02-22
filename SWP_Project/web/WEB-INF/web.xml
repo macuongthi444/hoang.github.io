@@ -9,12 +9,32 @@
         <servlet-class>controller.UpdateProduct</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CartControl</servlet-name>
-        <servlet-class>controller.CartControl</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AdminShowAllProducts</servlet-name>
         <servlet-class>controller.AdminShowAllProducts</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProduct</servlet-name>
+        <servlet-class>controller.DeleteProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductOption</servlet-name>
+        <servlet-class>controller.AddProductOption</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>controller.customer.CartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <servlet-class>controller.customer.UpdateCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>controller.customer.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>controller.customer.AddToCartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeControl</servlet-name>
@@ -25,12 +45,33 @@
         <url-pattern>/UpdateProduct</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CartControl</servlet-name>
-        <url-pattern>/cart</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>AdminShowAllProducts</servlet-name>
         <url-pattern>/AdminShowAllProducts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProduct</servlet-name>
+        <url-pattern>/DeleteProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductOption</servlet-name>
+        <url-pattern>/AddProductOption</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/CartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <url-pattern>/UpdateCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/CheckoutServlet</url-pattern>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/AddToCartServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

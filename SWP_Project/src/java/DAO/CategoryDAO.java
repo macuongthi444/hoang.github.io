@@ -17,25 +17,57 @@ import java.util.List;
  */
 public class CategoryDAO extends DBContext{
     public static final CategoryDAO INSTANCE = new CategoryDAO();
-    private List<Category> categoryList;
     
-    public void loadCategory (){
+//    public void loadCategory (){
+//        try {
+//            String sql = "Select * from category";
+//            PreparedStatement ps = connection.prepareStatement(sql);
+//            ResultSet rs = ps.executeQuery();
+//            categoryList = new ArrayList<>();
+//            while(rs.next()){
+//                categoryList.add(new Category(rs.getInt("categoryId"), rs.getString("categoryName")));
+//            }
+//        } catch (SQLException e) {
+//            status = "Error at CategoryDAO.loadCategory " + e.getMessage();
+//        }
+//        System.out.println("skjefhskejfh");
+//    }
+
+    public List<Category> getCategoryList() {
+        List<Category> list = new ArrayList<>();
         try {
             String sql = "Select * from category";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            categoryList = new ArrayList<>();
             while(rs.next()){
-                categoryList.add(new Category(rs.getInt("categoryId"), rs.getString("categoryName")));
+                list.add(new Category(rs.getInt("categoryId"), rs.getString("categoryName")));
             }
+            ps.close();
+            
         } catch (SQLException e) {
             status = "Error at CategoryDAO.loadCategory " + e.getMessage();
         }
+        return list;
     }
-
-    public List<Category> getCategoryList() {
-        loadCategory();
-        return categoryList;
+    public void loadCategory (){
+        // try {
+        //     String sql = "Select * from category";
+        //     PreparedStatement ps = connection.prepareStatement(sql);
+        //     ResultSet rs = ps.executeQuery();
+        //     while(rs.next()){
+        //         list.add(new Category(rs.getInt("categoryId"), rs.getString("categoryName")));
+        //     }
+        //     ps.close();
+            
+        // } catch (SQLException e) {
+        //     status = "Error at CategoryDAO.loadCategory " + e.getMessage();
+        // }
+        // return list;
     }
+    
+    public static void main(String[] args) {
+        System.out.println(CategoryDAO.INSTANCE.getCategoryList());
+    }
+    
     
 }

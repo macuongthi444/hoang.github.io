@@ -18,37 +18,34 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author zenzen1
  */
 public class UpdateProduct extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateProduct</title>");
+            out.println("<title>Servlet UpdateProduct</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateProduct at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateProduct at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -56,7 +53,7 @@ public class UpdateProduct extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
 //        request.setAttribute("ProductDAO.INSTANCE", ProductDAO.INSTANCE);
 //        System.out.println(ProductDAO.INSTANCE.getProductOptionList());
 //        request.setAttribute("productOptionList", ProductDAO.INSTANCE.getProductOptionList());
@@ -73,11 +70,10 @@ public class UpdateProduct extends HttpServlet {
         request.setAttribute("productOptionList", ProductDAO.INSTANCE.getOtherProductOptionByProductId(productOptionId));
         request.setAttribute("imageList", ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId));
         request.getRequestDispatcher("adminView/update-product.jsp").forward(request, response);
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -85,8 +81,8 @@ public class UpdateProduct extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    throws ServletException, IOException {
+        
         String productName = request.getParameter("productName");
         int category = Integer.parseInt(request.getParameter("category"));
         String productDetail = request.getParameter("productDetail");
@@ -99,20 +95,21 @@ public class UpdateProduct extends HttpServlet {
         int resolutionId = Integer.parseInt(request.getParameter("resolutionId"));
         int graphicCardId = Integer.parseInt(request.getParameter("graphicCardId"));
         double productPrice = Double.parseDouble(request.getParameter("productPrice"));
+        int numberInStock = Integer.parseInt(request.getParameter("numberInStock"));
         String[] images = request.getParameterValues("productImage");
-
-        ProductDAO.INSTANCE.updateProduct(ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(), productName, category, productDetail);
-        ProductDAO.INSTANCE.updateProductOption(productOptionId, ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(),
-                brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, 0, 0);
-
+        
+        ProductDAO.INSTANCE.updateProduct(ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(),  productName, category, productDetail);
+        ProductDAO.INSTANCE.updateProductOption(productOptionId, ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(), 
+                brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, numberInStock, 0);
+        
         String imageOption = request.getParameter("imageOption");
-        if (imageOption.equalsIgnoreCase("overrideImage")) {
+        if(imageOption.equalsIgnoreCase("overrideImage")){
             ProductDAO.INSTANCE.deleteImageByProductOptionId(productOptionId);
         }
-        if (images.length != 0) {
+        if(images.length != 0){
             for (String image : images) {
                 System.out.println(image);
-                if (!image.trim().equals("")) {
+                if(!image.trim().equals("")){
                     ProductDAO.INSTANCE.insertImage(image, productOptionId);
                 }
             }
@@ -121,11 +118,10 @@ public class UpdateProduct extends HttpServlet {
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
 //        request.getRequestDispatcher("adminView/admin-show-all-products.jsp").forward(request, response);
 //        System.out.println(images + " " + productOptionId);
-    }
+    } 
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

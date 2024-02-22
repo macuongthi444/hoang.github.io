@@ -9,7 +9,6 @@ package Model;
  * @author nguye
  */
 public class ProductOption {
-
     private int productOptionId;
     private int productId;
 //    private Option optionId;
@@ -19,6 +18,7 @@ public class ProductOption {
     private int numberInStock;
     private int quantitySold;
 
+    
     public ProductOption() {
     }
 
@@ -44,6 +44,8 @@ public class ProductOption {
     public void setProductOptionId(int productOptionId) {
         this.productOptionId = productOptionId;
     }
+
+    
 
     public int getProductId() {
         return productId;
@@ -138,4 +140,6 @@ public class ProductOption {
         return "ProductOption{" + "productOptionId=" + productOptionId + ", productId=" + productId + ", brandId=" + brandId + ", hardwareMemoryId=" + hardwareMemoryId + ", ramMemoryId=" + ramMemoryId + ", colorId=" + colorId + ", ScreenSizeId=" + ScreenSizeId + ", resolutionId=" + resolutionId + ", graphicCardId=" + graphicCardId + ", price=" + price + ", numberInStock=" + numberInStock + ", quantitySold=" + quantitySold + '}';
     }
 
+    
+    
 }
