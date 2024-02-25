@@ -134,7 +134,7 @@
 
 
         <!-- Single Page Header start -->
-        <div class="container-fluid page-header py-5">
+        <div class="container-fluid  py-4">
             <h1 class="text-center text-white display-6">Cart</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="/SWP_Project/home">Home</a></li>
@@ -271,9 +271,10 @@
                                 
                                 function checkChangeQuantity(id, oldQuantity){
                                     if(document.getElementById("cartItem" + id).value === ""){
-                                        document.getElementById("cartItem" + id).value = oldQuantity;
-                                        calculatePrice(id, oldQuantity);
-                                        updateCart(id, oldQuantity);
+//                                        document.getElementById("cartItem" + id).value = oldQuantity;
+//                                        calculatePrice(id, oldQuantity);
+//                                        updateCart(id, oldQuantity);
+                                        location.reload();
                                     }
                                 }
                                 
@@ -315,6 +316,7 @@
 //                                }
 
                                 function checkMaxQuantity(quantity, maxQuantity){
+                                    console.log(maxQuantity);
                                     if(quantity > maxQuantity){
                                         alert("Only " + maxQuantity + " item(s) available. You can not select more than " + maxQuantity + " item(s)!");
                                         return false;
@@ -430,8 +432,8 @@
                                 </c:if>
                 </div>
                 <div class="mt-5">
-                    <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
-                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>
+<!--                    <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
+                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>-->
                 </div>
                 <div class="row g-4 justify-content-end">
                     <div class="col-8"></div>
@@ -456,7 +458,7 @@
                                 <p class="mb-0 pe-4">$99.00</p>
                             </div>-->
                                 <button onclick="submitForm()"
-                                class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                                class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Checkout</button>
                         <!--</div>-->
                     </div>
                 </div>

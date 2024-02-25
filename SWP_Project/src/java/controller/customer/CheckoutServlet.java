@@ -136,6 +136,7 @@ public class CheckoutServlet extends HttpServlet {
                 else if(paymentMethodId == 2){
                     PaymentDAO.INSTANCE.insertPayment(orderId, new Timestamp(Calendar.getInstance().getTimeInMillis()), moneyAmount, paymentMethodId);
                 }
+                request.setAttribute("productOptionSelected", productOptionsId);
                 processRequest(request, response);
                 return;
 //                response.sendRedirect("customerView/CheckoutSuccess");

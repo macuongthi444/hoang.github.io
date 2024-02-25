@@ -130,7 +130,7 @@
                                 </tr>-->
                             <!--</table>-->
                             </tr>
-                            <tr>
+<!--                            <tr>
                                 <td>
                                     <label for="productCategory" class="form-label">Category: </label>
                                 </td>
@@ -151,7 +151,7 @@
                                     </c:if>
                                             
                                 </td>
-                            </tr>
+                            </tr>-->
                                   
                             <tr>
                                 <td>

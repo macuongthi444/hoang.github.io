@@ -141,17 +141,18 @@
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <h1 class="mb-4">Billing details</h1>
-                <button style="text-decoration: underline blue 1px;" onclick="showInsertCommunications()" class="btn">add communications</button>
+                <button id="showInsertCommunications" style="text-decoration: underline blue 1px;" onclick="showInsertCommunications()" class="btn">add communications</button>
+                <button id="cancelInsertCommunications" style="text-decoration: underline blue 1px; display: none;" onclick="showInsertCommunications()" class="btn">Canel</button>
                 <form id="checkoutForm" action="CheckoutServlet" method="post">
                     <div class="row g-5">
                         <div class="col-md-12 col-lg-6 col-xl-6">
                             <div style="display: none;" id="insertAddress">
                              <div class="form-item">
-                                 <label for="txtAddress" class="form-label my-3">Address<sup>*</sup></label>
+                                 <label for="txtAddress" class="form-label my-3">Address<sup>*</sup></label> <span id="addressError" style="display: none; color: red;">Address can not be empty</span>
                                 <input id="txtAddress" type="text" class="form-control" placeholder="House Number Street Name" required="">
                             </div>
                             <div class="form-item">
-                                <label for="txtPhoneNumber" class="form-label my-3">Mobile<sup>*</sup></label>
+                                <label for="txtPhoneNumber" class="form-label my-3">Mobile<sup>*</sup></label> <span id="phoneNumberError" style="display: none; color: red;">Phone number can not be empty</span>
                                 <input id="txtPhoneNumber" type="tel" class="form-control" required="">
                             </div>
 <!--                            <div class="form-item">
@@ -160,6 +161,7 @@
                             </div>-->
                             <div>
                                 <button class="btn" type="button" style="border: 1px solid #000; margin-top: 30px;" onclick="submitAddCommunications()">Add communications</button>
+                                
                             </div>
                             </div>
                         <c:if test="${communicationsList.isEmpty()}">
@@ -226,10 +228,10 @@
                                             <table border="0px" style="text-align: left;">
                                                 <tr>
                                                     <td>
-                                                        <label for="creaditCard" class="form-label my-3">Card Number<sup>*</sup></label>
+                                                        <label for="creditCard" class="form-label my-3">Card Number<sup>*</sup></label>
                                                     </td>
                                                     <td>
-                                                        <input id="txtAddress" type="text" class="form-control" placeholder="0000 0000 0000 0000" required="">
+                                                        <input id="creditCard" type="number" class="form-control" placeholder="0000 0000 0000 0000" required="">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -322,6 +324,7 @@
                                                 }
                                             }
                                         }
+                                        
                                     </script>
                                     
 <!--                                        <tr>
@@ -432,11 +435,29 @@
             function submitAddCommunications(){
                 var address = document.getElementById("txtAddress").value.trim();
                 var phoneNumber = document.getElementById("txtPhoneNumber").value.trim();
-                if(address === "" || phoneNumber === "") return;
-                if(document.getElementById("insertAddress").style.display !== "none"){
-                    insertCommunications(address, phoneNumber);
+                var check = true;
+                var addressElement = document.getElementById("addressError");
+                var phoneNumberElement = document.getElementById("phoneNumberError");
+                if(address === "") {
+                    addressElement.style.display = "inline";
+                    check = false;
                 }
-                location.reload(false); 
+                else{
+                    addressElement.style.display = "none";
+                }
+                if(phoneNumber === ""){
+                    phoneNumberElement.style.display = "inline";
+                    check = false;
+                }
+                else{
+                    phoneNumberElement.style.display = "none";
+                }
+                if(check){
+                    location.reload(false); 
+                }
+//                if(document.getElementById("insertAddress").style.display !== "none"){
+//                    insertCommunications(address, phoneNumber);
+//                }
             }
             
             
@@ -460,12 +481,28 @@
             }
             
             function showInsertCommunications(){
-                var element = document.getElementById("insertAddress");
-                var display = element.style.display;
-                window.console.log(element.style.display);
-                if(display === "none" ){
-                    element.style.display = "block";
+                var insertElement = document.getElementById("insertAddress");
+                var showInsertElement = document.getElementById("showInsertCommunications");
+                var cancelInsertElement = document.getElementById("cancelInsertCommunications");
+                window.console.log(insertElement.style.display);
+                if(insertElement.style.display === "none" ){
+                    insertElement.style.display = "block";
+                    showInsertElement.style.display = "none";
+                    cancelInsertElement.style.display = "block";
+                } else{
+                    insertElement.style.display = "none";
+                    showInsertElement.style.display = "block";
+                    cancelInsertElement.style.display = "none";
+                    cancelInsertCommunications();
                 }
+            }
+            
+            function cancelInsertCommunications(){
+                var addressElement = document.getElementById("addressError");
+                var phoneNumberElement = document.getElementById("phoneNumberError");
+                addressElement.style.display = phoneNumberElement.style.display = "none";
+                document.getElementById("txtAddress").value = "";
+                document.getElementById("txtPhoneNumber").value = "";
             }
             
             function choosePaymentMethod(){
@@ -603,6 +640,23 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script type="text/javascript">
+        $(window).scroll(function () {
+        if ($(window).width() < 992) {
+            if ($(this).scrollTop() > 55) {
+                $('.fixed-top').addClass('shadow');
+            } else {
+                $('.fixed-top').removeClass('shadow');
+            }
+        } else {
+            if ($(this).scrollTop() > 55) {
+                $('.fixed-top').addClass('shadow').css('top', -0);
+            } else {
+                $('.fixed-top').removeClass('shadow').css('top', 0);
+            }
+        } 
+    });
+    </script>
     </body>
 
 </html>

@@ -17,6 +17,7 @@ public class ProductOption {
     private double price;
     private int numberInStock;
     private int quantitySold;
+    
 
     
     public ProductOption() {

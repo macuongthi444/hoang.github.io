@@ -645,7 +645,7 @@
                                       <input name="productName" id="productName" value="${product.productName}" required="" autocomplete="off"/>
                                   </td>
                               </tr>
-                              <tr>
+<!--                              <tr>
                                   <td>Category: </td>
                                   <td>${product.category.categoryName}</td>
                                   <td>
@@ -655,7 +655,7 @@
                                          </c:forEach>
                                       </select>
                                   </td>
-                              </tr>
+                              </tr>-->
                               <tr>
                                   <td style="width: 13%;">Product detail: </td>
                                   <td>${product.productDetail}</td>

@@ -78,9 +78,19 @@ public class InsertCommunicationsServlet extends HttpServlet {
 //        request.setAttribute("insertAddress", "insertAddress");
         PrintWriter out = response.getWriter();
         out.print("insertAddress");
-        String address = request.getParameter("address");
-        String phoneNumber = request.getParameter("phoneNumber");
-        if(address.equals("") || phoneNumber.equals("")){
+        String address = request.getParameter("address").trim();
+        String phoneNumber = request.getParameter("phoneNumber").trim();
+        boolean check = true;
+        System.out.println("abc");
+        if(address.equals("")){
+            request.setAttribute("addressError", "Address can not be empty");
+            check = false;
+        }
+        if(phoneNumber.equals("")){
+            request.setAttribute("phoneNumberError", "Phone number can not be empty");
+            check = false;
+        }
+        if(!check){
             return;
         }
         CartItemDAO.INSTANCE.insertCommunications(account.getId(), phoneNumber, address);
