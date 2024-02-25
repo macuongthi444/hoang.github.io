@@ -124,7 +124,7 @@ public class CheckoutServlet extends HttpServlet {
                     int quantity = Integer.parseInt(request.getParameter("quantity" + productOptionId));
                     CartItemDAO.INSTANCE.deleteCartItem(account.getId(), productOptionId);
                     OrderDAO.INSTANCE.insertOrderInfo(orderId, productOptionId, price, quantity);
-                    ProductDAO.INSTANCE.updateProductOption(productOptionId, productOption.getProductId(), productOption.getBrandId(), productOption.getHardwareMemoryId(), 
+                    ProductDAO.INSTANCE.updateProductOption(productOptionId, productOption.getProductId(), productOption.getHardwareMemoryId(), 
                             productOption.getRamMemoryId(), productOption.getColorId(), productOption.getScreenSizeId(), productOption.getResolutionId(), 
                             productOption.getGraphicCardId(), productOption.getPrice(),
                             productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);

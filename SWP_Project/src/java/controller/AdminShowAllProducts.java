@@ -192,11 +192,18 @@ public class AdminShowAllProducts extends HttpServlet {
                     searchMap.put(string, Arrays.asList(new String[]{value}));
                     searchValue.add(value);
                     break;
-                case "categoryId":
-                    sql += " and productId in (select productId from product where categoryId = ?) ";
-                    searchMap.put(string, Arrays.asList(new String[]{value}));
-                    searchValue.add(value);
+//                case "categoryId":
+//                    sql += " and productId in (select productId from product where categoryId = ?) ";
+//                    searchMap.put(string, Arrays.asList(new String[]{value}));
+//                    searchValue.add(value);
+//                    break;
+                case "brandId":{
+                    sql += " and productId in (select productId from product where brandId = ?)";
+                    String brandId = request.getParameter(string);
+                    searchMap.put(string, Arrays.asList(new String[]{brandId}));
+                    searchValue.add(brandId);
                     break;
+                }
                 case "price":{
                     sql += " and price between ? and ? ";
                     String begin = request.getParameter(string + "Begin");

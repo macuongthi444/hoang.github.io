@@ -11,16 +11,16 @@ package Model;
 public class Product {
     private int productId;
     private String productName;
-    private Category category;
+    private Brand brand;
     private String productDetail;
     
     public Product() {
     }
 
-    public Product(int productId, String productName, Category category, String productDetail) {
+    public Product(int productId, String productName, Brand brand, String productDetail) {
         this.productId = productId;
         this.productName = productName;
-        this.category = category;
+        this.brand = brand;
         this.productDetail = productDetail;
     }
 
@@ -50,19 +50,17 @@ public class Product {
         this.productName = productName;
     }
 
-    public Category getCategory() {
-        return category;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
-
-
 
     @Override
     public String toString() {
-        return "Product{" + "productId=" + productId + ", productName=" + productName + ", category=" + category  + ", productDetail=" + productDetail + '}';
+        return "Product{" + "productId=" + productId + ", productName=" + productName + ", brand=" + brand  + ", productDetail=" + productDetail + '}';
     }
 
     

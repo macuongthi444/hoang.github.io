@@ -284,7 +284,7 @@
                                 </td>
                                 <td>
                                     <input name="productPrice" id="productPrice" type="number" min="0" placeholder="Product price" required="" autocomplete="off"
-                                           value="${price}" 
+                                           value="${price==null?0:price}" 
                                            <%--oninput="inputProductPrice()"--%>
                                            />
                                 </td>
@@ -295,7 +295,7 @@
                                 </td>
                                 <td>
                                     <input name="quantity" id="quantity" type="number" min="0" placeholder="Quantity" required="" autocomplete="off"
-                                           value="${quantity}"/>
+                                           value="${quantity==null?0:quantity}"/>
                                 </td>
                             </tr>
                             <tr>

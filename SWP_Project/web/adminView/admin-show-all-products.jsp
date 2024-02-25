@@ -163,12 +163,12 @@
                   <a href="/SWP_Project/AddProduct" class="menu-link">
                     <div data-i18n="AddProduct">Add product</div>
                   </a>
-                </li>
+<!--                </li>
                 <li class="menu-item active">
                   <a href="/SWP_Project/DeletedProductServlet" class="menu-link">
                     <div data-i18n="AddProduct">Deleted products</div>
                   </a>
-                </li>
+                </li>-->
 
               </ul>
             </li>
@@ -805,13 +805,13 @@
                       
                       <table class="product-table" >
                           <tr>
+                              <th>Brand</th>
                               <th style="width: 8.8%;">Name</th>
                               <!--<th class="category-width">Category</th>-->
                               <th class="product-detail-width">Detail</th>
                               <th>
                                   <table style="width: 100%;">
                                       <tr>
-                                            <th class="brand-width">Brand</th>
                                             <th class="hardware-width">Hardware</th>
                                             <th class="ram-width">Ram</th>
                                             <th class="color-width">Color</th>
@@ -838,6 +838,7 @@
                         
                         <c:forEach items="${productList}" var="productEntry">
                             <tr>
+                                <td>${ProductDAO.INSTANCE.getProductById(productEntry).brand.brandName}</td>
                                 <td style="width: 8.8%;">${ProductDAO.INSTANCE.getProductById(productEntry).productName} <br/>
                                     <a style="color: green; font-size: 12px; " href="/SWP_Project/AddProductOption?productId=${productEntry}">Add other option</a>
                                 </td>
@@ -851,9 +852,6 @@
                                         <%--<c:forEach items="${ProductDAO.INSTANCE.getProductOptionByProductId(productEntry.productId)}" var="poEntry">--%>
                                         <c:forEach items="${productMap.get(productEntry)}" var="poEntry">
                                             <tr>
-                                                <td class="brand-width">
-                                                    ${ProductDAO.INSTANCE.getBrandById(poEntry.brandId).brandName}
-                                                </td>
                                                 <td class="hardware-width">
                                                     ${ProductDAO.INSTANCE.getHardwareMemoryById(poEntry.hardwareMemoryId).hardwareMemory}
                                                 </td>
