@@ -469,7 +469,7 @@ public class ProductDAO extends DBContext {
             rst = ps.executeQuery();
             if(rst.next()){
                 return new Product(rst.getInt("productId"), rst.getString("productName"), getBrandById(rst.getInt("brandId")), rst.getString("productDetail"));
-            }
+            } 
         } catch (SQLException e) {
             System.out.println("Error at getProductByProductOptionId " + e.getMessage());
         } finally{
@@ -680,9 +680,9 @@ public class ProductDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                list.add(new ProductOption(rs.getInt("productOptionId"), rs.getInt("productId"), rs.getInt("hardwareMemoryId"), rs.getInt("ramMemoryId"), 
-                        rs.getInt("colorId"), rs.getInt("screensizeId"), rs.getInt("resolutionId"), rs.getInt("graphicCardId"), rs.getDouble("price"), 
-                        rs.getInt("numberInStock"), rs.getInt("quantitySold")));
+                list.add(new ProductOption(rs.getInt("productOptionId"), rs.getInt("productId"), rs.getInt("hardwareMemoryId"), 
+                        rs.getInt("ramMemoryId"), rs.getInt("colorId"), rs.getInt("screenSizeId"), rs.getInt("resolutionId"), 
+                        rs.getInt("graphicCardId"), rs.getDouble("price"), rs.getInt("numberInStock"), rs.getInt("quantitySold")));
             }
         } catch (SQLException e) {
             System.out.println("Error at getProductOptionList " + e.getMessage());
@@ -1409,16 +1409,7 @@ public class ProductDAO extends DBContext {
 //        ProductDAO.INSTANCE.getRamMemoryList().forEach((e) -> System.out.print(e + " "));
 //        System.out.println("");
 //
-//        ProductDAO.INSTANCE.getResolutionList().forEach((e) -> {
-//            System.out.println(e);
-//        });
-//        ProductDAO.INSTANCE.getGraphicCardList().forEach((e) -> {
-//            System.out.println(e);
-//        });
-//        ProductDAO.INSTANCE.getScreenSizeList().forEach((e) -> {
-//            System.out.println(e);
-//        });
-//        ProductDAO.INSTANCE.getProductOptionList().forEach((e) -> System.out.println(e));
+        ProductDAO.INSTANCE.getProductOptionList().forEach((e) -> System.out.println(e));
 //        
 //        Image i = ProductDAO.INSTANCE.getImageByProductOptionId(1);
 //        System.out.println(i);
@@ -1427,7 +1418,8 @@ public class ProductDAO extends DBContext {
 //        System.out.println(CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(1)));
 //        System.out.println(ProductDAO.INSTANCE.getProductListWithImage().size());
 //        ProductDAO.INSTANCE.getProductOptionById(1).getProductOptionId();
-        System.out.println(ProductDAO.INSTANCE.getImageListByProductOptionId(19).get(0).getImageText());
+//        System.out.println(ProductDAO.INSTANCE.getImageListByProductOptionId(19).get(0).getImageText());
+        
         System.out.println();
     }
 }

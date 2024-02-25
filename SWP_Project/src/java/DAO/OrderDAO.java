@@ -4,6 +4,8 @@
  */
 package DAO;
 
+import Model.Order;
+import Model.OrderInfo;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +13,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -19,6 +23,48 @@ import java.util.Calendar;
  */
 public class OrderDAO extends DBContext{
     public static OrderDAO INSTANCE = new OrderDAO();
+    
+    public List<OrderInfo> getOrderInfosByOrderId(int orderId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Order order = getOrderByOrderId(orderId);
+        List<OrderInfo> list = new ArrayList<>();
+        try {
+            String sql = "select * from order_info where orderId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                list.add(new OrderInfo(rs.getInt("orderInfoId"), order, ProductDAO.INSTANCE.getProductOptionById(rs.getInt("productOptionId")), 
+                        rs.getDouble("productPrice"), rs.getInt("quantity")));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getOrderInfosByOrderId " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return list;
+    }
+    
+    public Order getOrderByOrderId(int orderId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from [order] where orderId = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new Order(orderId, CartItemDAO.INSTANCE.getAccountById(rs.getInt("accountId")), rs.getTimestamp("OrderDate"), 
+                        CartItemDAO.INSTANCE.getCommunicationsByCommunicationsId(rs.getInt("communicationsId")));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getOrderByOrderId " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
     
     public void insertOrderStatus(int orderId, int orderStatusDetailId, Timestamp changeStatusTime){
         PreparedStatement ps = null;

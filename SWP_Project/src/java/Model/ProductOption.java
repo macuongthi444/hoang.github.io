@@ -4,6 +4,9 @@
  */
 package Model;
 
+import DAO.ProductDAO;
+import java.util.List;
+
 /**
  *
  * @author nguye
@@ -18,23 +21,40 @@ public class ProductOption {
     private int numberInStock;
     private int quantitySold;
     
-
+    private Product product;
+    private HardwareMemory hardwareMemory;
+    private RamMemory ramMemory;
+    private Color color;
+    private ScreenSize screenSize;
+    private Resolution resolution;
+    private GraphicCard graphicCard;
+    
+    private List<Image> images;
     
     public ProductOption() {
     }
-
-    public ProductOption(int productOptionId, int productId, int hardwareMemoryId, int ramMemoryId, int colorId, int ScreenSizeId, int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold) {
+    
+    public ProductOption(int productOptionId, int productId, int hardwareMemoryId, int ramMemoryId, int colorId, int screenSizeId, int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold) {
         this.productOptionId = productOptionId;
         this.productId = productId;
         this.hardwareMemoryId = hardwareMemoryId;
         this.ramMemoryId = ramMemoryId;
         this.colorId = colorId;
-        this.ScreenSizeId = ScreenSizeId;
+        this.ScreenSizeId = screenSizeId;
         this.resolutionId = resolutionId;
         this.graphicCardId = graphicCardId;
         this.price = price;
         this.numberInStock = numberInStock;
         this.quantitySold = quantitySold;
+        
+        this.product = ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId);
+        this.hardwareMemory = ProductDAO.INSTANCE.getHardwareMemoryById(hardwareMemoryId);
+        this.ramMemory = ProductDAO.INSTANCE.getRamMemoryById(ramMemoryId);
+        this.color = ProductDAO.INSTANCE.getColorById(colorId);
+        this.screenSize = ProductDAO.INSTANCE.getScreenSizeById(screenSizeId);
+        this.resolution = ProductDAO.INSTANCE.getResolutionById(resolutionId);
+        this.graphicCard = ProductDAO.INSTANCE.getGraphicCardById(graphicCardId);
+        this.images = ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId);
     }
 
     public int getProductOptionId() {
@@ -127,6 +147,72 @@ public class ProductOption {
         this.graphicCardId = graphicCardId;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public HardwareMemory getHardwareMemory() {
+        return hardwareMemory;
+    }
+
+    public void setHardwareMemory(HardwareMemory hardwareMemory) {
+        this.hardwareMemory = hardwareMemory;
+    }
+
+    public RamMemory getRamMemory() {
+        return ramMemory;
+    }
+
+    public void setRamMemory(RamMemory ramMemory) {
+        this.ramMemory = ramMemory;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public ScreenSize getScreenSize() {
+        return screenSize;
+    }
+
+    public void setScreenSize(ScreenSize screenSize) {
+        this.screenSize = screenSize;
+    }
+
+    public Resolution getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(Resolution resolution) {
+        this.resolution = resolution;
+    }
+
+    public GraphicCard getGraphicCard() {
+        return graphicCard;
+    }
+
+    public void setGraphicCard(GraphicCard graphicCard) {
+        this.graphicCard = graphicCard;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+    
+    
+    
     @Override
     public String toString() {
         return "ProductOption{" + "productOptionId=" + productOptionId + ", productId=" + productId + ", " + ", hardwareMemoryId=" + hardwareMemoryId + ", ramMemoryId=" + ramMemoryId + ", colorId=" + colorId + ", ScreenSizeId=" + ScreenSizeId + ", resolutionId=" + resolutionId + ", graphicCardId=" + graphicCardId + ", price=" + price + ", numberInStock=" + numberInStock + ", quantitySold=" + quantitySold + '}';

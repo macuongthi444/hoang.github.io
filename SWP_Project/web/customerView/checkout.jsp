@@ -65,7 +65,7 @@
             </div>-->
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Group 6</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
@@ -123,14 +123,14 @@
 
 
         <!-- Single Page Header start -->
-        <div id="single-page-header" class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Checkout</h1>
+        <!--<div id="single-page-header" class="container-fluid">-->
+<!--            <h1 class="text-center text-white display-6">Checkout</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
                 <li class="breadcrumb-item active text-white">Checkout</li>
-            </ol>
-        </div>
+            </ol>-->
+        <!--</div>-->
         <script type="text/javascript">
             document.getElementById("single-page-header").setAttribute("style", "margin-top: 100px !important");
         </script>
@@ -540,7 +540,7 @@
                     <div class="row g-4">
                         <div class="col-lg-3">
                             <a href="#">
-                                <h1 class="text-primary mb-0">Fruitables</h1>
+                                <h1 class="text-primary mb-0">Group 6</h1>
                                 <p class="text-secondary mb-0">Fresh products</p>
                             </a>
                         </div>

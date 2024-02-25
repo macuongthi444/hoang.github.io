@@ -7,6 +7,8 @@ package DAO;
 import Model.Account;
 import Model.CartItem;
 import Model.Communications;
+import Model.OrderStatus;
+import Model.OrderStatusDetail;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +23,63 @@ import java.util.logging.Logger;
  */
 public class CartItemDAO extends DBContext{
     public static final CartItemDAO INSTANCE = new CartItemDAO();
+    
+//    public OrderStatus getOrderStatusById(int orderStatusId){
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//        try {
+//            String sql = "select * from order_Status where  = ?";
+//            ps = connection.prepareStatement(sql);
+//            ps.setInt(1, orderStatusDetailId);
+//            rs = ps.executeQuery();
+//            if(rs.next()){
+//                return new OrderStatusDetail(rs.getInt("orderStatusDetailId"), rs.getString("status"), rs.getString("discription"));
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error at getOrderStatusDetailById " + e.getMessage());
+//        } finally {
+//            closeStatement(ps, rs);
+//        }
+//        return null;
+//    }
+    
+    public OrderStatusDetail getOrderStatusDetailById(int orderStatusDetailId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from OrderStatusDetail where orderStatusDetailId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, orderStatusDetailId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new OrderStatusDetail(rs.getInt("orderStatusDetailId"), rs.getString("status"), rs.getString("discription"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getOrderStatusDetailById " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+    
+    public Communications getCommunicationsByCommunicationsId(int communicationsId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from communications where communicationsId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, communicationsId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new Communications(communicationsId, CartItemDAO.INSTANCE.getAccountById(rs.getInt("accountId")), rs.getString("phoneNumber"), rs.getString("address"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getCommunicationsByCommunicationsId " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
     
     public boolean checkIfCartItemIsExist(int accountId, int productOptionId){
         PreparedStatement ps = null;

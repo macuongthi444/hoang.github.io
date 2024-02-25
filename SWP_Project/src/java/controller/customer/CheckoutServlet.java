@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -106,6 +107,10 @@ public class CheckoutServlet extends HttpServlet {
                     response.sendRedirect("/SWP_Project/CartServlet");
                     return;
                 }
+                List<ProductOption> productOptions = new ArrayList<>();
+                for (String productOption : productOptionsId) {
+                    productOptions.add(ProductDAO.INSTANCE.getProductOptionById(Integer.parseInt(productOption)));
+                }
                 int orderId = util.Util.generateId("orderId", "Order");
                 int communicationsId = Integer.parseInt(request.getParameter("communications"));
                 int paymentMethodId = Integer.parseInt(request.getParameter("paymentMethodId"));
@@ -113,31 +118,37 @@ public class CheckoutServlet extends HttpServlet {
                 Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
                     // insert order
-                OrderDAO.INSTANCE.insertOrder(orderId, account.getId(), timestamp, communicationsId);
-                    // insert order status
-                OrderDAO.INSTANCE.insertOrderStatus(orderId, 1, timestamp);
-                for (String string : productOptionsId) {
-                    int productOptionId = Integer.parseInt(string);
-                    
-                    ProductOption productOption = ProductDAO.INSTANCE.getProductOptionById(productOptionId);
-                    double price = Double.parseDouble(request.getParameter("price" + productOptionId));
-                    int quantity = Integer.parseInt(request.getParameter("quantity" + productOptionId));
-                    CartItemDAO.INSTANCE.deleteCartItem(account.getId(), productOptionId);
-                    OrderDAO.INSTANCE.insertOrderInfo(orderId, productOptionId, price, quantity);
-                    ProductDAO.INSTANCE.updateProductOption(productOptionId, productOption.getProductId(), productOption.getHardwareMemoryId(), 
-                            productOption.getRamMemoryId(), productOption.getColorId(), productOption.getScreenSizeId(), productOption.getResolutionId(), 
-                            productOption.getGraphicCardId(), productOption.getPrice(),
-                            productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);
-                    
-                }
-                if(paymentMethodId == 1){
-                    PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
-                }
-                else if(paymentMethodId == 2){
-                    PaymentDAO.INSTANCE.insertPayment(orderId, new Timestamp(Calendar.getInstance().getTimeInMillis()), moneyAmount, paymentMethodId);
-                }
+//                OrderDAO.INSTANCE.insertOrder(orderId, account.getId(), timestamp, communicationsId);
+//                    // insert order status
+//                OrderDAO.INSTANCE.insertOrderStatus(orderId, 1, timestamp);
+//                for (String string : productOptionsId) {
+//                    int productOptionId = Integer.parseInt(string);
+//                    
+//                    productOptions.add(ProductDAO.INSTANCE.getProductOptionById(productOptionId));
+//                    
+//                    ProductOption productOption = ProductDAO.INSTANCE.getProductOptionById(productOptionId);
+//                    double price = Double.parseDouble(request.getParameter("price" + productOptionId));
+//                    int quantity = Integer.parseInt(request.getParameter("quantity" + productOptionId));
+//                    CartItemDAO.INSTANCE.deleteCartItem(account.getId(), productOptionId);
+//                    OrderDAO.INSTANCE.insertOrderInfo(orderId, productOptionId, price, quantity);
+//                    ProductDAO.INSTANCE.updateProductOption(productOptionId, productOption.getProductId(), productOption.getHardwareMemoryId(), 
+//                            productOption.getRamMemoryId(), productOption.getColorId(), productOption.getScreenSizeId(), productOption.getResolutionId(), 
+//                            productOption.getGraphicCardId(), productOption.getPrice(),
+//                            productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);
+//                    
+//                }
+//                if(paymentMethodId == 1){
+//                    PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
+//                }
+//                else if(paymentMethodId == 2){
+//                    PaymentDAO.INSTANCE.insertPayment(orderId, new Timestamp(Calendar.getInstance().getTimeInMillis()), moneyAmount, paymentMethodId);
+//                }
+
                 request.setAttribute("productOptionSelected", productOptionsId);
-                processRequest(request, response);
+                request.setAttribute("productOptions", productOptions);
+                request.setAttribute("orderId", 1);
+                request.getRequestDispatcher("/ProcessAfterCheckout").forward(request, response);
+//                processRequest(request, response);
                 return;
 //                response.sendRedirect("customerView/CheckoutSuccess");
             } catch (NumberFormatException e) {
