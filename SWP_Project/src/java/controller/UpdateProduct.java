@@ -82,39 +82,42 @@ public class UpdateProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        String productName = request.getParameter("productName");
-        int category = Integer.parseInt(request.getParameter("category"));
-        String productDetail = request.getParameter("productDetail");
-        int productOptionId = Integer.parseInt(request.getParameter("productOptionId"));
-        int brandId = Integer.parseInt(request.getParameter("brandId"));
-        int hardwareMemoryId = Integer.parseInt(request.getParameter("hardwareMemoryId"));
-        int ramMemoryId = Integer.parseInt(request.getParameter("ramMemoryId"));
-        int colorId = Integer.parseInt(request.getParameter("colorId"));
-        int screenSizeId = Integer.parseInt(request.getParameter("screenSizeId"));
-        int resolutionId = Integer.parseInt(request.getParameter("resolutionId"));
-        int graphicCardId = Integer.parseInt(request.getParameter("graphicCardId"));
-        double productPrice = Double.parseDouble(request.getParameter("productPrice"));
-        int numberInStock = Integer.parseInt(request.getParameter("numberInStock"));
-        String[] images = request.getParameterValues("productImage");
-        
-        ProductDAO.INSTANCE.updateProduct(ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(),  productName, category, productDetail);
-        ProductDAO.INSTANCE.updateProductOption(productOptionId, ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(), 
-                brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, numberInStock, 0);
-        
-        String imageOption = request.getParameter("imageOption");
-        if(images.length != 0 && !images[0].trim().equals("")){
-            if(imageOption.equalsIgnoreCase("overrideImage")){
-                ProductDAO.INSTANCE.deleteImageByProductOptionId(productOptionId);
-            }
-            for (String image : images) {
-                if(!image.trim().equals("")){
-                    ProductDAO.INSTANCE.insertImage(image, productOptionId);
+        try {
+            String productName = request.getParameter("productName");
+//            int category = Integer.parseInt(request.getParameter("category"));
+            String productDetail = request.getParameter("productDetail");
+            int productOptionId = Integer.parseInt(request.getParameter("productOptionId"));
+            int brandId = Integer.parseInt(request.getParameter("brandId"));
+            int hardwareMemoryId = Integer.parseInt(request.getParameter("hardwareMemoryId"));
+            int ramMemoryId = Integer.parseInt(request.getParameter("ramMemoryId"));
+            int colorId = Integer.parseInt(request.getParameter("colorId"));
+            int screenSizeId = Integer.parseInt(request.getParameter("screenSizeId"));
+            int resolutionId = Integer.parseInt(request.getParameter("resolutionId"));
+            int graphicCardId = Integer.parseInt(request.getParameter("graphicCardId"));
+            double productPrice = Double.parseDouble(request.getParameter("productPrice"));
+            int numberInStock = Integer.parseInt(request.getParameter("numberInStock"));
+            String[] images = request.getParameterValues("productImage");
+
+            ProductDAO.INSTANCE.updateProduct(ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(),  productName, brandId, productDetail);
+            ProductDAO.INSTANCE.updateProductOption(productOptionId, ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(), 
+                    hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, numberInStock, 0);
+
+            String imageOption = request.getParameter("imageOption");
+            if(images.length != 0 && !images[0].trim().equals("")){
+                if(imageOption.equalsIgnoreCase("overrideImage")){
+                    ProductDAO.INSTANCE.deleteImageByProductOptionId(productOptionId);
+                }
+                for (String image : images) {
+                    if(!image.trim().equals("")){
+                        ProductDAO.INSTANCE.insertImage(image, productOptionId);
+                    }
                 }
             }
+            request.getSession().setAttribute("updateSuccess", "updateSuccess");
+            request.getSession().removeAttribute("productOptionListAfterSearching");
+        } catch (NumberFormatException e) {
+            
         }
-        request.getSession().setAttribute("updateSuccess", "updateSuccess");
-        request.getSession().removeAttribute("productOptionListAfterSearching");
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
 //        request.getRequestDispatcher("adminView/admin-show-all-products.jsp").forward(request, response);
 //        System.out.println(images + " " + productOptionId);

@@ -72,14 +72,14 @@ public class DeleteProduct extends HttpServlet {
             return;
         }
         // Delete
-//        for (Image image : ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId)) {
-//            ProductDAO.INSTANCE.deleteImage(image.getImageId());
-//        }
-//        ProductDAO.INSTANCE.deleteProductOption(productOptionId);
-////        if(ProductDAO.INSTANCE.getProductByProductOptionId(productOption.getProductId()) == null){
-//        if(ProductDAO.INSTANCE.getProductOptionByProductId(productOption.getProductId()).isEmpty()){
-//            ProductDAO.INSTANCE.deleteProduct(productOption.getProductId());
-//        }
+        for (Image image : ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId)) {
+            ProductDAO.INSTANCE.deleteImage(image.getImageId());
+        }
+        ProductDAO.INSTANCE.deleteProductOption(productOptionId);
+//        if(ProductDAO.INSTANCE.getProductByProductOptionId(productOption.getProductId()) == null){
+        if(ProductDAO.INSTANCE.getProductOptionByProductId(productOption.getProductId()).isEmpty()){
+            ProductDAO.INSTANCE.deleteProduct(productOption.getProductId());
+        }
         // -----------------------
         
 //        Gson gson = new Gson();

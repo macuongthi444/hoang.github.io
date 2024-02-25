@@ -13,7 +13,7 @@ public class ProductOption {
     private int productId;
 //    private Option optionId;
 //    private String optionDetail;
-    private int brandId, hardwareMemoryId, ramMemoryId, colorId, ScreenSizeId, resolutionId, graphicCardId;
+    private int hardwareMemoryId, ramMemoryId, colorId, ScreenSizeId, resolutionId, graphicCardId;
     private double price;
     private int numberInStock;
     private int quantitySold;
@@ -22,10 +22,9 @@ public class ProductOption {
     public ProductOption() {
     }
 
-    public ProductOption(int productOptionId, int productId, int brandId, int hardwareMemoryId, int ramMemoryId, int colorId, int ScreenSizeId, int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold) {
+    public ProductOption(int productOptionId, int productId, int hardwareMemoryId, int ramMemoryId, int colorId, int ScreenSizeId, int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold) {
         this.productOptionId = productOptionId;
         this.productId = productId;
-        this.brandId = brandId;
         this.hardwareMemoryId = hardwareMemoryId;
         this.ramMemoryId = ramMemoryId;
         this.colorId = colorId;
@@ -79,14 +78,6 @@ public class ProductOption {
         this.quantitySold = quantitySold;
     }
 
-    public int getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
-    }
-
     public int getHardwareMemoryId() {
         return hardwareMemoryId;
     }
@@ -137,7 +128,7 @@ public class ProductOption {
 
     @Override
     public String toString() {
-        return "ProductOption{" + "productOptionId=" + productOptionId + ", productId=" + productId + ", brandId=" + brandId + ", hardwareMemoryId=" + hardwareMemoryId + ", ramMemoryId=" + ramMemoryId + ", colorId=" + colorId + ", ScreenSizeId=" + ScreenSizeId + ", resolutionId=" + resolutionId + ", graphicCardId=" + graphicCardId + ", price=" + price + ", numberInStock=" + numberInStock + ", quantitySold=" + quantitySold + '}';
+        return "ProductOption{" + "productOptionId=" + productOptionId + ", productId=" + productId + ", " + ", hardwareMemoryId=" + hardwareMemoryId + ", ramMemoryId=" + ramMemoryId + ", colorId=" + colorId + ", ScreenSizeId=" + ScreenSizeId + ", resolutionId=" + resolutionId + ", graphicCardId=" + graphicCardId + ", price=" + price + ", numberInStock=" + numberInStock + ", quantitySold=" + quantitySold + '}';
     }
 
     

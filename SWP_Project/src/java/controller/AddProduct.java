@@ -200,12 +200,12 @@ public class AddProduct extends HttpServlet {
                 request.setAttribute("addFail", "Add fail");
             }
             else{
-                ProductDAO.INSTANCE.insertProductOption(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
+                ProductDAO.INSTANCE.insertProductOption(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
                     quantity, 0);
                 for (String imageText : images) {
                     if(imageText != null && !"".equals(imageText.trim()))
                         ProductDAO.INSTANCE.insertImage(imageText.trim(), 
-                          ProductDAO.INSTANCE.getProductOptionId(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
+                          ProductDAO.INSTANCE.getProductOptionId(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
             }
                 request.setAttribute("addSuccess", "Add success");
             }
