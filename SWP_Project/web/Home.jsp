@@ -55,8 +55,8 @@
                         <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">group6@gmail.com</a></small>
                     </div>
                     <div style="display: flex;">
-                        <c:if test="${sessionScope.username!=null}">
-                            <h3>Welcome ${sessionScope.username}</h3>
+                        <c:if test="${sessionScope.account.getUsername()!=null}">
+                            <h3>Welcome ${sessionScope.account.getUsername()}</h3>
                         </c:if>
                     </div>
                     <div class="top-link pe-2">
@@ -308,7 +308,7 @@
                                                 </div>
                                             </div>
                                         </c:forEach>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -366,24 +366,24 @@
                                         <h2>choose from here please</h2>
                                         <c:forEach items="${productOptionList}" var="productOption">
                                             <c:if test="${productOption.numberInStock > 0}">
-                                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                                <div class="rounded position-relative fruite-item">
-                                                     
-                                                    <!--${productDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}-->
-                                                    <div class="fruite-img">
-                                                        <c:set value="${ProductDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}" var="imageList"/>
-                                                        <img src="img/${imageList.isEmpty()?"":imageList.get(0).getImageText()}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
-                                                    </div>
-                                                   
-                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                        <h4 style="font-size: large" >${product.productName}</h4>                        
-                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                <div class="col-md-6 col-lg-4 col-xl-3">
+                                                    <div class="rounded position-relative fruite-item">
+
+                                                        <!--${productDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}-->
+                                                        <div class="fruite-img">
+                                                            <c:set value="${ProductDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}" var="imageList"/>
+                                                            <img src="img/${imageList.isEmpty()?"":imageList.get(0).getImageText()}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
+                                                        </div>
+
+                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                                            <h4 style="font-size: large" >${product.productName}</h4>                        
+                                                            <div class="d-flex justify-content-between flex-lg-wrap">
                                                                 <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>                                                                                                                                                      
                                                                 <button onclick="addToCart(${productOption.productOptionId})" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             </c:if>
                                         </c:forEach>
                                     </div>
@@ -458,7 +458,7 @@
             </div>
 <<<<<<< HEAD
         </div>
-        <!-- Featurs End -->
+<!-- Featurs End -->
 
 
 <!--        <div class="container-fluid vesitable py-5">
@@ -835,8 +835,8 @@
     </div>
 </div>
 <script type="text/javascript">
-    
-    function addToCart(productOptionId){
+
+    function addToCart(productOptionId) {
         window.console.log(productOptionId === undefined);
         $.ajax({
             url: "/SWP_Project/AddToCartServlet",
@@ -846,11 +846,11 @@
             },
             success: function (data, textStatus, jqXHR) {
 //                        window.console.log(data);
-                if(data === "accountNotFound"){
+                if (data === "accountNotFound") {
                     alert("Please login before add product to cart!");
                     return;
                 }
-                if(data !== ""){
+                if (data !== "") {
                     window.console.log(data);
                     alert("Add success");
                 }
