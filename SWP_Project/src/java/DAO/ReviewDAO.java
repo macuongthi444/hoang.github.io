@@ -56,20 +56,34 @@ public class ReviewDAO {
         } catch (Exception e) {
         }
     }
-public void editReview(int id,String content){
-    String query = " UPDATE [dbo].[Feedback] \n" +
-"   SET \n" +
-"      [contentReview] = ?\n" +
-" WHERE[Feedback].feedbackId = ? ";
-    try {
-         conn = new DBContext().getConnection();//mo ket noi voi sql
+
+    public void editReview(int id, String content) {
+        String query = " UPDATE [dbo].[Feedback] \n"
+                + "   SET \n"
+                + "      [contentReview] = ?\n"
+                + " WHERE[Feedback].feedbackId = ? ";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
             ps = conn.prepareStatement(query);
             ps.setString(1, content);
             ps.setInt(2, id);
             ps.executeUpdate();
-    } catch (Exception e) {
+        } catch (Exception e) {
+        }
     }
-}
+
+    public void deleteReview(int id) {
+        String query = " DELETE FROM [dbo].[Feedback]\n"
+                + "      WHERE feedbackId = ? ";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
     public List<Review> getAllReviewByProductID(String productId) {
         List<Review> list = new ArrayList<>();
         String query = "select * from Feedback\r\n"
@@ -113,10 +127,10 @@ public void editReview(int id,String content){
     }
 
     public Review getReviewById(int id) {
-        String query = " select * from [Feedback] f \n" +
-"                  join [Account_Profile] a on f.accountId=a.accountId\n" +
-"                 join Product p on p.productId= f.productId\n" +
-"                 where [feedbackId] = ? ";
+        String query = " select * from [Feedback] f \n"
+                + "                  join [Account_Profile] a on f.accountId=a.accountId\n"
+                + "                 join Product p on p.productId= f.productId\n"
+                + "                 where [feedbackId] = ? ";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -137,12 +151,36 @@ public void editReview(int id,String content){
         }
         return null;
     }
+  public List<Review> getReviewByAccountId(int id) {
+        String query = "    select * from  [feedback] f join Product p on f.productId = p.productId where [accountId] = ?";
+        List<Review> list = new ArrayList<>();
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
 
+            rs = ps.executeQuery();
+           
+            while (rs.next()) {
+                Review r = new Review();
+                r.setContentReview(rs.getString(4));
+                r.setDateReview(rs.getDate(5));
+                r.setProductName(rs.getString("productName"));
+                r.setProductID(rs.getInt(3));
+                list.add(r);
+               
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
     public static void main(String[] args) {
         ReviewDAO dao = new ReviewDAO();
-
-       dao.editReview(6, "oke");
-        
+           List<Review> list = dao.getReviewByAccountId(15);
+           for (Review review : list) {
+               System.out.println(review.getProductName());
+        }
+        dao.deleteReview(23);
 
     }
 }

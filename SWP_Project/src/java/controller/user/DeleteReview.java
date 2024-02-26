@@ -24,8 +24,8 @@ import java.util.List;
  *
  * @author This PC
  */
-@WebServlet(name = "EditReview", urlPatterns = {"/editreview"})
-public class EditReview extends HttpServlet {
+@WebServlet(name = "DeleteReview", urlPatterns = {"/deletereview"})
+public class DeleteReview extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +44,10 @@ public class EditReview extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditReview</title>");
+            out.println("<title>Servlet DeleteReview</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditReview at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteReview at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,19 +65,16 @@ public class EditReview extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idReview = Integer.parseInt(request.getParameter("reviewid"));
-
-        String content = request.getParameter("content");
+        int idReview = Integer.parseInt(request.getParameter("id"));
         ReviewDAO reviewDao = new ReviewDAO();
-        reviewDao.editReview(idReview, content);
-        ////
+        reviewDao.deleteReview(idReview);
+        ///
         String id_raw = request.getParameter("productID");
-        PrintWriter out = response.getWriter();
-        out.print(id_raw);
+
         int id = Integer.parseInt(id_raw);
         ProductDAO dao = new ProductDAO();
         ProductWithImage product = dao.getProductById(id);
-        
+
         DAOAccount daoAcc = new DAOAccount();
         List<Review> listAllReview = reviewDao.getAllReviewByProductID(id_raw);
         int countAllReview = listAllReview.size();

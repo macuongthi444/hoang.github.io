@@ -11,7 +11,7 @@ import java.util.Date;
  * @author nguye
  */
 public class AccountProfile {
-
+    private int id;
     private Account account;
     private String fullName;
     private Date birthDate;

@@ -127,16 +127,25 @@
                                 <c:forEach items="${listAllAcount}" var="a">
                                     <c:if test="${r.accountID == a.id }">
                                         <strong>${a.username} </strong>
-                                        <span>– </span><span>${r.dateReview}</span>
-                                         <c:if test="${acc.id == r.accountID}">
-                                        <a href="load?id=${r.id}">Edit your review</a> </c:if>
-                                    </c:if>
-                                </c:forEach>
-                                
+                                        <span>– </span><span>${r.dateReview}</span></br>
+                                    <p class="mb-0">${r.contentReview }</p>
+
+                                    <c:choose>
+                                        <c:when test="${acc.id == r.accountID}">
+                                            <a href="load?id=${r.id}">Edit your review</a> </br>
+                                            <a href="#" onclick="confirmDelete('${r.id}', '${r.productID}')"title="Delete">Delete the review</a> 
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="loadotherprofile?id=${a.id}&productId=${detail.productID}" >View profile</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                            </c:forEach>
+
                             </p>
 
                         </div>
-                        <p class="mb-0">${r.contentReview }</p>
+
 
                     </div>
                 </div>
@@ -149,23 +158,32 @@
     <script>
 
 
-             function addReview(pID) {
-                 var cntReview = document.getElementById("form76").value;
-                 $.ajax({
-                     url: "/SWP_Project/addReview",
-                     type: "get",
-                     data: {
-                         productID: pID,
-                         contentReview: cntReview
-                     },
-                     success: function (data) {
-                         var row = document.getElementById("reviews");
-                         row.innerHTML += data;
-                     },
-                     error: function (xhr) {
-                         //Do Something to handle error
-                     }
-                 });
-             }
+                                                function addReview(pID) {
+                                                    var cntReview = document.getElementById("form76").value;
+                                                    $.ajax({
+                                                        url: "/SWP_Project/addReview",
+                                                        type: "get",
+                                                        data: {
+                                                            productID: pID,
+                                                            contentReview: cntReview
+                                                        },
+                                                        success: function (data) {
+                                                            var row = document.getElementById("reviews");
+                                                            row.innerHTML += data;
+                                                        },
+                                                        error: function (xhr) {
+                                                            //Do Something to handle error
+                                                        }
+                                                    });
+                                                }
+                                                function confirmDelete(id, productID) {
+                                                    if (confirm("Bạn có muốn xóa đánh giá này không?")) {
+
+
+                                                        window.location.href = "deletereview?id=" + id + "&productID=" + productID;
+                                                    } else {
+
+                                                    }
+                                                }
     </script>
 </html>

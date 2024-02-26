@@ -164,10 +164,8 @@ public AccountProfile getAccountProfileById(int id) {
     
     public static void main(String[] args) {
         DAOAccount dao = new DAOAccount();
-        List<Account> ac = dao.getAllAccount();
-        for (Account account : ac) {
-            System.out.println(account.getUsername());
-        }
+        AccountProfile acc = dao.getAccountProfileById(14);
+        System.out.println(acc.getAvatar());
     }
     
 }

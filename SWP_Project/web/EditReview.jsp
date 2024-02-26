@@ -44,26 +44,35 @@
             <div id="editEmployeeModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form action="editreview" >
+                        <form action="editreview?productID=${reviewdetail.productID}">
                             <div class="modal-header">						
                                 <h4 class="modal-title">Edit Review</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div class="modal-body">					
                                 <div class="form-group">
-                                    <label>ID</label>
+                                    <label>Review ID:</label>
                                     <input value="${reviewdetail.id}" name="reviewid" type="text" class="form-control" readonly required>
                                 </div>
+                                <div class="form-group">
+                                    <label>Product ID:</label>
+                                    <input value="${reviewdetail.productID}" name="productID" type="text" class="form-control" readonly required>
+                                </div>
+                                 <div class="modal-body">					
+                                <div class="form-group">
+                                    <label>Product Name: </label>
+                                    <input value="${reviewdetail.productName}" name="productName" type="text" class="form-control" readonly required>
+                                </div>
                               <div class="form-group">
-                                    <label>User Name</label>
+                                    <label>User Name:</label>
                                     <input value="${acc.username}" name="id" type="text" class="form-control" readonly required>
                                 </div>
                                  <div class="form-group">
-                                    <label>Avatar</label>
+                                    <label>Avatar:</label>
                                      <img src="img/${reviewdetail.avatar}" >
                                 </div>
                                 <div class="form-group">
-                                    <label>Content</label>
+                                    <label>Content:</label>
                                     <textarea name ="content" class="form-control" required id="textdes">${reviewdetail.contentReview}</textarea>
                                 </div>
 
