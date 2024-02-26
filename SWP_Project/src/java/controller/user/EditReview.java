@@ -6,7 +6,6 @@
 package controller.user;
 
 import DAO.ReviewDAO;
-import Model.Account;
 import Model.Review;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,14 +14,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author This PC
  */
-@WebServlet(name="AddReview", urlPatterns={"/addReview"})
-public class AddReview extends HttpServlet {
+@WebServlet(name="EditReview", urlPatterns={"/editreview"})
+public class EditReview extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,7 +32,18 @@ public class AddReview extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet EditReview</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet EditReview at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,34 +57,11 @@ public class AddReview extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       HttpSession session = request.getSession();
-       Account a = (Account) session.getAttribute("acc");
-        if(a==null) {
-        	response.sendRedirect("login");       	
-        }
-        int accountID = a.getId();
-        String contentReview = request.getParameter("contentReview");
-        int productID = Integer.parseInt(request.getParameter("productID"));
-        ReviewDAO dao = new ReviewDAO();
-        dao.insertReview(accountID, productID, contentReview);
-        Review newReview = dao.getNewReview(accountID, productID);
-         PrintWriter out = response.getWriter();
-
-        
-            out.println(" <div class=\"media mt-3 mb-4\">\r\n"
-            		+ "              <img class=\"d-flex mr-3 z-depth-1\" src=\"https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg\"\r\n"
-            		+ "                width=\"62\" alt=\"Generic placeholder image\">\r\n"
-            		+ "              <div class=\"media-body\">\r\n"
-            		+ "                <div class=\"d-flex justify-content-between\">\r\n"
-            		+ "                  <p class=\"mt-1 mb-2\">\r\n"
-            		+ "                    <strong>"+a.getUsername()+"</strong>\r\n"
-            		+ "                    <span>– </span><span>"+newReview.getDateReview()+"</span>\r\n"
-            		+ "                  </p>\r\n"
-            		+ "                </div>\r\n"
-            		+ "                <p class=\"mb-0\">"+newReview.getContentReview()+"</p>\r\n"
-            		+ "              </div>\r\n"
-            		+ "            </div>\r\n"
-            		+ "            <hr>    ");
+        int id = Integer.parseInt(request.getParameter("reviewid"));
+       String content = request.getParameter("content");
+       ReviewDAO dao = new ReviewDAO();
+       dao.editReview(id, content);
+       request.getRequestDispatcher("home").forward(request, response);
     } 
 
     /** 

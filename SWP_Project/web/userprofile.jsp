@@ -198,8 +198,7 @@
                                         <!-- Account -->
                                         <div class="card-body">
                                             <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                                <img
-                                                    src="../assets/img/avatars/1.png"
+                                                <img class="d-flex mr-3 z-depth-1" src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg"
                                                     alt="user-avatar"
                                                     class="d-block rounded"
                                                     height="100"

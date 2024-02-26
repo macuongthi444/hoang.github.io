@@ -147,7 +147,7 @@
                 <div class="row g-5 align-items-center">
                     <div class="col-md-12 col-lg-7">
                         <h4 class="mb-3 text-secondary">100% Quality</h4>
-                        <h1 class="mb-5 display-3 text-primary">Brand new Laptop & Accessories</h1>
+                        <h1 class="mb-5 display-3 text-primary">Brand new Laptop & Acc  essories</h1>
                         <<form action="listproduct">
                         <div class="position-relative mx-auto">
                             <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">

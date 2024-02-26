@@ -3,12 +3,39 @@ package Model;
 import java.util.Date;
 
 public class Review {
+          int id;
 	  private int accountID;
 	  private int productID;
 	  private String contentReview;
 	  private Date dateReview;
-	public Review(int accountID, int productID, String contentReview, Date dateReview) {
-		
+          private String productName;
+          private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+          
+    public int getId() {
+        return id;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+	public Review(int id,int accountID, int productID, String contentReview, Date dateReview) {	
+            this.id = id;
 		this.accountID = accountID;
 		this.productID = productID;
 		this.contentReview = contentReview;

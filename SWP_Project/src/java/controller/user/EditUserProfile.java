@@ -70,13 +70,13 @@ public class EditUserProfile extends HttpServlet {
         String name = request.getParameter("firstName");
         String gender1 = request.getParameter("gender");
         String birth = request.getParameter("birth");
-           UserDao dao = new UserDao();
-        if (name == null || name.isEmpty()) {
+        UserDao dao = new UserDao();
+        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
             // Handle validation error
             request.setAttribute("error", "Full Name cannot be empty");
-             AccountProfile acc = dao.getAccountProfileById(id);
+            AccountProfile acc = dao.getAccountProfileById(id);
 
-        request.setAttribute("acc", acc);
+            request.setAttribute("acc", acc);
             request.getRequestDispatcher("userprofile.jsp").forward(request, response);
         }
         int gender;
@@ -86,7 +86,6 @@ public class EditUserProfile extends HttpServlet {
             gender = 0;
         }
 
-     
         dao.editAccountById(id, name, birth, gender);
         AccountProfile acc = dao.getAccountProfileById(id);
 
