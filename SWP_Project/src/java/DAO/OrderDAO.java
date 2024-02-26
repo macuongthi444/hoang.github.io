@@ -4,8 +4,12 @@
  */
 package DAO;
 
+import Model.Communications;
 import Model.Order;
 import Model.OrderInfo;
+import Model.OrderStatusDetail;
+import Model.Payment;
+import Model.PaymentMethod;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +27,66 @@ import java.util.List;
  */
 public class OrderDAO extends DBContext{
     public static OrderDAO INSTANCE = new OrderDAO();
+    
+    public PaymentMethod getPaymentMethodById(int paymentMethodId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from payment_method where paymentMethodId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, paymentMethodId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new PaymentMethod(rs.getInt("paymentMethodId"), rs.getString("paymentMethod"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getPaymentMethodById " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+    
+    public Payment getPaymentByOrderId(int orderId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from payment where orderId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new Payment(rs.getInt("paymentId"), OrderDAO.INSTANCE.getOrderByOrderId(rs.getInt("orderId")), rs.getTimestamp("payDate"),
+                        rs.getDouble("moneyAmount"), getPaymentMethodById(rs.getInt("paymentMethod")));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getPaymentByOrderId " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+    
+    public OrderStatusDetail getOrderStatusDetailById(int orderStatusDetailId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from OrderStatusDetail where orderStatusDetailId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, orderStatusDetailId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new OrderStatusDetail(rs.getInt("orderStatusDetailId"), rs.getString("status"), rs.getString("discription"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getOrderStatusDetailById " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+    
+    
     
     public List<OrderInfo> getOrderInfosByOrderId(int orderId){
         PreparedStatement ps = null;

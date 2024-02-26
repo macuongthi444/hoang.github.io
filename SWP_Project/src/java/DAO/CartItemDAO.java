@@ -9,6 +9,8 @@ import Model.CartItem;
 import Model.Communications;
 import Model.OrderStatus;
 import Model.OrderStatusDetail;
+import Model.Payment;
+import Model.PaymentMethod;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,25 +44,6 @@ public class CartItemDAO extends DBContext{
 //        }
 //        return null;
 //    }
-    
-    public OrderStatusDetail getOrderStatusDetailById(int orderStatusDetailId){
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            String sql = "select * from OrderStatusDetail where orderStatusDetailId = ?";
-            ps = connection.prepareStatement(sql);
-            ps.setInt(1, orderStatusDetailId);
-            rs = ps.executeQuery();
-            if(rs.next()){
-                return new OrderStatusDetail(rs.getInt("orderStatusDetailId"), rs.getString("status"), rs.getString("discription"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error at getOrderStatusDetailById " + e.getMessage());
-        } finally {
-            closeStatement(ps, rs);
-        }
-        return null;
-    }
     
     public Communications getCommunicationsByCommunicationsId(int communicationsId){
         PreparedStatement ps = null;

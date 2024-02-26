@@ -5,6 +5,7 @@
 
 package controller.customer;
 
+import DAO.CartItemDAO;
 import DAO.OrderDAO;
 import Model.ProductOption;
 import java.io.IOException;
@@ -67,6 +68,7 @@ public class ProcessAfterCheckout extends HttpServlet {
         request.setAttribute("productOptions", productOptions);
         request.setAttribute("order", OrderDAO.INSTANCE.getOrderByOrderId(orderId));
         request.setAttribute("orderInfos", OrderDAO.INSTANCE.getOrderInfosByOrderId(orderId));
+        request.setAttribute("payment", OrderDAO.INSTANCE.getPaymentByOrderId(orderId));
         request.getRequestDispatcher("/customerView/checkoutSuccess.jsp").forward(request, response);
     } 
 

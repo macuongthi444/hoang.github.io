@@ -150,26 +150,48 @@
         <!-- Single Page Header End -->
         <div class="container-fluid py-3">
             <div class="container py-3">
-                <div class="table-responsive">
-                    <div>
-                        <table>
-                            <tr>
-                                <th style="width: 150px;">Order Id</th>
-                                <td>${order.orderId}</td>
-                            </tr>
-                            <tr>
-                                <th>Order Date</th>
-                                <td>${order.orderDate}</td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td>${order.communications.address}</td>
-                            </tr>
-                            <tr>
-                                <th>Phone Number</th>
-                                <td>${order.communications.phoneNumber}</td>
-                            </tr>
-                        </table>
+                <div class="row">
+                    <div class="col-md-5">
+                        
+                    </div>
+                    <div class="table-responsive col-md-7">
+                        <div>
+                            <h4>Order Information</h4>
+                            <table>
+                                <tr>
+                                    <th style="width: 150px;">Order Id</th>
+                                    <td>${order.orderId}</td>
+                                </tr>
+                                <tr>
+                                    <th>Order Date</th>
+                                    <td>${order.orderDate}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>${order.communications.address}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone Number</th>
+                                    <td>${order.communications.phoneNumber}</td>
+                                </tr>
+                                <tr>
+                                    <th>Payment Method</th>
+                                    <td>${payment.paymentMethod.paymentMethod}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Amount</th>
+                                    <td>${orderInfos.stream().map(e -> e.productPrice * e.quantity).sum()}</td>
+                                </tr>
+                                <tr>
+                                    <th>Money Paid</th>
+                                    <td>${payment.moneyAmount}</td>
+                                </tr>
+                                <tr>
+                                    <th>Pay Date</th>
+                                    <td>${payment.payDate==null?"Did not Pay yet":payment.payDate}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
