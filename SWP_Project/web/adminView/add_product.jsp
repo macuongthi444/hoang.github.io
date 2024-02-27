@@ -107,7 +107,7 @@
                                 <tr>
                                     
                                 <a href="/SWP_Project/AdminShowAllProducts">Show all products</a>
-                                <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Add product  <span style="color: red;">(Please press clear button to insert other product)</span></h4>
+                                <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Add product  <span style="color: red;">(Please press clear button to create new product line)</span></h4>
                                     
                                 
                             <!--<table>-->
@@ -268,15 +268,6 @@
                                     </select>
                                 </td>
                             </tr>
-                            
-                            <%--
-                            <div class="mb-3">
-                                <label for="optionDetail" class="form-label">Option detail</label>
-                                <input style="width: 300px;" name="optionDetail" id="optionDetail" placeholder="Red, 128Gb, etc" 
-                                       value="${optionDetail}"/>
-                            
-                            </div>
-                            --%>
                             
                             <tr>
                                 <td>

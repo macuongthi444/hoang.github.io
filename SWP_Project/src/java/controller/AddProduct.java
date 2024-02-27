@@ -100,33 +100,19 @@ public class AddProduct extends HttpServlet {
         String productName = request.getParameter("productName");
         String categoryName = request.getParameter("productCategory");
         double price = Double.parseDouble(request.getParameter("productPrice"));
-//        String optionName = request.getParameter("addOption");
-        String optionDetail = request.getParameter("optionDetail");
         String[] image = request.getParameterValues("image");
         if (productName == null) {
             request.setAttribute("errorMessage", "Please enter product name");
             doGet(request, response);
             return;
         }
-//        int productId;
-//        if (request.getSession().getAttribute("productId") == null) {
-//            productId = util.Util.generateId("productId", "product");
-//        } else {
-//            productId = (int) request.getSession().getAttribute("productId");
-//        }
-//        request.getSession().setAttribute("productId", productId);
 
-//        System.out.println(productId + " " + productName + " " + categoryName + " " + price + " " + optionDetail);
-//        Arrays.asList(image).forEach((e) -> {System.out.println(e);});
-        Category category = ProductDAO.INSTANCE.getCategoryByName(categoryName);
 
 //        if(!ProductDAO.INSTANCE.checkOptionNameIsExist(optionName)){
 //            ProductDAO.INSTANCE.insertOption(optionName);
 //        }
 //        Option option = ProductDAO.INSTANCE.getOptionIdByName(optionName);
 //        
-//        ProductDAO.INSTANCE.insertProductOption(productId, optionDetail, price, ProductDAO.INSTANCE.getProductNumberInStock(), 
-//                ProductDAO.INSTANCE.getProductQuantitySold(productId, optionDetail));
         insertToDB(request, response);
 
 //        if(request.getParameter("submit") != null){
@@ -137,13 +123,9 @@ public class AddProduct extends HttpServlet {
     private void insertToDB(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String productName = request.getParameter("productName");
-        String categoryName = request.getParameter("productCategory");
         double price = Double.parseDouble(request.getParameter("productPrice"));
-//        String optionName = request.getParameter("addOption");
-//        String optionDetail = request.getParameter("optionDetail");
         String productDetail = request.getParameter("productDetail");
         String[] images = request.getParameterValues("image");
-        Category category = ProductDAO.INSTANCE.getCategoryByName(categoryName);
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         if (productName == null) {
             request.setAttribute("errorMessage", "Please enter product name");
@@ -158,8 +140,6 @@ public class AddProduct extends HttpServlet {
             productId = Integer.parseInt(request.getSession().getAttribute("productId") + "");
         }
         
-
-        System.out.println(productId + " " + productName + " " + categoryName + " " + price + " " + productDetail);
         Arrays.asList(images).forEach((e) -> {
             System.out.println(e);
         });
@@ -172,19 +152,9 @@ public class AddProduct extends HttpServlet {
             int screenSizeId = Integer.parseInt(request.getParameter("screenSizeId"));
             int resolutionId = Integer.parseInt(request.getParameter("resolutionId"));
             int graphicCardId = Integer.parseInt(request.getParameter("graphicCardId"));
-            System.out.println(brandId + "  " + hardwareMemoryId + " " + colorId);
-        
-            if(ProductDAO.INSTANCE.getProductById(productId) == null){
-                ProductDAO.INSTANCE.insertProduct(productId, productName, category.getCategoryId(), productDetail);
-            }
-
-
-
+            
             request.setAttribute("productName", productName);
-            request.setAttribute("categoryName", categoryName);
             request.setAttribute("price", price);
-    //            request.setAttribute("optionName", optionName);
-    //        request.setAttribute("optionDetail", optionDetail);
             request.setAttribute("brandId", brandId);
             request.setAttribute("hardwareMemoryId", hardwareMemoryId);
             request.setAttribute("ramMemoryId", ramMemoryId);
@@ -195,19 +165,25 @@ public class AddProduct extends HttpServlet {
             request.setAttribute("productDetail", productDetail);
             request.setAttribute("quantity", quantity);
             request.setAttribute("product", ProductDAO.INSTANCE.getProductById(productId));
-
+            
+            if(productName)
+            
             if(ProductDAO.INSTANCE.checkProductOptionIsExist(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId)){
                 request.setAttribute("addFail", "Add fail");
             }
             else{
-                ProductDAO.INSTANCE.insertProductOption(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
-                    quantity, 0);
-                for (String imageText : images) {
-                    if(imageText != null && !"".equals(imageText.trim()))
-                        ProductDAO.INSTANCE.insertImage(imageText.trim(), 
-                          ProductDAO.INSTANCE.getProductOptionId(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
-            }
-                request.setAttribute("addSuccess", "Add success");
+//                if(ProductDAO.INSTANCE.getProductById(productId) == null){
+//                    ProductDAO.INSTANCE.insertProduct(productId, productName, brandId, productDetail);
+//                }
+//                
+//                ProductDAO.INSTANCE.insertProductOption(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
+//                    quantity, 0);
+//                for (String imageText : images) {
+//                    if(imageText != null && !"".equals(imageText.trim()))
+//                        ProductDAO.INSTANCE.insertImage(imageText.trim(), 
+//                          ProductDAO.INSTANCE.getProductOptionId(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
+//            }
+//                request.setAttribute("addSuccess", "Add success");
             }
             request.getSession().removeAttribute("productOptionListAfterSearching");
         }catch(NumberFormatException e){

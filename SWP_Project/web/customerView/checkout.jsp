@@ -211,7 +211,7 @@
                         </c:if>
                             <div>
                                 <h4 style="margin: 45px 0 6px 0px;">CHOOSE PAYMENT METHOD</h4>
-                                <c:forEach items="${PaymentDAO.INSTANCE.getPaymentMethodList()}" var="paymentMethod">
+                                <c:forEach items="${paymentMethodList}" var="paymentMethod">
                                     <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                         <div class="col-12">
                                            <div class="form-check text-start my-3">
@@ -245,8 +245,8 @@
                                 </c:forEach>
                             </div>
 
-                            <input type="checkbox" name="rememberOption"/>
-                            <label for="rememberOption">Remember selections</label>
+<!--                            <input type="checkbox" name="rememberOption"/>
+                            <label for="rememberOption">Remember selections</label>-->
                         </div>
                             
                         <div class="col-md-12 col-lg-6 col-xl-6">
@@ -278,7 +278,7 @@
                                             <td class="py-5">${ProductDAO.getProductById(cartItem.productOption.productId).productName}</td>
                                             <td id="productPrice${cartItem.productOption.productOptionId}" class="py-5">${cartItem.productOption.price}</td>
                                             <td id="quantity${cartItem.productOption.productOptionId}" class="py-5">${cartItem.quantity}</td>
-                                            <td id="totalPrice${cartItem.productOption.productOptionId}" class="py-5"></td>
+                                            <td id="totalPrice${cartItem.productOption.productOptionId}" class="py-5">${cartItem.productOption.price * cartItem.quantity}</td>
                                         </tr>
                                         </c:forEach>
                                         <tr>
@@ -300,20 +300,16 @@
                                         for(var id of ${productOptionIdList}){
                                             var productPrice = document.getElementById("productPrice" + id).innerHTML;
                                             var quantity = document.getElementById("quantity" + id).innerHTML;
-                                            var totalProductPrice = productPrice * quantity
+                                            var totalProductPrice = productPrice * quantity;
                                             document.getElementById("totalPrice" + id).innerHTML = totalProductPrice;
                                             totalPrice += totalProductPrice;
                                         }
                                         document.getElementById("totalPrice").innerHTML = totalPrice;
                                         document.getElementById("moneyAmount").value = totalPrice;
                                         
-                                        <%! 
-                                            ArrayList<Integer> paymentMethodIdList = PaymentDAO.INSTANCE.getPaymentMethodList().stream()
-                                            .map(PaymentMethod::getPaymentMethodId)
-                                            .collect(Collectors.toCollection(ArrayList::new));
-                                        %>
+                                        
                                         function showPaymentInput(){
-                                            for(var id of <%=paymentMethodIdList%>){
+                                            for(var id of ${paymentMethodIdList}){
                                                 var element = document.getElementById("paymentInfo" + id);
                                                 if(element === null) continue;
                                                 if(document.getElementById("paymentMethod" + id).checked){

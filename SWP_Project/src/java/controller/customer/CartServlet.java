@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -113,14 +114,11 @@ public class CartServlet extends HttpServlet {
                 productOptionIdList.add(cartItem.getProductOption().getProductOptionId());
             }
         }
-        
-        // customer doesn't select any option
-        
-//        HashMap <Integer, PaymentMethod> paymentMethodMap = new HashMap<>();
-//        for (PaymentMethod paymentMethod : PaymentDAO.INSTANCE.getPaymentMethodList()) {
-//            paymentMethodMap.put(paymentMethod.getPaymentMethodId(), paymentMethod);
-//        }
-//        request.setAttribute("paymentMethodList", PaymentDAO.INSTANCE.getPaymentMethodList());
+        ArrayList<Integer> paymentMethodIdList = PaymentDAO.INSTANCE.getPaymentMethodList().stream()
+            .map(PaymentMethod::getPaymentMethodId)
+            .collect(Collectors.toCollection(ArrayList::new));
+        request.setAttribute("paymentMethodIdList", paymentMethodIdList);
+        request.setAttribute("paymentMethodList", PaymentDAO.INSTANCE.getPaymentMethodList());
         request.setAttribute("communicationsList", CartItemDAO.INSTANCE.getCommunicationsListByAccountId(account.getId()));
         request.setAttribute("ProductDAO", ProductDAO.INSTANCE);
         request.setAttribute("selectedItemList", selectedItemList);

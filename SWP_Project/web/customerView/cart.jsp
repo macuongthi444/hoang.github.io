@@ -4,7 +4,6 @@
     Author     : hoang
 --%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@page import="DAO.CartItemDAO" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -175,13 +174,13 @@
                                 <th scope="row">
                                     <label for="selectedOption${cartItem.productOption.productOptionId}">
                                     <div class="d-flex align-items-center" style="width: max-content;">
-                                        <c:set value="${ProductDAO.getImagesByProductOptionId(cartItem.productOption.productOptionId)}" var="imageList"/>
+                                        <c:set value="${cartItem.productOption.images}" var="imageList"/>
                                         <img src="img/${imageList.isEmpty()?"":imageList.get(0).imageText}" class="img-fluid me-5" style="width: 80px; height: 80px;" alt="">
                                     </div>
                                     </label>
                                 </th>
                                 <td>
-                                    <p class="mb-0 mt-4">${ProductDAO.getProductById(cartItem.productOption.productId).productName}</p>
+                                    <p class="mb-0 mt-4">${cartItem.productOption.product.productName}</p>
                                 </td>
                                 <td>
                                     <p id="productOptionPrice${cartItem.productOption.productOptionId}"
@@ -201,7 +200,8 @@
                                                 <input  id="cartItem${cartItem.productOption.productOptionId}" 
                                                     <%--oninput="checkQuantity(this.id, this.value, ${cartItem.productOption.numberInStock})" --%>
                                                     oninput="checkInputQuantity(${cartItem.productOption.productOptionId}, this.value, ${cartItem.productOption.numberInStock}, 
-                                                    ${CartItemDAO.INSTANCE.getCartItem(sessionScope.account.id, cartItem.productOption.productOptionId).quantity})"
+                                                    ${cartItem.quantity})
+                                                    "
                                                     onchange="checkChangeQuantity(${cartItem.productOption.productOptionId}, ${cartItem.quantity})"
                                             type="number" class="form-control form-control-sm text-center border-0" value="${cartItem.quantity}" min="1" >
                                         <div class="input-group-btn">
