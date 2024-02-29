@@ -159,7 +159,7 @@
                         <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active rounded">
-                                    <img src="img/th.png" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+                                    <img src="img/laptop_lenovo_legion_s7_8" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
                                     <a href="#" class="btn px-4 py-2 text-white rounded">Laptop</a>
                                 </div>
                                 <div class="carousel-item rounded">
@@ -280,7 +280,7 @@
                                                <a  href="detail?productId=${product.productID}">View Detail</a>    
                                     </div>
                                         
-                                    <div class="text-dark2 justify-content-between flex-lg-wrap" style="font-weight: bold">Number in stock: ${product.quantity}</div>
+                                    <div class="text-dark2 justify-content-between flex-lg-wrap" style="font-weight: bold"></div>
                                 </div>
                             </div>
                         </div>
@@ -295,7 +295,7 @@
                 <div class="tab-class text-center">
                     <div class="row g-4">
                         <div class="col-lg-4 text-start">
-                            <h1>Our Organic Products</h1>
+                            <h1>Our Products</h1>
                         </div>
                         <div class="col-lg-8 text-end">
                             <ul class="nav nav-pills d-inline-flex text-center mb-5">
@@ -306,22 +306,22 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                        <span class="text-dark" style="width: 130px;">Vegetables</span>
+                                        <span class="text-dark" style="width: 130px;">Dell</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                        <span class="text-dark" style="width: 130px;">Fruits</span>
+                                        <span class="text-dark" style="width: 130px;">Acer</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                        <span class="text-dark" style="width: 130px;">Bread</span>
+                                        <span class="text-dark" style="width: 130px;">HP</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                        <span class="text-dark" style="width: 130px;">Meat</span>
+                                        <span class="text-dark" style="width: 130px;">MacBook</span>
                                     </a>
                                 </li>
                             </ul>

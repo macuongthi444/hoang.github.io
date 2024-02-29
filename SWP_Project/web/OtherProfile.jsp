@@ -293,14 +293,14 @@
                                                             <li class="list-inline-item fw-medium">
                                                                 <i class="bx bx-map"></i> 
                                                             </li>
-                                                            <li class="list-inline-item fw-medium">
+<!--                                                            <li class="list-inline-item fw-medium">
                                                                 <i class="bx bx-calendar-alt"></i> Joined April 2021
-                                                            </li>
+                                                            </li>-->
                                                         </ul>
                                                     </div>
-                                                    <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
+<!--                                                    <a href="javascript:void(0)" class="btn btn-primary text-nowrap">
                                                         <i class="bx bx-user-check me-1"></i>Connected
-                                                    </a>
+                                                    </a>-->
                                                 </div>
                                             </div>
                                         </div>
