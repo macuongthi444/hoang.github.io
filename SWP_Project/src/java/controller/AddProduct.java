@@ -166,7 +166,7 @@ public class AddProduct extends HttpServlet {
             request.setAttribute("quantity", quantity);
             request.setAttribute("product", ProductDAO.INSTANCE.getProductById(productId));
             
-            if(productName)
+            
             
             if(ProductDAO.INSTANCE.checkProductOptionIsExist(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId)){
                 request.setAttribute("addFail", "Add fail");
@@ -189,6 +189,7 @@ public class AddProduct extends HttpServlet {
         }catch(NumberFormatException e){
             
         }
+        request.getSession().removeAttribute("productOptionListAfterSearching");
         doGet(request, response);
     }
 

@@ -366,9 +366,11 @@ public class ProductDAO extends DBContext {
             ps.setDouble(8, price);
             ps.setInt(9, numberInStock);
             ps.setInt(10, quantitySold);
+            ps.setInt(11, productOptionId);
+            ps.setInt(12, productId);
             ps.execute();
         } catch (SQLException e) {
-            System.out.println("Error at ProductDAO.InsertProduct_Option " + e.getMessage());
+            System.out.println("Error at updateProductOption " + e.getMessage());
         } finally{
             if(ps != null) try {
                 ps.close();
@@ -377,6 +379,7 @@ public class ProductDAO extends DBContext {
             }
         }
     }
+    
     
     public List<ProductOption> getProductOptionByProductId(int productId){
         String sql = "select * from product_option where productId = ?";

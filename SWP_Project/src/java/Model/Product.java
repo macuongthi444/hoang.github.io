@@ -58,6 +58,8 @@ public class Product {
         this.brand = brand;
     }
 
+
+
     @Override
     public String toString() {
         return "Product{" + "productId=" + productId + ", productName=" + productName + ", brand=" + brand  + ", productDetail=" + productDetail + '}';
