@@ -366,8 +366,7 @@ public class ProductDAO extends DBContext {
             ps.setDouble(8, price);
             ps.setInt(9, numberInStock);
             ps.setInt(10, quantitySold);
-            ps.setInt(11, productOptionId);
-            ps.setInt(12, productId);
+            ps.setInt(11, productId);
             ps.execute();
         } catch (SQLException e) {
             System.out.println("Error at updateProductOption " + e.getMessage());
