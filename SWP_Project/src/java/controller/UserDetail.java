@@ -3,15 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.user;
+package controller;
 
-import DAO.DAOAccount;
-import DAO.ProductDAO;
-import DAO.ReviewDAO;
+import DAO.UserDao;
 import Model.Account;
-import Model.ProductWithImage;
-import Model.ProductWithOption;
-import Model.Review;
+import Model.AccountProfile;
+import Model.AccountStatus;
+import Model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,10 +21,10 @@ import java.util.List;
 
 /**
  *
- * @author This PC
+ * @author hoang
  */
-@WebServlet(name="ProductDetail", urlPatterns={"/detail"})
-public class ProductDetail extends HttpServlet {
+@WebServlet(name="UserDetail", urlPatterns={"/UserDetail"})
+public class UserDetail extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,19 +35,23 @@ public class ProductDetail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductDetail</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductDetail at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        String id= request.getParameter("id");
+        int aid = Integer.parseInt(id);
+        UserDao d = new UserDao();
+        AccountProfile ap =d.getAccountProfileById(aid);
+        List<Role> r = d.getRole();
+        List<AccountStatus> s = d.getAccountStatus();
+        request.setAttribute("r", r);
+        request.setAttribute("s", s);
+        
+        
+        request.setAttribute("ap", ap);
+//        out.print(d.getAccountProfileById(23));
+        request.getRequestDispatcher("adminView/UserDetail.jsp").forward(request, response);
+        
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,23 +65,7 @@ public class ProductDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id_raw = request.getParameter("productId");
-        int id=Integer.parseInt(id_raw);
-        ProductDAO dao = new ProductDAO();
-        ProductWithImage product = dao.getProductWithImageByPid(id);
-        ReviewDAO reviewDao = new ReviewDAO();
-        DAOAccount daoAcc = new DAOAccount();
-         List<Review> listAllReview = reviewDao.getAllReviewByProductID(id_raw);
-         int countAllReview = listAllReview.size();
-        List<ProductWithOption> option = dao.getProductWithOptionById(id);
-        List<Account> listAcc = daoAcc.getAllAccount();
-        request.setAttribute("listAllAcount", listAcc);
-        request.setAttribute("listAllReview", listAllReview);
-         request.setAttribute("countAllReview", countAllReview);
-        request.setAttribute("option", option);
-        request.setAttribute("detail", product);
-        request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
-        
+        processRequest(request, response);
     } 
 
     /** 

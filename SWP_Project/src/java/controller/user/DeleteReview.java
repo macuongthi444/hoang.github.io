@@ -73,7 +73,7 @@ public class DeleteReview extends HttpServlet {
 
         int id = Integer.parseInt(id_raw);
         ProductDAO dao = new ProductDAO();
-        ProductWithImage product = dao.getProductById(id);
+        ProductWithImage product = dao.getProductWithImageByPid(id);
 
         DAOAccount daoAcc = new DAOAccount();
         List<Review> listAllReview = reviewDao.getAllReviewByProductID(id_raw);
@@ -114,3 +114,4 @@ public class DeleteReview extends HttpServlet {
     }// </editor-fold>
 
 }
+

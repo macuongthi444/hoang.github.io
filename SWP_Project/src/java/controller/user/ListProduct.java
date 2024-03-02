@@ -92,7 +92,7 @@ public class ListProduct extends HttpServlet {
         String reso = request.getParameter("resoId");
         String card = request.getParameter("cardId");
         List<ProductWithImage> plist = dao.getListProductSearch2(search, priceFrom, priceTo, hardware, ram, color, screen, reso, card, sortType);
-        List<HardwareMemory> listHardware = dao.getHardwareList();
+        List<HardwareMemory> listHardware = dao.getHardwareMemoryList() ;
         List<ScreenSize> listScreen = dao.getScreenSizeList();
         List<RamMemory> listRam = dao.getRamMemoryList();
         List<Color> listColor = dao.getColorList();
@@ -137,7 +137,7 @@ public class ListProduct extends HttpServlet {
         String reso = request.getParameter("resoId");
         String card = request.getParameter("cardId");
         List<ProductWithImage> plist = dao.getListProductSearch2(search, priceFrom, priceTo, hardware, ram, color, screen, reso, card, sortType);
-        List<HardwareMemory> listHardware = dao.getHardwareList();
+        List<HardwareMemory> listHardware = dao.getHardwareMemoryList();
         List<ScreenSize> listScreen = dao.getScreenSizeList();
         List<RamMemory> listRam = dao.getRamMemoryList();
         List<Color> listColor = dao.getColorList();

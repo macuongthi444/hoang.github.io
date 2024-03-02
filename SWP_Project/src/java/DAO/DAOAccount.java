@@ -9,6 +9,7 @@ package DAO;
 
 import Model.Account;
 import Model.AccountProfile;
+import Model.AccountStatus;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,7 +42,9 @@ public class DAOAccount extends DBContext {
                 int id = rs.getInt(1);
 
                 Account ac = new Account(id, rs.getString("username"), rs.getString("password"), rs.getString("email"),
-                        RoleDAO.INSTANCE.getRoleById(rs.getInt("RoleId")), AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
+                        RoleDAO.INSTANCE.getRoleById(rs.getInt("RoleId")), 
+//                        AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
+                        new AccountStatus(1, ""));
                 return ac;
             }
         } catch (SQLException ex) {

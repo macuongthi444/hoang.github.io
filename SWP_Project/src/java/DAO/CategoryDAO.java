@@ -5,6 +5,7 @@
 package DAO;
 
 import Model.Category;
+import Model.Coupon;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

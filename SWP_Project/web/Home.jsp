@@ -4,6 +4,9 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@page contentType="text/html" pageEncoding="UTF-8"%>
     <%@page import="DAO.ProductDAO,DAO.CouponDAO, java.util.List, java.util.ArrayList, Model.Product" %>
+    <%@ page language="java" %>
+
+
     <head>
         <meta charset="utf-8">
         <title>Group 6</title>
@@ -222,6 +225,54 @@
                         </div>
                     </div>
                 </div>
+        <div class="blog-section">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <h2 class="section-title">Posts</h2>
+                    </div>
+                    <div class="col-md-6 text-start text-md-end">
+                        <a href="/SWP_Project/PostHome" class="more">View All Posts</a>
+                    </div>
+                </div>
+                <%
+        // Lấy ngày hiện tại
+        java.util.Date currentDate = new java.util.Date();
+
+        // Định dạng ngày theo định dạng mong muốn
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+
+        // Chuyển đổi ngày thành chuỗi theo định dạng đã chọn
+        String formattedDate = dateFormat.format(currentDate);
+                %>
+
+                <div class="row">
+                    <c:set var="ngayhientai" value="<%= formattedDate %>" />
+                    <p>Ngày hiện tại là: <%= formattedDate %></p>
+
+
+
+                    <c:forEach items="${post}" var="p">
+                        <c:set var="ngayEnd" value="${p.postEnd}" />
+                        <c:if test="${ngayhientai lt ngayEnd}">
+
+                            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                                <div class="post-entry">
+                                    <a href="/SWP_Project/PostDetailHome?postId=${p.postId}" class="post-thumbnail"><img src="${p.postImg}" style="width: 20%" alt="Image" class="img-fluid"></a>
+                                    <h4>${p.postTypeID.postTypeDetail}</h4>
+                                    <div class="post-content-entry">
+                                        <h3><a href="/SWP_Project/PostDetailHome?postId=${p.postId}">${p.postTitle}</a></h3>
+                                        <div class="meta">
+                                            <span>Start ${p.postStart}</span>
+                                            <span>End ${p.postEnd}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                    </c:forEach>
+                </div>
+
             </div>
         </div>
         <!-- Featurs Section End -->
@@ -304,6 +355,13 @@
                                                                 <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>                                                                                                                                                      
                                                                 <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                                                             </c:if>
+
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hot</div>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                                        <h4 style="font-size: large" >${product.productName}</h4>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -451,6 +509,7 @@
                                         <h5 class="text-white">Stability Quality</h5>
                                         <h3 class="mb-0">2 years warranty</h3>
                                     </div>
+<<<<<<< HEAD
                                 </a>
                             </div>
                         </div>
@@ -468,17 +527,41 @@
                 <h1 class="mb-0">Newest Products</h1>
 >>>>>> coupon
 
+=======
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+<!-- Featurs End -->
+
+
+<!-- Vesitable Shop Start-->
+<!--        <div class="container-fluid vesitable py-5">
+            <div class="container py-5">
+                <h1 class="mb-0">Newest Products</h1>
+>>>>>>> origin/hoangtvhe160642Iter2
                 <div class="owl-carousel vegetable-carousel justify-content-center">
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="vesitable-img">
                             <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
+<<<<<<< HEAD
+=======
+                        </div>
+>>>>>>> origin/hoangtvhe160642Iter2
                         <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
                         <div class="p-4 rounded-bottom">
                             <h4>Parsely</h4>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
                                 <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+<<<<<<< HEAD
                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> </a>
+=======
+                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+>>>>>>> origin/hoangtvhe160642Iter2
                             </div>
                         </div>
                     </div>
@@ -492,7 +575,11 @@
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
                             <div class="d-flex justify-content-between flex-lg-wrap">
                                 <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+<<<<<<< HEAD
                                 <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> </a>
+=======
+                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+>>>>>>> origin/hoangtvhe160642Iter2
                             </div>
                         </div>
                     </div>
@@ -606,6 +693,7 @@
                                 <div class="d-flex flex-column">
                                     <span class="h2 mb-0">50$</span>
                                     <span class="h4 text-muted mb-0">kg</span>
+<<<<<<< HEAD
 =======
                 </div>-->
         <!-- Featurs End -->
@@ -726,10 +814,13 @@
                                         <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
                                         <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                     </div>
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
                                 </div>
                             </div>
                         </div>
                     </div>
+<<<<<<< HEAD
                 </div>-->
         <!-- Vesitable Shop End -->
 
@@ -762,20 +853,28 @@
                         </div>
                     </div>
 <<<<<<< HEAD
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
                 </div>
             </div>
         </div>-->
 <!-- Banner Section End -->
+<<<<<<< HEAD
 =======
                 </div>-->
         <!-- Banner Section End -->
 >>>>>>> origin/bao
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
 
 
 
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
 <!-- Fact Start -->
 <div class="container-fluid py-5">
     <div class="container">
@@ -855,6 +954,7 @@
                         <div class="mb-4 pb-4 border-bottom border-secondary">
                             <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,
                             </p>
+<<<<<<< HEAD
 =======
         <!-- Fact Start -->
         <div class="container-fluid py-5">
@@ -868,6 +968,8 @@
                                 <h1>1963</h1>
                             </div>
 >>>>>>> origin/bao
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
                         </div>
                         <div class="d-flex align-items-center flex-nowrap">
                             <div class="bg-secondary rounded">
@@ -888,6 +990,9 @@
                     </div>
                 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
                 <div class="testimonial-item img-border-radius bg-light rounded p-4">
                     <div class="position-relative">
                         <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
@@ -908,6 +1013,7 @@
                                     <i class="fas fa-star text-primary"></i>
                                     <i class="fas fa-star text-primary"></i>
                                     <i class="fas fa-star text-primary"></i>
+<<<<<<< HEAD
 =======
             </div>
         </div>
@@ -995,12 +1101,17 @@
                                         </div>
                                     </div>
 >>>>>>> origin/bao
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
             </div>
         </div>
     </div>-->
@@ -1030,6 +1141,7 @@
                         <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
                         <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
                         <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a>
+<<<<<<< HEAD
 =======
             </div>-->
         <!-- Tastimonial End -->
@@ -1102,11 +1214,16 @@
                             <img src="img/payment.png" class="img-fluid" alt="">
                         </div>
 >>>>>>> origin/bao
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
                     </div>
                 </div>
             </div>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
         <div class="row g-5">
             <div class="col-lg-3 col-md-6">
                 <div class="footer-item">
@@ -1145,6 +1262,7 @@
                     <p>Phone: 0829787976</p>
                     <p>Payment Accepted</p>
                     <img src="img/payment.png" class="img-fluid" alt="">
+<<<<<<< HEAD
 =======
         <!-- Footer End -->
 
@@ -1162,6 +1280,8 @@
 
                     </div>
 >>>>>>> origin/bao
+=======
+>>>>>>> origin/hoangtvhe160642Iter2
                 </div>
             </div>
         </div>
@@ -1185,6 +1305,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     
     function addToCart(productOptionId){
@@ -1211,6 +1332,7 @@
         });
     }
 </script>
+
 <!-- Copyright End -->
 
 

@@ -17,7 +17,6 @@ import java.util.List;
  * @author vinhp
  */
 public class CouponDAO extends DBContext {
-
     public static final CouponDAO INSTANCE = new CouponDAO();
 
     public List<Coupon> getAllCoupon() {
