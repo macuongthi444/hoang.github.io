@@ -33,7 +33,7 @@ public class HomeControl extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeControl</title>");            
+            out.println("<title>Servlet HomeControl</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet HomeControl at " + request.getContextPath() + "</h1>");

@@ -44,5 +44,10 @@ public class AccountStatusDAO extends DBContext{
         return null;
     }
     
+    public static void main(String[] args) {
+        AccountStatusDAO dao = new AccountStatusDAO();
+        AccountStatus acc = dao.getAccountStatusById(1);
+        System.out.println(acc.getAccountStatusDetail());
+    }
     
 }

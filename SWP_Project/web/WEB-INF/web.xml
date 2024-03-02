@@ -36,6 +36,42 @@
         <servlet-name>AddToCartServlet</servlet-name>
         <servlet-class>controller.customer.AddToCartServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddReview</servlet-name>
+        <servlet-class>controller.user.AddReview</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteReview</servlet-name>
+        <servlet-class>controller.user.DeleteReview</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditReview</servlet-name>
+        <servlet-class>controller.user.EditReview</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditUserProfile</servlet-name>
+        <servlet-class>controller.user.EditUserProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListProduct</servlet-name>
+        <servlet-class>controller.user.ListProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadOtherProfile</servlet-name>
+        <servlet-class>controller.user.LoadOtherProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadReview</servlet-name>
+        <servlet-class>controller.user.LoadReview</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductDetail</servlet-name>
+        <servlet-class>controller.user.ProductDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadUser</servlet-name>
+        <servlet-class>controller.user.LoadUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeControl</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -72,6 +108,42 @@
     <servlet-mapping>
         <servlet-name>AddToCartServlet</servlet-name>
         <url-pattern>/AddToCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddReview</servlet-name>
+        <url-pattern>/addReview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteReview</servlet-name>
+        <url-pattern>/deletereview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditReview</servlet-name>
+        <url-pattern>/editreview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditUserProfile</servlet-name>
+        <url-pattern>/edituser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListProduct</servlet-name>
+        <url-pattern>/listproduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadOtherProfile</servlet-name>
+        <url-pattern>/loadotherprofile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadReview</servlet-name>
+        <url-pattern>/load</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductDetail</servlet-name>
+        <url-pattern>/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadUser</servlet-name>
+        <url-pattern>/loaduser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

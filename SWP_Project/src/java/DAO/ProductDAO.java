@@ -21,6 +21,7 @@ import Model.ScreenSize;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import DAO.CouponDAO;
+import Model.ProductWithOption;
 
 /**
  *
@@ -42,6 +44,46 @@ public class ProductDAO extends DBContext {
 //    public void updateImage(int imageId, String imageText, int productOptionId){
 //        
 //    }
+    
+    public List<ProductWithOption> getProductWithOptionById(int id) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "Select * from Product_Option \n"
+                + "po join GraphicCard gc on po.graphicCardId = gc.graphicCardId\n"
+                + "join Color c on c.colorId = po.colorId join\n"
+                + "HardwareMemory h on h.hardwareMemoryId=po.hardwareMemoryId\n"
+                + "join RamMemory r on r.ramMemoryId = po.ramMemoryId \n"
+                + "join ScreenSize s on s.screenSizeId=po.screenSizeId\n"
+                + "join Resolution re on re.resolutionId=po.resolutionId \n"
+                + "where productId =  " + id;
+
+        try {
+            List<ProductWithOption> list = new ArrayList<>();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ProductWithOption option = new ProductWithOption();
+                option.setProductOptionId(rs.getInt("productOptionId"));
+                option.setCard(new GraphicCard(rs.getInt("graphicCardId"), rs.getString("graphicCard")));
+                option.setColor(new Color(0, rs.getString("color")));
+                option.setHardware(new HardwareMemory(0, rs.getString("hardwareMemory")));
+                option.setSize(new ScreenSize(0, rs.getString("screenSize")));
+                option.setRam(new RamMemory(0, rs.getString("ramMemory")));
+                option.setResolution(new Resolution(0, rs.getString("resolution")));
+                option.setPrice(rs.getDouble("price"));
+                list.add(option);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("Error at getProductOptionList " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+
+
     
     public void updateProductOptionQuantity(int productOptionId, int quantity){
         PreparedStatement ps = null;

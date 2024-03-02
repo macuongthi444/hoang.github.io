@@ -5,6 +5,7 @@
 package DAO;
 
 import Model.Account;
+import Model.AccountProfile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,9 +42,66 @@ public class UserDao extends DBContext {
         return null;
     }
 
+    public void editAccountById(int id, String name, String date, int gender) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "UPDATE [dbo].[Account_Profile]\n"
+                    + "   SET \n"
+                    + "      [fullName] = ?\n"
+                    + "      ,[birthDate] = ?\n"
+                    + "      ,[gender] = ?\n"
+                    + "      \n"
+                    + " WHERE [accountId] = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, date);
+            ps.setInt(3, gender);
+            ps.setInt(4, id);
+            
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error at editAccountById " + e.getMessage());
+
+        } finally{
+            closeStatement(ps, rs);
+        }
+
+    }
+    public AccountProfile getAccountProfileById(int id) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from [Account_Profile] where [accountId]=?";
+           
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            UserDao dao = new UserDao();
+            if (rs.next()) {
+      
+                AccountProfile acc = new AccountProfile(
+                        dao.getAccountById(rs.getInt("accountId")),
+                        rs.getString("fullName"),
+                        rs.getDate("birthDate"),
+                        rs.getBoolean("gender"),
+                        rs.getString("avatar"));
+                return acc;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error at getAccountProfileById " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         UserDao dao = new UserDao();
-        Account acc = dao.getAccountById(1);
-        System.out.println(acc.getUsername());
+        dao.editAccountById(15, "bao", "", 1);
+        
+
     }
 }

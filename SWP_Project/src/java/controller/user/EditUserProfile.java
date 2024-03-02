@@ -20,16 +20,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import DAO.UserDao;
-
-import DAO.DAOAccount;
-
 /**
  *
  * @author This PC
  */
-@WebServlet(name = "userprofile", urlPatterns = {"/userprofile"})
-public class userprofile extends HttpServlet {
+@WebServlet(name = "EditUserProfile", urlPatterns = {"/edituser"})
+public class EditUserProfile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +44,10 @@ public class userprofile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet userprofile</title>");
+            out.println("<title>Servlet EditUserProfile</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet userprofile at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditUserProfile at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,16 +65,32 @@ public class userprofile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
 
-        int userid = Integer.parseInt(request.getParameter("userid"));
-        DAOAccount dao = new DAOAccount();
-        AccountProfile acc = dao.getAccountProfileById(userid);
+        int id = Integer.parseInt(request.getParameter("userid"));
+        String name = request.getParameter("firstName");
+        String gender1 = request.getParameter("gender");
+        String birth = request.getParameter("birth");
+        UserDao dao = new UserDao();
+        if (name == null || name.isEmpty() || name.trim().isEmpty()) {
+            // Handle validation error
+            request.setAttribute("error", "Full Name cannot be empty");
+            AccountProfile acc = dao.getAccountProfileById(id);
 
-        // out.print(acc.getUsername());
+            request.setAttribute("acc", acc);
+            request.getRequestDispatcher("userprofile.jsp").forward(request, response);
+        }
+        int gender;
+        if (gender1.equalsIgnoreCase("male")) {
+            gender = 1;
+        } else {
+            gender = 0;
+        }
+
+        dao.editAccountById(id, name, birth, gender);
+        AccountProfile acc = dao.getAccountProfileById(id);
+
         request.setAttribute("acc", acc);
         request.getRequestDispatcher("userprofile.jsp").forward(request, response);
-
     }
 
     /**
@@ -92,7 +104,28 @@ public class userprofile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int id = Integer.parseInt(request.getParameter("userid"));
+        String name = request.getParameter("firstName");
+        String gender1 = request.getParameter("gender");
+        String birth = request.getParameter("birth");
+        int gender;
+        if (gender1.equalsIgnoreCase("male")) {
+            gender = 1;
+        } else {
+            gender = 0;
+        }
+        if (name == null || name.isEmpty()) {
+            // Handle validation error
+            request.setAttribute("error", "Full Name cannot be empty");
+
+            request.getRequestDispatcher("userprofile.jsp").forward(request, response);
+        }
+        UserDao dao = new UserDao();
+        dao.editAccountById(id, name, birth, gender);
+        AccountProfile acc = dao.getAccountProfileById(id);
+
+        request.setAttribute("acc", acc);
+        request.getRequestDispatcher("userprofile.jsp").forward(request, response);
     }
 
     /**
