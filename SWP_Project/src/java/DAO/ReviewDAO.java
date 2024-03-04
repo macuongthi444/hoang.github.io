@@ -175,12 +175,13 @@ public class ReviewDAO {
         return list;
     }
     public static void main(String[] args) {
-//        ReviewDAO dao = new ReviewDAO();
-//           List<Review> list = dao.getReviewByAccountId(15);
-//           for (Review review : list) {
-//               System.out.println(review.getProductName());
-//        }
-//        dao.deleteReview(23);
+        ReviewDAO dao = new ReviewDAO();
+           List<Review> list = dao.getReviewByAccountId(15);
+           for (Review review : list) {
+               System.out.println(review.getProductName());
+                System.out.println(review.getAvatar());
+        }
+        dao.deleteReview(23);
 
     }
 }
