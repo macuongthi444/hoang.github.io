@@ -39,6 +39,7 @@ public class LoginControl extends HttpServlet {
         DAOAccount dao = new DAOAccount();
         Account acc = dao.login(username, password);
         HttpSession session = request.getSession();
+        System.out.println(acc);
         if (acc == null) {
             request.setAttribute("message", "Wrong user or pass");
             request.getRequestDispatcher("login.jsp").forward(request, response);
