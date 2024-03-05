@@ -180,6 +180,7 @@ public class ReviewDAO {
            for (Review review : list) {
                System.out.println(review.getProductName());
                 System.out.println(review.getAvatar());
+                System.out.println(review.getContentReview().matches("."));
         }
         dao.deleteReview(23);
 
