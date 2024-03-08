@@ -58,8 +58,7 @@
                         <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">group6@gmail.com</a></small>
                     </div>
                     <div style="display: flex;">
-                        <c:if test="${sessionScope.username!=null}">
-                            <h3>Welcome ${sessionScope.username}</h3>
+                        <c:if test="${sessionScope.account!=null}">
                         </c:if>
                     </div>
                     <div class="top-link pe-2">
@@ -69,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <c:if test ="${sessionScope.acc.role.roleId == 2}">
+            <c:if test ="${sessionScope.account.role.roleId == 2}">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Customer</a>
                     <div class="dropdown-menu m-0">     
@@ -332,6 +331,7 @@
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
+                                        <%--
                                         <c:forEach var="product" items="${newestList}">
                                             <div class="col-md-6 col-lg-4 col-xl-3">
                                                 <div class="rounded position-relative fruite-item">
@@ -367,6 +367,7 @@
                                                 </div>
                                             </div>
                                         </c:forEach>
+                                        --%>
                                         
                                     </div>
                                 </div>
@@ -392,6 +393,7 @@
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
+                                        <%--
                                         <c:forEach var="product" items="${productList}">
 
                                             <div class="col-md-6 col-lg-4 col-xl-3">
@@ -421,8 +423,9 @@
                                                 </div>
                                             </div>
                                         </c:forEach>
+                                        --%>
+                                        
                                         <br/>
-                                        <h2>choose from here please</h2>
                                         <c:forEach items="${productOptionList}" var="productOption">
                                             <c:if test="${productOption.numberInStock > 0}">
                                             <div class="col-md-6 col-lg-4 col-xl-3">

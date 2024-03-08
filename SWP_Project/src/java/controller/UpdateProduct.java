@@ -69,6 +69,10 @@ public class UpdateProduct extends HttpServlet {
         request.setAttribute("productOption", productOption);
         request.setAttribute("productOptionList", ProductDAO.INSTANCE.getOtherProductOptionByProductId(productOptionId));
         request.setAttribute("imageList", ProductDAO.INSTANCE.getImageListByProductOptionId(productOptionId));
+        request.setAttribute("brandList", ProductDAO.INSTANCE.getBrandList());
+        request.setAttribute("ramMemoryList", ProductDAO.INSTANCE.getRamMemoryList());
+        request.setAttribute("hardwareMemoryList", ProductDAO.INSTANCE.getHardwareMemoryList());
+        System.out.println(ProductDAO.INSTANCE.getHardwareMemoryList());
         request.getRequestDispatcher("adminView/update-product.jsp").forward(request, response);
     } 
 
@@ -82,7 +86,7 @@ public class UpdateProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        try {
+            System.out.println("Update product");
             String productName = request.getParameter("productName");
 //            int category = Integer.parseInt(request.getParameter("category"));
             String productDetail = request.getParameter("productDetail");
@@ -101,7 +105,9 @@ public class UpdateProduct extends HttpServlet {
             ProductDAO.INSTANCE.updateProduct(ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(),  productName, brandId, productDetail);
             ProductDAO.INSTANCE.updateProductOption(productOptionId, ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(), 
                     hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, numberInStock, 0);
-
+            
+            System.out.println(brandId + " " + hardwareMemoryId + " " + ramMemoryId + " " + colorId + " " + screenSizeId + " " + graphicCardId);
+            
             String imageOption = request.getParameter("imageOption");
             if(images.length != 0 && !images[0].trim().equals("")){
                 if(imageOption.equalsIgnoreCase("overrideImage")){
@@ -115,9 +121,6 @@ public class UpdateProduct extends HttpServlet {
             }
             request.getSession().setAttribute("updateSuccess", "updateSuccess");
             request.getSession().removeAttribute("productOptionListAfterSearching");
-        } catch (NumberFormatException e) {
-            
-        }
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
 //        request.getRequestDispatcher("adminView/admin-show-all-products.jsp").forward(request, response);
 //        System.out.println(images + " " + productOptionId);

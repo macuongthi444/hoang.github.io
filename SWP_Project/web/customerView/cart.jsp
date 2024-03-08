@@ -149,6 +149,10 @@
             <form action="CartServlet" method="post" id="submitForm">
             <div class="container py-5">
                 <div class="table-responsive">
+                    <c:if test="${cartItemList.isEmpty()}" >
+                        <h3 style="color: red;">No Items</h3>
+                    </c:if>
+                    <c:if test="${cartItemList.isEmpty() != true}" >
                     <table class="table">
                         <thead>
                           <tr>
@@ -162,6 +166,9 @@
                           </tr>
                         </thead>
                         <tbody>
+                            
+                            
+                            
                             <c:forEach items="${cartItemList}" var="cartItem">
                             <c:set value="${cartItem.productOption.productOptionId}" var="productOptionId"/>
                             <tr>
@@ -229,6 +236,7 @@
                             
                             </tr>
                             </c:forEach>
+                            
                             <script type="text/javascript" >
                                 function selectOption(id){
                                     var element = document.getElementById("selectedOption" + id);
@@ -424,12 +432,7 @@
                             </script>
                         </tbody>
                     </table>
-                                <c:if test="${requestScope.CartError != null && CartError != \"\"}">
-                                    <%
-                                        request.setAttribute("CartError", "");
-                                    %>
-                                    
-                                </c:if>
+                          </c:if>
                 </div>
                 <div class="mt-5">
 <!--                    <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">

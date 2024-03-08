@@ -137,6 +137,22 @@ public class CartItemDAO extends DBContext{
         }
     }
     
+    public void deleteCommunications(int accountId, int communicationsId){
+        String sql = "delete from communications where communicationsId = ? and accountId = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, communicationsId);
+            ps.setInt(2, accountId);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error at deleteCommunications " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+    }
+    
     public void insertCommunications(int accountId, String phoneNumber, String address){
         String sql = "insert into communications values(?, ?, ?)";
         PreparedStatement ps = null;

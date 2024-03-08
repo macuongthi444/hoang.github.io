@@ -71,17 +71,13 @@ public class InsertCommunicationsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         Account account = (Account)request.getSession().getAttribute("account");
-        if(account == null){
-            account = CartItemDAO.INSTANCE.getAccountById(2);
-        }
-        
 //        request.setAttribute("insertAddress", "insertAddress");
         PrintWriter out = response.getWriter();
         out.print("insertAddress");
         String address = request.getParameter("address").trim();
         String phoneNumber = request.getParameter("phoneNumber").trim();
         boolean check = true;
-        System.out.println("abc");
+        System.out.println("Insert");
         if(address.equals("")){
             request.setAttribute("addressError", "Address can not be empty");
             check = false;

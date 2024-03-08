@@ -630,7 +630,7 @@
                           </c:if>
                       </c:if>
                       <c:if test="${productOption != null}">
-                          <form action="UpdateProduct" method="post">
+                          <form action="/SWP_Project/UpdateProduct" method="post">
                           <table id="update-product-table">
                               <tr>
                                   <th></th>
@@ -645,17 +645,6 @@
                                       <input name="productName" id="productName" value="${product.productName}" required="" autocomplete="off"/>
                                   </td>
                               </tr>
-<!--                              <tr>
-                                  <td>Category: </td>
-                                  <td>${product.category.categoryName}</td>
-                                  <td>
-                                      <select name="category" >
-                                         <c:forEach items="<%=CategoryDAO.INSTANCE.getCategoryList()%>" var="cat">
-                                           <option value="${cat.categoryId}" ${product.category.categoryName.equals(cat.categoryName)?"selected":""}>${cat.categoryName}</option>
-                                         </c:forEach>
-                                      </select>
-                                  </td>
-                              </tr>-->
                               <tr>
                                   <td style="width: 13%;">Product detail: </td>
                                   <td>${product.productDetail}</td>
@@ -664,22 +653,22 @@
                                   </td>
                               </tr>
                               <tr>
-                                  <td style="width: 13%;">Brand: </td>
-                                  <td>${ProductDAO.INSTANCE.getBrandById(productOption.brandId).brandName}</td>
+                                  <td>Brand</td>
+                                  <td>${product.brand.brandName}</td>
                                   <td>
-                                    <select id="brandId" name="brandId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getBrandList()%>" var="brand">
-                                        <option value="${brand.brandId}" ${productOption.brandId==brand.brandId?"selected":""}>${brand.brandName}</option>
-                                    </c:forEach>
-                                </select>
+                                      <select name="brandId">
+                                          <c:forEach items="${brandList}" var="brand">
+                                              <option value="${brand.brandId}">${brand.brandName}</option>
+                                          </c:forEach>
+                                      </select>
                                   </td>
                               </tr>
                               <tr>
                                   <td style="width: 13%;">Hardware: </td>
-                                  <td>${ProductDAO.INSTANCE.getHardwareMemoryById(productOption.hardwareMemoryId).hardwareMemory}</td>
+                                  <td>${productOption.hardwareMemory.hardwareMemory}</td>
                                   <td>
                                     <select id="hardwareMemoryId" name="hardwareMemoryId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getHardwareMemoryList()%>" var="hardwareMemory">
+                                    <c:forEach items="${hardwareMemoryList}" var="hardwareMemory">
                                         <option value="${hardwareMemory.hardwareMemoryId}" ${productOption.hardwareMemoryId==hardwareMemory.hardwareMemoryId?"selected":""}
                                                 >${hardwareMemory.hardwareMemory}</option>
                                     </c:forEach>
@@ -691,7 +680,7 @@
                                   <td>${ProductDAO.INSTANCE.getRamMemoryById(productOption.ramMemoryId).ramMemory}</td>
                                   <td>
                                     <select id="ramMemoryId" name="ramMemoryId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getRamMemoryList()%>" var="ramMemory">
+                                    <c:forEach items="${ramMemoryList}" var="ramMemory">
                                         <option value="${ramMemory.ramMemoryId}" ${productOption.ramMemoryId==ramMemory.ramMemoryId?"selected":""}>${ramMemory.ramMemory}</option>
                                     </c:forEach>
                                     </select>

@@ -281,7 +281,7 @@ public class ProductDAO extends DBContext {
     }
     
     public void updateProduct(int productId, String productName, int brandId, String productDetail){
-        String sql = "update product set productName = ?, brand = ?, productDetail = ? where productId = ?";
+        String sql = "update product set productName = ?, brandId = ?, productDetail = ? where productId = ?";
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(sql);
@@ -304,7 +304,7 @@ public class ProductDAO extends DBContext {
     }
     
     public void updateProductOption(int productOptionId, int productId, int hardwareMemoryId, int ramMemoryId, int colorId, int screenSizeId, int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold){
-        String sql = "update product_option set brandId = ?, hardwareMemoryId = ?, ramMemoryId = ?, colorId = ?, screenSizeId = ?, resolutionId = ?, graphicCardId = ?, "
+        String sql = "update product_option set hardwareMemoryId = ?, ramMemoryId = ?, colorId = ?, screenSizeId = ?, resolutionId = ?, graphicCardId = ?, "
                 + "price = ?, numberInStock = ?, quantitySold = ? where productOptionId = ? and productId = ?";
         PreparedStatement ps = null;
         try {
