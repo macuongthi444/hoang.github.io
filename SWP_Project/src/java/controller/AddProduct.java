@@ -167,7 +167,7 @@ public class AddProduct extends HttpServlet {
             request.setAttribute("product", ProductDAO.INSTANCE.getProductById(productId));
             
             
-            if(ProductDAO.INSTANCE.checkProductOptionIsExist(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId)){
+            if(ProductDAO.INSTANCE.checkProductOptionIsExist(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId)){
                 request.setAttribute("addFail", "Add fail");
             }
             else{
@@ -183,8 +183,9 @@ public class AddProduct extends HttpServlet {
                           ProductDAO.INSTANCE.getProductOptionId(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
             }
                 request.setAttribute("addSuccess", "Add success");
+                request.setAttribute("product", ProductDAO.INSTANCE.getProductById(productId));
             }
-            request.getSession().removeAttribute("productOptionListAfterSearching");
+//            request.getSession().removeAttribute("productOptionListAfterSearching");
         }catch(NumberFormatException e){
             
         }

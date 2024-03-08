@@ -775,7 +775,7 @@
                               <h5 style="color: red;">None</h5>
                           </c:if>
                           <c:forEach items="${productOptionList}" var="po">
-                              ${ProductDAO.INSTANCE.getBrandById(po.brandId).brandName} - ${ProductDAO.INSTANCE.getHardwareMemoryById(po.hardwareMemoryId).hardwareMemory} 
+                               ${ProductDAO.INSTANCE.getHardwareMemoryById(po.hardwareMemoryId).hardwareMemory} 
                               - ${ProductDAO.INSTANCE.getRamMemoryById(po.ramMemoryId).ramMemory} - ${ProductDAO.INSTANCE.getColorById(po.colorId).color} - ${ProductDAO.INSTANCE.getScreenSizeById(po.screenSizeId).screenSize} - ${ProductDAO.INSTANCE.getResolutionById(po.resolutionId).resolution} - ${ProductDAO.INSTANCE.getGraphicCardById(po.graphicCardId).graphicCard} - ${po.price}
                               <br/>
                           </c:forEach>

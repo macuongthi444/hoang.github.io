@@ -136,19 +136,6 @@
                                 </td>
                                 <td>
                                     
-                                    <c:if test="${sessionScope.productId == null}">
-                                    <%!
-                                        List<Category> list = CategoryDAO.INSTANCE.getCategoryList();
-                                    %>
-                                    <select id="productCategory" name="productCategory" ${sessionScope.productId != null?"readonly":""} >
-                                        <c:forEach items="<%=CategoryDAO.INSTANCE.getCategoryList()%>" var="cat">
-                                            <option value="${cat.categoryName}" ${(categoryName==null?SessionScope.product.category.categotyName:categoryName).equals(cat.categoryName)?"selected":""}>${cat.categoryName}</option>
-                                        </c:forEach>
-                                    </select>
-                                    </c:if>
-                                    <c:if test="${sessionScope.productId != null}">
-                                        <input type="hidden" readonly="" name="productCategory" value="${product.category.categoryId}"/> ${product.category.categoryName}
-                                    </c:if>
                                             
                                 </td>
                             </tr>-->
@@ -295,7 +282,7 @@
                                 </td>
                                 <td>
                                     <input style="width: 216px;" multiple
-                                           name="image" id="productPrice" type="file" min="0" placeholder="image" autocomplete="off"/>
+                                           name="image" type="file" min="0" placeholder="image" autocomplete="off"/>
                                 </td>
                             </tr>
                         </table>
@@ -329,12 +316,12 @@
                             <c:if test="${product != null}">
                                 <table>
                                     <tr>
-                                        <td>Name: </td>
-                                        <td>${product.productName}</td>
+                                        <td>Brand: </td>
+                                        <td>${product.brand.brandName}</td>
                                     </tr>
                                     <tr>
-                                        <td>Category: </td>
-                                        <td>${product.category.categoryName}</td>
+                                        <td>Product name: </td>
+                                        <td>${product.productName}</td>
                                     </tr>
                                     <tr>
                                         <td>Product detail: </td>
@@ -348,7 +335,7 @@
                                 <ul>
                                 <c:forEach items="${ProductDAO.INSTANCE.getProductOptionByProductId(product.productId)}" var="po">
                                     <li>
-                                        ${ProductDAO.INSTANCE.getBrandById(po.brandId).brandName} - ${ProductDAO.INSTANCE.getHardwareMemoryById(po.hardwareMemoryId).hardwareMemory} 
+                                        ${ProductDAO.INSTANCE.getHardwareMemoryById(po.hardwareMemoryId).hardwareMemory} 
                               - ${ProductDAO.INSTANCE.getRamMemoryById(po.ramMemoryId).ramMemory} - ${ProductDAO.INSTANCE.getColorById(po.colorId).color} - ${ProductDAO.INSTANCE.getScreenSizeById(po.screenSizeId).screenSize} - ${ProductDAO.INSTANCE.getResolutionById(po.resolutionId).resolution} - ${ProductDAO.INSTANCE.getGraphicCardById(po.graphicCardId).graphicCard} - ${po.price}
                                     </li>
                                 </c:forEach>

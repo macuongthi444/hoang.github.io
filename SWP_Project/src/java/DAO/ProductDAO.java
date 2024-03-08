@@ -139,7 +139,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
     
-    public boolean checkProductOptionIsExist(int productId, int brandId, int hardwareMemoryId, int ramMemoryId, int colorId, int screenSizeId, int resolutionId, int graphicCardId){
+    public boolean checkProductOptionIsExist(int productId, int hardwareMemoryId, int ramMemoryId, int colorId, int screenSizeId, int resolutionId, int graphicCardId){
         String sql = "select * from product_Option where productId = ? and hardwareMemoryId = ? and ramMemoryId = ? and colorId = ? and "
                 + "screenSizeId = ? and resolutionid = ? and graphicCardId = ?";
         PreparedStatement ps = null;
@@ -394,7 +394,7 @@ public class ProductDAO extends DBContext {
     
         public void insertProductOption(int productId, int hardwareMemoryId, int ramMemoryId, int colorId, int screenSizeId,
             int resolutionId, int graphicCardId, double price, int numberInStock, int quantitySold) {
-        String sql = "insert into product_Option values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into product_Option values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(sql);
@@ -408,10 +408,9 @@ public class ProductDAO extends DBContext {
             ps.setDouble(8, price);
             ps.setInt(9, numberInStock);
             ps.setInt(10, quantitySold);
-            ps.setInt(11, productId);
             ps.execute();
         } catch (SQLException e) {
-            System.out.println("Error at updateProductOption " + e.getMessage());
+            System.out.println("Error at insertProductOption " + e.getMessage());
         } finally{
             if(ps != null) try {
                 ps.close();
