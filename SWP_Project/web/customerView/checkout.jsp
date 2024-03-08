@@ -179,6 +179,7 @@
                                     Address: ${communications.address} <br/>
                                     Phone number: ${communications.phoneNumber}
                                 </label>
+                                 <button id="showInsertCommunications" style="text-decoration: underline blue 1px; color: red;" onclick="deleteCommunications(${communications.communicationId})" class="btn">Delete</button>
                                 <br/> <br/>
                             </c:forEach>
                             </div>
@@ -449,6 +450,7 @@
                     phoneNumberElement.style.display = "none";
                 }
                 if(check){
+                    insertCommunications(address, phoneNumber);
                     location.reload(false); 
                 }
 //                if(document.getElementById("insertAddress").style.display !== "none"){
@@ -525,6 +527,27 @@
                 return false;
             }
             
+            function deleteCommunications(id){
+                if(confirm("You want to delete this communications?")){
+                    $.ajax({
+                    url: "/SWP_Project/DeleteCommunications",
+                    type: 'POST',
+                    data: {
+                        "communicationsId": id
+                    },
+                    success: function (data, textStatus, jqXHR) {
+//                        window.console.log(data);
+                        if(data === "deleteSuccess"){
+                            alert("Delete success");
+                            location.reload();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    }
+                });
+            }
+                
+            }
 //            window.location.reload();
         </script>
         

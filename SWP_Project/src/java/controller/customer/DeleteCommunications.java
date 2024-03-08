@@ -6,20 +6,22 @@
 package controller.customer;
 
 import DAO.CartItemDAO;
-import DAO.ProductDAO;
+import DAO.OrderDAO;
 import Model.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author nguye
+ * @author zenzen1
  */
-public class AddToCartServlet extends HttpServlet {
+@WebServlet(name="DeleteCommunications", urlPatterns={"/DeleteCommunications"})
+public class DeleteCommunications extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +38,10 @@ public class AddToCartServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddToCartServlet</title>");  
+            out.println("<title>Servlet DeleteCommunications</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddToCartServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteCommunications at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,27 +72,15 @@ public class AddToCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 //        processRequest(request, response);
-        PrintWriter out = response.getWriter();
-        if(request.getParameter("productOptionId") == null){
-            return;
+        try {
+            int communicationsId = Integer.parseInt(request.getParameter("communicationsId"));
+            Account account = (Account)request.getSession().getAttribute("account");
+            CartItemDAO.INSTANCE.deleteCommunications(account.getId(), communicationsId);
+            PrintWriter out = response.getWriter();
+            out.print("deleteSuccess");
+            System.out.println("Delete");
+        } catch (IOException | NumberFormatException e) {
         }
-        if(request.getSession().getAttribute("account") == null){
-            out.print("accountNotFound");
-            return;
-        }
-        Account account = (Account)request.getSession().getAttribute("account");
-        int productOptionId = Integer.parseInt(request.getParameter("productOptionId") + "");
-        if(CartItemDAO.INSTANCE.checkIfCartItemIsExist(account.getId(), productOptionId)){
-            int quantity = CartItemDAO.INSTANCE.getCartItemQuantity(account.getId(), productOptionId);
-            if((quantity + 1) > ProductDAO.INSTANCE.getProductOptionById(productOptionId).getNumberInStock()){
-                return;
-            }
-            CartItemDAO.INSTANCE.updateCart(account.getId(), productOptionId, quantity + 1);
-        }
-        else{
-            CartItemDAO.INSTANCE.insertCartItem(account.getId(), productOptionId, 1);
-        }
-        out.print("Add success");
     }
 
     /** 

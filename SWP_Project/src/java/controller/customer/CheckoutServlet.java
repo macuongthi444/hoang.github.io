@@ -118,35 +118,34 @@ public class CheckoutServlet extends HttpServlet {
                 Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
 
                     // insert order
-//                OrderDAO.INSTANCE.insertOrder(orderId, account.getId(), timestamp, communicationsId);
+                OrderDAO.INSTANCE.insertOrder(orderId, account.getId(), timestamp, communicationsId);
 //                    // insert order status
-//                OrderDAO.INSTANCE.insertOrderStatus(orderId, 1, timestamp);
-//                for (String string : productOptionsId) {
-//                    int productOptionId = Integer.parseInt(string);
-//                    
-//                    productOptions.add(ProductDAO.INSTANCE.getProductOptionById(productOptionId));
-//                    
-//                    ProductOption productOption = ProductDAO.INSTANCE.getProductOptionById(productOptionId);
-//                    double price = Double.parseDouble(request.getParameter("price" + productOptionId));
-//                    int quantity = Integer.parseInt(request.getParameter("quantity" + productOptionId));
-//                    CartItemDAO.INSTANCE.deleteCartItem(account.getId(), productOptionId);
-//                    OrderDAO.INSTANCE.insertOrderInfo(orderId, productOptionId, price, quantity);
-//                    ProductDAO.INSTANCE.updateProductOption(productOptionId, productOption.getProductId(), productOption.getHardwareMemoryId(), 
-//                            productOption.getRamMemoryId(), productOption.getColorId(), productOption.getScreenSizeId(), productOption.getResolutionId(), 
-//                            productOption.getGraphicCardId(), productOption.getPrice(),
-//                            productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);
-//                    
-//                }
-//                if(paymentMethodId == 1){
-//                    PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
-//                }
-//                else if(paymentMethodId == 2){
-//                    PaymentDAO.INSTANCE.insertPayment(orderId, new Timestamp(Calendar.getInstance().getTimeInMillis()), moneyAmount, paymentMethodId);
-//                }
+                OrderDAO.INSTANCE.insertOrderStatus(orderId, 1, timestamp);
+                for (String string : productOptionsId) {
+                    int productOptionId = Integer.parseInt(string);
+                    
+                    productOptions.add(ProductDAO.INSTANCE.getProductOptionById(productOptionId));
+                    
+                    ProductOption productOption = ProductDAO.INSTANCE.getProductOptionById(productOptionId);
+                    double price = Double.parseDouble(request.getParameter("price" + productOptionId));
+                    int quantity = Integer.parseInt(request.getParameter("quantity" + productOptionId));
+                    CartItemDAO.INSTANCE.deleteCartItem(account.getId(), productOptionId);
+                    OrderDAO.INSTANCE.insertOrderInfo(orderId, productOptionId, price, quantity);
+                    ProductDAO.INSTANCE.updateProductOption(productOptionId, productOption.getProductId(), productOption.getHardwareMemoryId(), 
+                            productOption.getRamMemoryId(), productOption.getColorId(), productOption.getScreenSizeId(), productOption.getResolutionId(), 
+                            productOption.getGraphicCardId(), productOption.getPrice(),
+                            productOption.getNumberInStock() - quantity, productOption.getQuantitySold() + quantity);
+                }
+                if(paymentMethodId == 1){
+                    PaymentDAO.INSTANCE.insertPayment(orderId, null, 0.0, paymentMethodId);
+                }
+                else if(paymentMethodId == 2){
+                    PaymentDAO.INSTANCE.insertPayment(orderId, new Timestamp(Calendar.getInstance().getTimeInMillis()), moneyAmount, paymentMethodId);
+                }
 
                 request.setAttribute("productOptionSelected", productOptionsId);
                 request.setAttribute("productOptions", productOptions);
-                request.setAttribute("orderId", 1);
+                request.setAttribute("orderId", orderId);
                 request.getRequestDispatcher("/ProcessAfterCheckout").forward(request, response);
 //                processRequest(request, response);
                 return;

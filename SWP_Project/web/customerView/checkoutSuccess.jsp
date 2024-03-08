@@ -143,7 +143,7 @@
         
         <div class="container-fluid py-1" style="margin-top: 40px;">
             <div class="container py-2">
-                <h2>Order Success</h2>
+                <h2 style="color: green;">Order Success</h2>
             </div>
         </div>
         
@@ -151,9 +151,7 @@
         <div class="container-fluid py-3">
             <div class="container py-3">
                 <div class="row">
-                    <div class="col-md-5">
-                        
-                    </div>
+                    
                     <div class="table-responsive col-md-7">
                         <div>
                             <h4>Order Information</h4>
@@ -192,6 +190,9 @@
                                 </tr>
                             </table>
                         </div>
+                    </div>
+                    <div class="col-md-5">
+                        
                     </div>
                 </div>
             </div>

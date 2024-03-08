@@ -166,24 +166,23 @@ public class AddProduct extends HttpServlet {
             request.setAttribute("quantity", quantity);
             request.setAttribute("product", ProductDAO.INSTANCE.getProductById(productId));
             
-            if(productName)
             
             if(ProductDAO.INSTANCE.checkProductOptionIsExist(productId, brandId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId)){
                 request.setAttribute("addFail", "Add fail");
             }
             else{
-//                if(ProductDAO.INSTANCE.getProductById(productId) == null){
-//                    ProductDAO.INSTANCE.insertProduct(productId, productName, brandId, productDetail);
-//                }
-//                
-//                ProductDAO.INSTANCE.insertProductOption(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
-//                    quantity, 0);
-//                for (String imageText : images) {
-//                    if(imageText != null && !"".equals(imageText.trim()))
-//                        ProductDAO.INSTANCE.insertImage(imageText.trim(), 
-//                          ProductDAO.INSTANCE.getProductOptionId(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
-//            }
-//                request.setAttribute("addSuccess", "Add success");
+                if(ProductDAO.INSTANCE.getProductById(productId) == null){
+                    ProductDAO.INSTANCE.insertProduct(productId, productName, brandId, productDetail);
+                }
+                
+                ProductDAO.INSTANCE.insertProductOption(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, price,
+                    quantity, 0);
+                for (String imageText : images) {
+                    if(imageText != null && !"".equals(imageText.trim()))
+                        ProductDAO.INSTANCE.insertImage(imageText.trim(), 
+                          ProductDAO.INSTANCE.getProductOptionId(productId, hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId));
+            }
+                request.setAttribute("addSuccess", "Add success");
             }
             request.getSession().removeAttribute("productOptionListAfterSearching");
         }catch(NumberFormatException e){
