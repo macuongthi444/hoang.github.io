@@ -26,7 +26,9 @@ import java.util.logging.Logger;
 public class UserDao extends DBContext {
 
     public static final UserDao INSTANCE = new UserDao();
-
+    
+    
+    
     public List<Account> getAllAccount() {
         ArrayList<Account> arr = new ArrayList<>();
         PreparedStatement ps = null;

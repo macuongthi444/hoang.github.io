@@ -303,3 +303,12 @@ select * from Product_Option where productId = (select productId from Product_Op
 
 select * From Image
 
+
+select * from Account_Profile
+select * from Account
+select * from Communications
+
+delete Communications
+insert into Communications values (1, 2, '02929323', 'Hanoi')
+
+select * From Role
