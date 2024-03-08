@@ -5,6 +5,7 @@
 package Model;
 
 import java.sql.Timestamp;
+import java.sql.Date;
 
 /**
  *
@@ -15,7 +16,10 @@ public class Order {
     private Account account;
     private Timestamp orderDate;
     private Communications communications;
-
+    
+    private int accountId;
+    private int communicationId;
+    
     public Order() {
     }
     
@@ -24,6 +28,15 @@ public class Order {
         this.account = account;
         this.orderDate = orderDate;
         this.communications = communications;
+
+    }
+    
+
+    public Order(int orderId, int accountId, Timestamp orderDate, int communicationId) {
+        this.orderId = orderId;
+        this.accountId = accountId;
+        this.orderDate = orderDate;
+        this.communicationId = communicationId;
     }
 
     public int getOrderId() {
@@ -33,6 +46,16 @@ public class Order {
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    
 
     public Account getAccount() {
         return account;
@@ -57,6 +80,14 @@ public class Order {
     public void setCommunications(Communications communications) {
         this.communications = communications;
     }
-    
-    
+
+    public int getCommunicationId() {
+        return communicationId;
+    }
+
+    public void setCommunicationId(int communicationId) {
+        this.communicationId = communicationId;
+    }
+ 
+ 
 }

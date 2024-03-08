@@ -4,8 +4,14 @@
  */
 package controller.user;
 
+import DAO.DAOAccount;
 import DAO.UserDao;
 import Model.Account;
+import Model.AccountProfile;
+
+import DAO.UserDao;
+import Model.Account;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +19,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import DAO.UserDao;
+
+import DAO.DAOAccount;
 
 /**
  *
@@ -60,12 +70,14 @@ public class userprofile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        String userid = request.getParameter("userid");
-        UserDao dao = new UserDao();
-        Account acc = dao.getAccountById(Integer.parseInt(userid));
-       // out.print(acc.getUsername());
-       request.setAttribute("acc", acc);
-       request.getRequestDispatcher("userprofile.jsp").forward(request, response);
+
+        int userid = Integer.parseInt(request.getParameter("userid"));
+        DAOAccount dao = new DAOAccount();
+        AccountProfile acc = dao.getAccountProfileById(userid);
+
+        // out.print(acc.getUsername());
+        request.setAttribute("acc", acc);
+        request.getRequestDispatcher("userprofile.jsp").forward(request, response);
 
     }
 

@@ -188,6 +188,7 @@ public class AddProduct extends HttpServlet {
         }catch(NumberFormatException e){
             
         }
+        request.getSession().removeAttribute("productOptionListAfterSearching");
         doGet(request, response);
     }
 

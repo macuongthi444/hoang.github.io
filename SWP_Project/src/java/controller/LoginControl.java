@@ -23,7 +23,8 @@ import jakarta.servlet.http.HttpSession;
 public class LoginControl extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -37,21 +38,42 @@ public class LoginControl extends HttpServlet {
         String password = request.getParameter("dzEmail");
         DAOAccount dao = new DAOAccount();
         Account acc = dao.login(username, password);
-
+        HttpSession session = request.getSession();
+        System.out.println(acc);
         if (acc == null) {
             request.setAttribute("message", "Wrong user or pass");
-            request.getRequestDispatcher("view/login.jsp").forward(request, response);
-            System.out.println("null");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
 
         } else {
-            HttpSession session = request.getSession();
+            if (acc.getRole().getRoleName().equalsIgnoreCase("Admin")) {
+                if (acc.getAccountStatus().getAccountStatusId() == 6) {
+                    request.setAttribute("messageban", "You Ban");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                } else {
+                    response.sendRedirect("/SWP_Project/ChartControll");
+                    session.setAttribute("accl", acc);
+                }
+
+            } else if (acc.getRole().getRoleName().equalsIgnoreCase("Customer")) {
+                if (acc.getAccountStatus().getAccountStatusId() == 6) {
+                    request.setAttribute("messageban", "You Ban");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                } else {
+                    response.sendRedirect("/SWP_Project/home");
+                    session.setAttribute("accl", acc);
+                }
+
+            } else if (acc.getRole().getRoleName().equalsIgnoreCase("Marketing")) {
+                if (acc.getAccountStatus().getAccountStatusId() == 6) {
+                    request.setAttribute("messageban", "You Ban");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                } else {
+                    response.sendRedirect("PostList");
+                    session.setAttribute("accl", acc);
+                }
+
+            }
             session.setAttribute("account", acc);
-            if(acc.getRole().getRoleName().equalsIgnoreCase("Admin")){
-                response.sendRedirect("/SWP_Project/adminView/index.html");
-            }
-            else{
-                response.sendRedirect("/SWP_Project/home");
-            }
 
         }
     }

@@ -13,10 +13,23 @@ public class Product {
     private String productName;
     private Brand brand;
     private String productDetail;
+    private ProductOption productOption;
+
+    public ProductOption getProductOption() {
+        return productOption;
+    }
+
+    public void setProductOption(ProductOption productOption) {
+        this.productOption = productOption;
+    }
     
     public Product() {
     }
 
+    public Product(String productName) {
+        this.productName = productName;
+    }
+    
     public Product(int productId, String productName, Brand brand, String productDetail) {
         this.productId = productId;
         this.productName = productName;
@@ -64,6 +77,5 @@ public class Product {
     public String toString() {
         return "Product{" + "productId=" + productId + ", productName=" + productName + ", brand=" + brand  + ", productDetail=" + productDetail + '}';
     }
-
-    
 }
+

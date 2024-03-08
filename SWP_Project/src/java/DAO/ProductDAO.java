@@ -21,6 +21,7 @@ import Model.ScreenSize;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import DAO.CouponDAO;
+import Model.ProductWithOption;
 
 /**
  *
@@ -42,6 +44,46 @@ public class ProductDAO extends DBContext {
 //    public void updateImage(int imageId, String imageText, int productOptionId){
 //        
 //    }
+    
+    public List<ProductWithOption> getProductWithOptionById(int id) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "Select * from Product_Option \n"
+                + "po join GraphicCard gc on po.graphicCardId = gc.graphicCardId\n"
+                + "join Color c on c.colorId = po.colorId join\n"
+                + "HardwareMemory h on h.hardwareMemoryId=po.hardwareMemoryId\n"
+                + "join RamMemory r on r.ramMemoryId = po.ramMemoryId \n"
+                + "join ScreenSize s on s.screenSizeId=po.screenSizeId\n"
+                + "join Resolution re on re.resolutionId=po.resolutionId \n"
+                + "where productId =  " + id;
+
+        try {
+            List<ProductWithOption> list = new ArrayList<>();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ProductWithOption option = new ProductWithOption();
+                option.setProductOptionId(rs.getInt("productOptionId"));
+                option.setCard(new GraphicCard(rs.getInt("graphicCardId"), rs.getString("graphicCard")));
+                option.setColor(new Color(0, rs.getString("color")));
+                option.setHardware(new HardwareMemory(0, rs.getString("hardwareMemory")));
+                option.setSize(new ScreenSize(0, rs.getString("screenSize")));
+                option.setRam(new RamMemory(0, rs.getString("ramMemory")));
+                option.setResolution(new Resolution(0, rs.getString("resolution")));
+                option.setPrice(rs.getDouble("price"));
+                list.add(option);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("Error at getProductOptionList " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+
+
     
     public void updateProductOptionQuantity(int productOptionId, int quantity){
         PreparedStatement ps = null;
@@ -366,9 +408,10 @@ public class ProductDAO extends DBContext {
             ps.setDouble(8, price);
             ps.setInt(9, numberInStock);
             ps.setInt(10, quantitySold);
+            ps.setInt(11, productId);
             ps.execute();
         } catch (SQLException e) {
-            System.out.println("Error at ProductDAO.InsertProduct_Option " + e.getMessage());
+            System.out.println("Error at updateProductOption " + e.getMessage());
         } finally{
             if(ps != null) try {
                 ps.close();
@@ -377,6 +420,7 @@ public class ProductDAO extends DBContext {
             }
         }
     }
+    
     
     public List<ProductOption> getProductOptionByProductId(int productId){
         String sql = "select * from product_option where productId = ?";
@@ -1363,7 +1407,87 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
+    
+    public ArrayList<ProductWithImage> getListProductSearch2(String search, String priceFrom, String priceTo, String hardware, String ram, String color, String screen, String reso, String card, String sortType) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from Product p \n"
+                + "join Product_Option po on p.productId=po.productId \n"
+                + "join [Image] i on i.product_OptionId = po.productOptionId\n"
+                + "join HardwareMemory h on po.hardwareMemoryId = h.hardwareMemoryId\n"
+                + "join RamMemory r on r.ramMemoryId=po.ramMemoryId\n"
+                + "join Color c on c.colorId=po.colorId\n"
+                + "join ScreenSize s on s.screenSizeId =po.screenSizeId\n"
+                + "join Resolution re on re.resolutionId=po.resolutionId\n"
+                + "join GraphicCard g on g.graphicCardId=po.graphicCardId\n"
+                + "where po.price between ? and ? and \n"
+                + "p.productName like ? and\n"
+                + "h.hardwareMemory like ? and r.ramMemory like ? and c.color like ? and s.screenSize like ? and re.resolution like ? and g.graphicCard like ? "
+                + sortType;
+        try {
+            if (search == null || search.isEmpty()) {
+                search = "";
+            }
+            if (hardware == null || hardware.isEmpty()||hardware.equalsIgnoreCase("all")) {
+                hardware = "";
+            }
+            if (color == null || color.isEmpty()||color.equalsIgnoreCase("all")) {
+                color = "";
+            }
+            if (ram == null || ram.isEmpty()||ram.equalsIgnoreCase("all")) {
+                ram = "";
+            }
+            if (screen == null || screen.isEmpty()||screen.equalsIgnoreCase("all")) {
+                screen = "";
+            }
+            if (reso == null || reso.isEmpty()||reso.equalsIgnoreCase("all")) {
+                reso = "";
+            }
+            if (card == null || card.isEmpty()||card.equalsIgnoreCase("all")) {
+                card = "";
+            }
+            if (priceFrom == null || priceFrom.isEmpty()) {
+                priceFrom = "0";
+            }
+            if (priceTo == null || priceTo.isEmpty()) {
+                priceTo = "9999999999";
+            }
+            if (sortType == null || sortType.isEmpty()) {
+                sortType = "";
+            }
+            ArrayList<ProductWithImage> list = new ArrayList<>();
+            ps = connection.prepareStatement(sql);
+            ps.setDouble(1, Double.valueOf(priceFrom));
+            ps.setDouble(2, Double.valueOf(priceTo));
+            ps.setString(3, "%" + search + "%");
+            ps.setString(4, "%" + hardware + "%");
+            ps.setString(5, "%" + ram + "%");
+            ps.setString(6, "%" + color + "%");
+            ps.setString(7, "%" + screen + "%");
+            ps.setString(8, "%" + reso + "%");
+            ps.setString(9, "%" + card + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                // Product u = new Product(rs.getInt(1), rs.getString(2), new Category(rs.getInt("categoryId"), rs.getString("categoryName")), new Coupon(), rs.getString("producDetail"));
+                //u.setCategory(new Category(rs.getInt("categoryId"), rs.getString("categoryName")));
+                ProductWithImage u = new ProductWithImage();
+                u.setProductName(rs.getString("productName"));
+                u.setProductID(rs.getInt("productId"));
+                u.setImageText(rs.getString("imageText"));
+                u.setProductDetail(rs.getString("productDetail"));
+                u.setPrice(rs.getInt("price"));
+                list.add(u);
+            }
+            return list;
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("Error at getListProductSearch2 " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
 
+    
     public ProductWithImage getProductWithImageByPid(int pid) {
         PreparedStatement ps = null;
         ResultSet rs = null;

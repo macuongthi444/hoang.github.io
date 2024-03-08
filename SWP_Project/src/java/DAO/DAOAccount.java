@@ -4,11 +4,18 @@
  */
 package DAO;
 
+
+
+
 import Model.Account;
+import Model.AccountProfile;
+import Model.AccountStatus;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +42,9 @@ public class DAOAccount extends DBContext {
                 int id = rs.getInt(1);
 
                 Account ac = new Account(id, rs.getString("username"), rs.getString("password"), rs.getString("email"),
-                        RoleDAO.INSTANCE.getRoleById(rs.getInt("RoleId")), AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
+                        RoleDAO.INSTANCE.getRoleById(rs.getInt("RoleId")), 
+//                        AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
+                        new AccountStatus(1, ""));
                 return ac;
             }
         } catch (SQLException ex) {
@@ -67,6 +76,30 @@ public class DAOAccount extends DBContext {
             closeStatement(stm, rs);
         }
         return null;
+    }
+     public List<Account> getAllAccount(){
+        String sql = "select * from [Account]";
+        List<Account> list = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            
+            while (rs.next()) {   
+            int id = rs.getInt(1);
+                Account ac = new Account(id, rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+                       RoleDAO.INSTANCE.getRoleById(rs.getInt("RoleId")), AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")) );
+                list.add(ac);
+            }
+            return list;
+        } catch (SQLException ex) {
+            System.out.println("Error at getAllAccount " + ex.getMessage());
+        } finally{
+            closeStatement(stm, rs);
+        }
+        return list;
+        
     }
 //     public void signup(String user, String email, String pass) {
 //         
@@ -106,17 +139,46 @@ public class DAOAccount extends DBContext {
             stm.setString(4, pass);
             stm.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error at signup " + e.getMessage());
         } finally {
             // Đảm bảo đóng các tài nguyên như PreparedStatement
             closeStatement(stm, rs);
         }
     }
 
+    public AccountProfile getAccountProfileById(int id) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from [Account_Profile] where [accountId]=?";
+           
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            UserDao dao = new UserDao();
+            if (rs.next()) {
+      
+                AccountProfile acc = new AccountProfile(
+                        dao.getAccountById(rs.getInt("accountId")),
+                        rs.getString("fullName"),
+                        rs.getDate("birthDate"),
+                        rs.getBoolean("gender"),
+                        rs.getString("avatar"));
+                return acc;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error at getAccountProfileById " + e.getMessage());
+        } finally{
+            closeStatement(stm, rs);
+        }
+        return null;
+    }
+    
     public static void main(String[] args) {
         DAOAccount dao = new DAOAccount();
-        Account ac = dao.login("admin", "123");
-        System.out.println(ac.toString());
+        AccountProfile acc = dao.getAccountProfileById(14);
+        System.out.println(dao.login("admin", "123"));
     }
 
 }
