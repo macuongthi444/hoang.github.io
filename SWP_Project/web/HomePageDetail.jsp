@@ -381,25 +381,16 @@
                                 <div class="mb-4">
                                     <h4>Brand</h4>
                                     <ul class="list-unstyled fruite-categorie">
+                                       <c:forEach var="brandList" items="${brandList}">
                                         <li>
                                             <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>DELL</a>
+                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>${brandList.brandName}</a>
                                                 <span>(3)</span>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>ACER</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>APPLE</a>
-                                                <span>(2)</span>
-                                            </div>
-                                        </li>
                                        
+                                        
+                                       </c:forEach>
                                     </ul>
                                 </div>
                             </div>
@@ -535,6 +526,7 @@
                     </div>
                 </div>
                 <h1 class="fw-bold mb-0">Related products</h1>
+                
                 <div class="vesitable">
                     <div class="owl-carousel vegetable-carousel justify-content-center">
                         <div class="border border-primary rounded position-relative vesitable-item">

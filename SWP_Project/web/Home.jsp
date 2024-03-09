@@ -277,7 +277,7 @@
                                                 <a class="cart add-to-cart" href="home?accountID=${sessionScope.accountID}&pid=${product.productID}&amount=1" data-quantity="${product.quantity}">Add to Cart</a>
                                             </c:otherwise>
                                         </c:choose>
-                                               <a  href="detail?productId=${product.productID}">View Detail</a>    
+                                               <a  href="detail?productId=${product.productID}&brandId=${pr}">View Detail</a>    
                                     </div>
                                         
                                     <div class="text-dark2 justify-content-between flex-lg-wrap" style="font-weight: bold"></div>
