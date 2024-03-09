@@ -320,6 +320,22 @@ public class ProductDAO extends DBContext {
         return -1;
     }
 
+     public ProductWithOption getProductOptionById(int productId) {
+        String sql = "select * from [Product_Option] where [productOptionId] = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, productId);         
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                ProductWithOption o = new ProductWithOption();
+                o.setPrice(rs.getDouble("price"));
+                return o;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at ProductDAO.getProductOptionId ");
+        }
+        return null;
+    }
     public void insertProduct(int id, String productName, int categoryId, Integer couponId, String productDetail) {
         String sql = "insert into Product values(?, ?, ?, ?, ?)";
         try {
@@ -708,9 +724,8 @@ public class ProductDAO extends DBContext {
 //         System.out.println(list);
 //        ProductWithImage product = dao.getProductById(3);
 //        System.out.println(product.getProductName());
-        List<ProductWithImage> list = dao.getListProductSearch2("bao", "", "", "all", "all", "all", "all","", "", "order by po.price desc");
-        for (ProductWithImage screenSize : list) {
-            System.out.println(screenSize.getProductName());
-        }
+//        
+         ProductWithOption o =dao.getProductOptionById(1);
+         System.out.println(o.getPrice());
     }
 }

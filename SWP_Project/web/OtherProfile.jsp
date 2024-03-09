@@ -178,18 +178,7 @@
                         </div>
 
                         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                            <!-- Search -->
-                            <div class="navbar-nav align-items-center">
-                                <div class="nav-item d-flex align-items-center">
-                                    <i class="bx bx-search fs-4 lh-0"></i>
-                                    <input
-                                        type="text"
-                                        class="form-control border-0 shadow-none ps-1 ps-sm-2"
-                                        placeholder="Search..."
-                                        aria-label="Search..." />
-                                </div>
-                            </div>
-                            <!-- /Search -->
+                         
 
                             <ul class="navbar-nav flex-row align-items-center ms-auto">
                                 <!-- Place this tag where you want the button to render. -->
@@ -331,8 +320,8 @@
                                             <small class="text-muted text-uppercase">About</small>
                                             <ul class="list-unstyled mb-4 mt-3">
                                                 <li class="d-flex align-items-center mb-3"><i class="bx bx-user"></i><span class="fw-medium mx-2">Full Name:</span> ${otherprofile.fullName }<span></span></li>
-                                                <li class="d-flex align-items-center mb-3"><i class="bx bx-check"></i><span class="fw-medium mx-2">Birth Date: </span> <span>${otherprofile.birthDate }</span></li>
-                                                <li class="d-flex align-items-center mb-3"><i class="bx bx-star"></i><span class="fw-medium mx-2">Gender: </span> <span><c:if test = "${otherprofile.gender ==true}"><span>Male</c:if><c:if test = "${otherprofile.gender ==false}"><span>Female</c:if></span></li>
+          
+                                             
                                                
                                             </ul>
                                            

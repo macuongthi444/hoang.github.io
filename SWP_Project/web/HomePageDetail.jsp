@@ -1,9 +1,10 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8">
-        <title>Fruitables - Vegetable Website Template</title>
+        <title>Laptop ${detail.productName}</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -55,7 +56,7 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a href="home" class="navbar-brand"><h1 class="text-primary display-6">Laptop</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
@@ -133,14 +134,14 @@
                             <div class="col-lg-6">
                                 <div class="border rounded">
                                     <a href="#">
-                                        <img src="img/single-item.jpg" class="img-fluid rounded" alt="Image">
+                                        <img src="img/${detail.imageText}" class="img-fluid rounded" alt="Image">
                                     </a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h4 class="fw-bold mb-3">Brocoli</h4>
-                                <p class="mb-3">Category: Vegetables</p>
-                                <h5 class="fw-bold mb-3">3,35 $</h5>
+                                <h4 class="fw-bold mb-3">Brand:&nbsp;&nbsp;${detail.productName}&reg;</h4>
+
+                                <h5 class="fw-bold mb-3" id="price">Please choose the option</h5>
                                 <div class="d-flex mb-4">
                                     <i class="fa fa-star text-secondary"></i>
                                     <i class="fa fa-star text-secondary"></i>
@@ -148,8 +149,7 @@
                                     <i class="fa fa-star text-secondary"></i>
                                     <i class="fa fa-star"></i>
                                 </div>
-                                <p class="mb-4">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc.</p>
-                                <p class="mb-4">Susp endisse ultricies nisi vel quam suscipit. Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish</p>
+
                                 <div class="input-group quantity mb-5" style="width: 100px;">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
@@ -169,70 +169,129 @@
                                 <nav>
                                     <div class="nav nav-tabs mb-3">
                                         <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
-                                            id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
-                                            aria-controls="nav-about" aria-selected="true">Description</button>
+                                                id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                                aria-controls="nav-about" aria-selected="true">Description</button>
                                         <button class="nav-link border-white border-bottom-0" type="button" role="tab"
-                                            id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                            aria-controls="nav-mission" aria-selected="false">Reviews</button>
+                                                id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                                aria-controls="nav-mission" aria-selected="false">Reviews</button>
                                     </div>
                                 </nav>
                                 <div class="tab-content mb-5">
                                     <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                        <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc. 
-                                            Susp endisse ultricies nisi vel quam suscipit </p>
-                                        <p>Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish filefish Antarctic 
-                                            icefish goldeye aholehole trumpetfish pilot fish airbreathing catfish, electric ray sweeper.</p>
+                                        <p>${detail.productDetail} </p>
+
                                         <div class="px-2">
                                             <div class="row g-4">
                                                 <div class="col-6">
-                                                    <div class="row bg-light align-items-center text-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Weight</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">1 kg</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Country of Origin</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Agro Farm</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row bg-light text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Quality</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Organic</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">?heck</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Healthy</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row bg-light text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Min Weight</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">250 Kg</p>
-                                                        </div>
+                                                    <c:forEach var="option" items="${option}">
+                                                        <table border="1">
+                                                            <label>
+                                                                <input type="radio" onclick="chooseOption('${option.productOptionId}')" name="selectedOption" value="${option.productOptionId}">
+                                                            </label>
+                                                            <div class="row bg-light align-items-center text-center justify-content-center py-2">
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">Hardware Memory</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">${option.getHardware().hardwareMemory}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row text-center align-items-center justify-content-center py-2">
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">Ram Memory</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">${option.getRam().ramMemory}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row bg-light text-center align-items-center justify-content-center py-2">
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">Resolution</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">${option.getResolution().resolution}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row text-center align-items-center justify-content-center py-2">
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">Color</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">${option.getColor().color}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row bg-light text-center align-items-center justify-content-center py-2">
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">Screen Size</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="mb-0">${option.getSize().screenSize}</p>
+                                                                </div>
+                                                            </div> </table> </c:forEach>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                        <div class="d-flex">
-                                            <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                            <div class="">
+                                        <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                            <div class="d-flex">
+                                                <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                                <div class="">
+                                                    <div  id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                                                        <h5><span>${countAllReview}</span> review for <span>${detail.productName}</span></h5>
+
+                                                    <h5 class="mt-4">Add a review</h5>
+                                                    <p></p>
+                                                    <div>
+                                                        <!-- Your review -->
+                                                        <div class="md-form md-outline">
+                                                            <textarea id="form76" class="md-textarea form-control pr-6" rows="4"></textarea>
+                                                            <label for="form76"></label>
+                                                        </div>
+                                                        <div class="text-right pb-2">
+                                                            <button type="button" class="btn btn-primary" onclick="addReview(${detail.productID})">Add a review</button>
+                                                        </div>
+                                                    </div>
+                                                    <c:forEach items="${listAllReview}" var="r">
+
+                                                        <div class="media mt-3 mb-4">
+                                                            <img class="d-flex mr-3 z-depth-1" src="img/avatar.jpg"
+                                                                 width="62" alt="Generic placeholder image">
+                                                            <div class="media-body">
+                                                                <div class="d-flex justify-content-between">
+
+                                                                    <c:forEach items="${listAllAcount}" var="a">
+                                                                        <c:if test="${r.accountID == a.id }">
+                                                                            <p class="mb-2" style="font-size: 14px;">${r.dateReview}</p><br>
+
+                                                                            <h5>${a.username}</h5>
+
+
+
+                                                                            <p class="mb-0">${r.contentReview }</p>
+
+                                                                            <c:choose>
+                                                                                <c:when test="${acc.id == r.accountID}">
+                                                                                    <a href="load?id=${r.id}">Edit your review</a> </br>
+                                                                                    <a href="#" onclick="confirmDelete('${r.id}', '${r.productID}')"title="Delete">Delete the review</a> 
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <a href="loadotherprofile?id=${a.id}&productId=${detail.productID}" >View profile</a>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </c:if>
+                                                                    </c:forEach>
+
+                                                                  
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                        <hr>    
+
+                                                    </c:forEach>
+                                                </div>
                                                 <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
                                                 <div class="d-flex justify-content-between">
                                                     <h5>Jason Smith</h5>
@@ -280,7 +339,7 @@
                                 <div class="row g-4">
                                     <div class="col-lg-6">
                                         <div class="border-bottom rounded">
-                                            <input type="text" class="form-control border-0 me-4" placeholder="Yur Name *">
+                                            <input type="text" class="form-control border-0 me-4" placeholder="Your Name *">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -320,38 +379,27 @@
                                     <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
                                 </div>
                                 <div class="mb-4">
-                                    <h4>Categories</h4>
+                                    <h4>Brand</h4>
                                     <ul class="list-unstyled fruite-categorie">
                                         <li>
                                             <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
+                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>DELL</a>
                                                 <span>(3)</span>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Oranges</a>
+                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>ACER</a>
                                                 <span>(5)</span>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Strawbery</a>
+                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>APPLE</a>
                                                 <span>(2)</span>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Banana</a>
-                                                <span>(8)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Pumpkin</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
+                                       
                                     </ul>
                                 </div>
                             </div>
@@ -477,9 +525,9 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="position-relative">
-                                    <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
+                                    <img src="img/${detail.imageText}" class="img-fluid w-100 rounded" alt="">
                                     <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                        <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
+                                        <h3 class="text-secondary fw-bold"> Laptop <br> Gaming</h3>
                                     </div>
                                 </div>
                             </div>
@@ -606,7 +654,7 @@
             </div>
         </div>
         <!-- Single Product End -->
-    
+
 
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
@@ -704,17 +752,68 @@
         <!-- Back to Top -->
         <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
-        
-    <!-- JavaScript Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/lightbox/js/lightbox.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+
+
+                                                function addReview(pID) {
+                                                    var cntReview = document.getElementById("form76").value;
+                                                    $.ajax({
+                                                        url: "/SWP_Project/addReview",
+                                                        type: "get",
+                                                        data: {
+                                                            productID: pID,
+                                                            contentReview: cntReview
+                                                        },
+                                                        success: function (data) {
+                                                            var row = document.getElementById("reviews");
+                                                            row.innerHTML += data;
+                                                        },
+                                                        error: function (xhr) {
+                                                            //Do Something to handle error
+                                                        }
+                                                    });
+                                                }
+                                                function confirmDelete(id, productID) {
+                                                    if (confirm("Bạn có muốn xóa đánh giá này không?")) {
+
+
+                                                        window.location.href = "deletereview?id=" + id + "&productID=" + productID;
+                                                    } else {
+
+                                                    }
+                                                }
+    </script>
+        <script>
+                                                                                        function chooseOption(id) {
+                                                                                            $.ajax({
+                                                                                                url: "/SWP_Project/UpdatePrice",
+                                                                                                type: 'GET',
+                                                                                                data: {
+                                                                                                    "productOptionId": id
+                                                                                                },
+                                                                                                success: function (data, textStatus, jqXHR) {
+                                                                                                    document.getElementById('price').innerHTML = data;
+                                                                                                },
+                                                                                                error: function (jqXHR, textStatus, errorThrown) {
+
+                                                                                                }
+
+
+                                                                                            });
+                                                                                        }
+        </script>
     </body>
 
 </html>

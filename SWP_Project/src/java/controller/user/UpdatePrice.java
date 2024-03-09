@@ -5,13 +5,8 @@
 
 package controller.user;
 
-import DAO.DAOAccount;
 import DAO.ProductDAO;
-import DAO.ReviewDAO;
-import Model.Account;
-import Model.ProductWithImage;
 import Model.ProductWithOption;
-import Model.Review;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,14 +14,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author This PC
  */
-@WebServlet(name="ProductDetail", urlPatterns={"/detail"})
-public class ProductDetail extends HttpServlet {
+@WebServlet(name="UpdatePrice", urlPatterns={"/UpdatePrice"})
+public class UpdatePrice extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -43,10 +37,10 @@ public class ProductDetail extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ProductDetail</title>");  
+            out.println("<title>Servlet UpdatePrice</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ProductDetail at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdatePrice at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,23 +57,11 @@ public class ProductDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id_raw = request.getParameter("productId");
-        int id=Integer.parseInt(id_raw);
+        String id = request.getParameter("productOptionId");
         ProductDAO dao = new ProductDAO();
-        ProductWithImage product =dao.getProductById(id);
-        ReviewDAO reviewDao = new ReviewDAO();
-        DAOAccount daoAcc = new DAOAccount();
-         List<Review> listAllReview = reviewDao.getAllReviewByProductID(id_raw);
-         int countAllReview = listAllReview.size();
-        List<ProductWithOption> option = dao.getProductWithOptionById(id);
-        List<Account> listAcc = daoAcc.getAllAccount();
-        request.setAttribute("listAllAcount", listAcc);
-        request.setAttribute("listAllReview", listAllReview);
-         request.setAttribute("countAllReview", countAllReview);
-        request.setAttribute("option", option);
-        request.setAttribute("detail", product);
-        request.getRequestDispatcher("HomePageDetail.jsp").forward(request, response);
-        
+        ProductWithOption po = dao.getProductOptionById(Integer.parseInt(id));
+           PrintWriter out = response.getWriter();
+            out.println("<h5 class=\"fw-bold mb-3\">"+po.getPrice()+"</h5>");
     } 
 
     /** 

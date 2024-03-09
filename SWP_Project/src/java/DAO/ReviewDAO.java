@@ -179,8 +179,8 @@ public class ReviewDAO {
            List<Review> list = dao.getReviewByAccountId(15);
            for (Review review : list) {
                System.out.println(review.getProductName());
-                System.out.println(review.getAvatar());
-                System.out.println(review.getContentReview().matches("."));
+               System.out.println(review.getAvatar());
+               System.out.println(review.getContentReview().matches("."));
         }
         dao.deleteReview(23);
 
