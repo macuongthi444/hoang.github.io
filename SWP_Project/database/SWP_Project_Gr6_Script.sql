@@ -283,6 +283,8 @@ select po.productOptionId, p.productId, p.productName, p.categoryId, p.productDe
 	Brand b, Product_Option po, product p, HardwareMemory hm, RamMemory rm, Color c, ScreenSize sc, Resolution r, GraphicCard gc where po.productId = p.productId and po.hardwareMemoryId = hm.hardwareMemoryId and po.resolutionId = r.resolutionId
 	and po.ramMemoryId = rm.ramMemoryId and po.colorId = c.colorId and po.brandId = b.brandId and po.graphicCardId = gc.graphicCardId and po.ScreenSizeId = sc.screenSizeId
 select * from [image]
+
+
 delete from Product_Option where productOptionId = 16
 select * From category
 --delete from [option] where optionId = 2
@@ -312,3 +314,29 @@ delete Communications
 insert into Communications values (1, 2, '02929323', 'Hanoi')
 
 select * From Role
+
+select * from cart_item
+select * From [order]
+select * from Order_Info
+select * From Account_Profile
+
+drop table contact_image
+drop table contact
+
+create table Contact(
+	contactId int not null primary key,
+	accountId int foreign key references Account(accountId) not null,
+	email varchar(50) not null,
+	phoneNumber varchar(20),
+	content nvarchar(200) not null,
+	contactDate datetime not null
+)
+
+create table Contact_Image(
+	contactImageId int identity(1, 1) primary key not null,
+	contactId int foreign key references Contact(contactId) not null,
+	[imageText] varchar(255) not null
+)
+
+select * from Contact
+select * from Contact_Image

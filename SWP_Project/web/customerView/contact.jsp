@@ -39,14 +39,14 @@
             .contact-table > tbody > tr > td{
                 border: none;
             }
-            .contact-table > tbody > tr > td:first-child{
-                width: 10%;
+            .contact-table tbody tr td:first-child{
+                width: 150px;
                 padding-top: 20px;
             }
             .contact-table tbody tr td:nth-child(2){
-                color: red;
             }
         </style>
+        
     </head>
 
     <body>
@@ -75,17 +75,14 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Group 6</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a href="/SWP_Project/home" class="nav-item nav-link">Home</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="cart.html" class="dropdown-item">Cart</a>
                                     <a href="chackout.html" class="dropdown-item">Chackout</a>
@@ -96,11 +93,6 @@
                             <a href="contact.html" class="nav-item nav-link active">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            <a href="#" class="position-relative me-4 my-auto">
-                                <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                            </a>
                             <a href="#" class="my-auto">
                                 <i class="fas fa-user fa-2x"></i>
                             </a>
@@ -165,8 +157,8 @@
                                 loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </div>-->
-                        <div class="col-lg-7">
-                            <form action="" class="">
+                        <div class="col-lg-10">
+                            <form action="contact" method="post" class="" id="contact-form" onsubmit="return checkInput()">
                                 <table class="table contact-table" style="color: black;">
                                     <tr>
                                         <td>
@@ -182,14 +174,16 @@
                                             <label for="email">Email*</label>
                                         </td>
                                         <td>
-                                            <input value="${profile.account.email}" autocomplete="off" name="email" style="color: black;"
-                                                   type="email" class="w-100 form-control border-0 py-3" placeholder="Enter Your Email">
+                                            <input value="${profile.account.email}" autocomplete="off" name="email" style="color: black;" id="email"
+                                                   type="email" class="w-100 form-control border-0 py-3" placeholder="Enter Your Email"
+                                                   >
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><label>Phone number</label></td>
                                         <td>
-                                            <input type="text" placeholder="Phone number" class="w-100 form-control border-0 py-3" list="phoneNumberList" autocomplete="off"
+                                            <input name="phoneNumber"
+                                                type="text" placeholder="Phone number" class="w-100 form-control border-0 py-3" list="phoneNumberList" autocomplete="off"
                                                    pattern="[0-9]{9,}" title="Phone number only contains number 0-9 with at least 9 digits" style="color: black;"/>
                                             <datalist id="phoneNumberList">
                                                 <c:forEach items="${requestScope.phoneNumberList}" var="phoneNumber">
@@ -200,15 +194,24 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="content">Content*</label>
+                                            <label for="content">Content*</label> <br/>
+                                            <span id="contentError" style="display: none; color: red;">Content can not be empty</span>
                                         </td>
                                         <td>
-                                            <textarea id="content" name="content" style="color: black;"
+                                            <textarea id="content" name="content" style="color: black;" required=""
                                                       class="w-100 form-control border-0" rows="5" cols="10" placeholder="Your Message"></textarea>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="">File Attach:</label>
+                                        </td>
+                                        <td> 
+                                            <input type="file" multiple="on" name="image"/>
+                                        </td>
+                                    </tr>
                                 </table>
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
+                               <button onclick="checkInput()" class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
                             </form>
                         </div>
                         
@@ -217,8 +220,38 @@
             </div>
         </div>
         <!-- Contact End -->
-
-
+        
+        <script type="text/javascript">
+            function  checkInput(){
+                var contentElement = document.getElementById("content");
+                console.log(contentElement.value.toString().trim());
+                if(contentElement.value.toString().trim() === ""){
+                    document.getElementById("contentError").style.display = "inline";
+                    return false;
+                }else{
+                    document.getElementById("contentError").style.display = "none";
+                }
+                return true;
+//                document.getElementById("contact-form").submit();
+//                $.ajax({
+//                   url: "",
+//                   type: 'POST',
+//                   data: {
+//                       
+//                   },
+//                   success: function(data){
+//                       
+//                   }
+//                });
+            }
+            function isEmpty(elementId){
+                var element = document.getElementById(elementId);
+                if(element.value.trim() === "" || element.innerHTML.toString().trim() === ""){
+                    return true;
+                }
+                return false;
+            }
+        </script>
         <!-- Footer Start -->
 <!--        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
             <div class="container py-5">

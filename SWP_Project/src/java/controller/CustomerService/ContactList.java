@@ -3,14 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.customer;
+package controller.CustomerService;
 
-import DAO.CartItemDAO;
-import DAO.ContactDAO;
-import DAO.UserDao;
-import Model.Account;
-import Model.AccountProfile;
-import Model.Communications;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,20 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.stream.Collectors;
-import util.Util;
 
 /**
  *
  * @author nguye
  */
-@WebServlet(name="Contact", urlPatterns={"/contact"})
-public class Contact extends HttpServlet {
+@WebServlet(name="ContactList", urlPatterns={"/ContactList"})
+public class ContactList extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -48,10 +35,10 @@ public class Contact extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Contact</title>");  
+            out.println("<title>Servlet ContactList</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Contact at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ContactList at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,16 +55,7 @@ public class Contact extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-//        Account account = (Account)session.getAttribute("account");
-        Account account = UserDao.INSTANCE.getAccountById(2);
-        AccountProfile accountProfile = UserDao.INSTANCE.getAccountProfileById(account.getId());
-        List<Communications> communicationsList = CartItemDAO.INSTANCE.getCommunicationsListByAccountId(account.getId());
-//        List<Integer> list = new ArrayList<>();
-//        System.out.println(list.stream().map(Integer::intValue).collect(Collectors.toList()));
-        request.setAttribute("phoneNumberList", communicationsList.stream().map(Communications::getPhoneNumber).collect(Collectors.toList()));
-        request.setAttribute("profile", accountProfile);
-        request.getRequestDispatcher("customerView/contact.jsp").forward(request, response);
+        
     } 
 
     /** 
@@ -90,27 +68,7 @@ public class Contact extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        processRequest(request, response);
-        Account account = (Account)request.getSession().getAttribute("account");
-        int contactId = Util.generateId("contactId", "Contact");
-        String[] images = request.getParameterValues("image");
-        String email = request.getParameter("email").trim();
-        String phoneNumber = request.getParameter("phoneNumber").trim();
-        String content = request.getParameter("content").trim();
-//        System.out.println(contactId + " " + account.getId() + " " + email + " " + phoneNumber + " " + content);
-        try {
-//            ContactDAO.INSTANCE.insertContact(contactId, account.getId(), email, phoneNumber, content, new Timestamp(Calendar.getInstance().getTimeInMillis()));
-//            if(!images[0].equals("")){
-//                for (String image : images) {
-//                    ContactDAO.INSTANCE.insertContactImage(contactId, image);
-//                }
-//            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return;
-        }
-
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /** 

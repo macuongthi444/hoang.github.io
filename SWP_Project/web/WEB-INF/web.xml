@@ -72,6 +72,10 @@
         <servlet-name>LoadUser</servlet-name>
         <servlet-class>controller.user.LoadUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ContactList</servlet-name>
+        <servlet-class>controller.CustomerService.ContactList</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeControl</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -144,6 +148,10 @@
     <servlet-mapping>
         <servlet-name>LoadUser</servlet-name>
         <url-pattern>/loaduser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ContactList</servlet-name>
+        <url-pattern>/ContactList</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

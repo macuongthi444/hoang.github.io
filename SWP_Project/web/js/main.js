@@ -1,3 +1,11 @@
+function isEmpty(elementId){
+    var element = document.getElementById(elementId);
+    if(element.value.trim() === "" || element.innerHTML.toString().trim() === ""){
+        return true;
+    }
+    return false;
+}
+
 function removeSessionStorage(productOptionIds){
     for (var i = 0; i < productOptionIds.length; i++) {
         sessionStorage.removeItem(productOptionIds[i]);

@@ -71,10 +71,11 @@ public class userprofile extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
-        int userid = Integer.parseInt(request.getParameter("userid"));
+//        int userid = Integer.parseInt(request.getParameter("userid"));
+        Account account = (Account)request.getSession().getAttribute("account");
         DAOAccount dao = new DAOAccount();
-        AccountProfile acc = dao.getAccountProfileById(userid);
-
+        AccountProfile acc = dao.getAccountProfileById(account.getId());
+        
         // out.print(acc.getUsername());
         request.setAttribute("acc", acc);
         request.getRequestDispatcher("userprofile.jsp").forward(request, response);
