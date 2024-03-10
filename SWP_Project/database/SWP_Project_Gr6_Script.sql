@@ -333,10 +333,12 @@ create table Contact(
 )
 
 create table Contact_Image(
-	contactImageId int identity(1, 1) primary key not null,
 	contactId int foreign key references Contact(contactId) not null,
-	[imageText] varchar(255) not null
+	[imageText] varchar(255) not null,
+	primary key(contactId, imageText)
 )
 
+select * from account
+select *from Account_Status where accountStatusId = 1
 select * from Contact
 select * from Contact_Image

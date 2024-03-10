@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.CustomerService;
+package controller.customer;
 
-import DAO.ContactDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,8 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author nguye
  */
-@WebServlet(name="ContactList", urlPatterns={"/ContactList"})
-public class ContactList extends HttpServlet {
+@WebServlet(name="ViewSentContact", urlPatterns={"/ViewSentContact"})
+public class ViewSentContact extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,19 +29,20 @@ public class ContactList extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ContactList</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ContactList at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+//        response.setContentType("text/html;charset=UTF-8");
+//        try (PrintWriter out = response.getWriter()) {
+//            /* TODO output your page here. You may use following sample code. */
+//            out.println("<!DOCTYPE html>");
+//            out.println("<html>");
+//            out.println("<head>");
+//            out.println("<title>Servlet ViewSentContact</title>");  
+//            out.println("</head>");
+//            out.println("<body>");
+//            out.println("<h1>Servlet ViewSentContact at " + request.getContextPath () + "</h1>");
+//            out.println("</body>");
+//            out.println("</html>");
+//        }
+        doGet(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,8 +56,8 @@ public class ContactList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("contactList", ContactDAO.INSTANCE.getContactList());
-        request.getRequestDispatcher("customerServiceView/ContactList.jsp").forward(request, response);
+        
+        request.getRequestDispatcher("customerView/ViewSentContact.jsp").forward(request, response);
     } 
 
     /** 
@@ -70,7 +70,6 @@ public class ContactList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /** 

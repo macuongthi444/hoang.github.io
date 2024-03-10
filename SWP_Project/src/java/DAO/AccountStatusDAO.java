@@ -21,8 +21,9 @@ public class AccountStatusDAO extends DBContext{
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String sql = "select * from account_Status where accountStatusId = ?";
+            String sql = "select * from Account_Status where accountStatusId = ?";
             ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
             rs = ps.executeQuery();
             if(rs.next()){
                 return new AccountStatus(id, rs.getString("accountStatusDetail"));

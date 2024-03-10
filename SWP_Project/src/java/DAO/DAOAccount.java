@@ -24,7 +24,28 @@ import java.util.logging.Logger;
  * @author MH
  */
 public class DAOAccount extends DBContext {
-
+    
+    public static final DAOAccount INSTANCE = new DAOAccount();
+    
+    public Account getAccountByAccountId(int accountId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from account where accountId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new Account(rs.getInt("accountId"), rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+                        RoleDAO.INSTANCE.getRoleById(rs.getInt("roleId")), AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
+            }
+        } catch (SQLException e) {
+            System.out.println("error at getAccountByAccountId " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
 
     public Account login(String username, String password) {
         PreparedStatement stm = null;
@@ -178,7 +199,7 @@ public class DAOAccount extends DBContext {
     public static void main(String[] args) {
         DAOAccount dao = new DAOAccount();
         AccountProfile acc = dao.getAccountProfileById(14);
-        System.out.println(dao.login("admin", "123"));
+        System.out.println(DAOAccount.INSTANCE.getAccountByAccountId(2));
     }
 
 }

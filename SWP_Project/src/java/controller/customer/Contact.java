@@ -99,12 +99,12 @@ public class Contact extends HttpServlet {
         String content = request.getParameter("content").trim();
 //        System.out.println(contactId + " " + account.getId() + " " + email + " " + phoneNumber + " " + content);
         try {
-//            ContactDAO.INSTANCE.insertContact(contactId, account.getId(), email, phoneNumber, content, new Timestamp(Calendar.getInstance().getTimeInMillis()));
-//            if(!images[0].equals("")){
-//                for (String image : images) {
-//                    ContactDAO.INSTANCE.insertContactImage(contactId, image);
-//                }
-//            }
+            ContactDAO.INSTANCE.insertContact(contactId, account.getId(), email, phoneNumber, content, new Timestamp(Calendar.getInstance().getTimeInMillis()));
+            if(!images[0].equals("")){
+                for (String image : images) {
+                    ContactDAO.INSTANCE.insertContactImage(contactId, image);
+                }
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return;
