@@ -72,8 +72,11 @@ public class ContactDAO extends DBContext{
             ps.setInt(1, accountId);
             rs = ps.executeQuery();
             while(rs.next()){
-                list.add(new Contact(rs.getInt("contactId"), DAOAccount.INSTANCE.getAccountByAccountId(rs.getInt("accountId")), rs.getString("email"), 
-                        rs.getString("phoneNumber"), rs.getString("content"), rs.getTimestamp("contactDate")));
+                Contact contact = new Contact(rs.getInt("contactId"), DAOAccount.INSTANCE.getAccountByAccountId(rs.getInt("accountId")), rs.getString("email"), 
+                        rs.getString("phoneNumber"), rs.getString("content"), rs.getTimestamp("contactDate"));
+                contact.setImageList(getContactImageListByContactId(rs.getInt("contactId")));
+                list.add(contact);
+                
             }
         } catch (SQLException e) {
             System.out.println("Error at getContactListByAccountId " + e.getMessage());

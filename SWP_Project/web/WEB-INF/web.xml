@@ -80,6 +80,10 @@
         <servlet-name>ViewSentContact</servlet-name>
         <servlet-class>controller.customer.ViewSentContact</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateContact</servlet-name>
+        <servlet-class>controller.customer.UpdateContact</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeControl</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -160,6 +164,10 @@
     <servlet-mapping>
         <servlet-name>ViewSentContact</servlet-name>
         <url-pattern>/ViewSentContact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateContact</servlet-name>
+        <url-pattern>/UpdateContact</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

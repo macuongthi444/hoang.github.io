@@ -1,9 +1,10 @@
-<%-- 
+ <%-- 
     Document   : Cart
     Created on : 12-01-2024, 10:59:52
     Author     : hoang
 --%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +46,9 @@
             /* Firefox */
             input[type=number] {
               -moz-appearance: textfield;
-}
+            }
+            
+            
         </style>
     </head>
 
@@ -138,329 +141,171 @@
 
 
         <!-- Cart Page Start -->
-        <div class="container-fluid py-5">
-            <form action="CartServlet" method="post" id="submitForm">
-            <div class="container py-5">
-                <div class="table-responsive">
-                    <c:if test="${cartItemList.isEmpty()}" >
-                        <h3 style="color: red;">No Items</h3>
-                    </c:if>
-                    <c:if test="${!cartItemList.isEmpty()}" >
-                    <table class="table">
-                        <thead>
-                          <tr>
-                              <th ></th>
-                            <th scope="col">Products</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Handle</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            
-                            
-                            
-                            <c:forEach items="${abc}" var="cartItem">
-                            <c:set value="${cartItem.productOption.productOptionId}" var="productOptionId"/>
-                            <tr>
-                                <td style="text-align: center; align-items: center; ">
-                                    <input onclick="selectOption(${cartItem.productOption.productOptionId})"
-                                        id="selectedOption${productOptionId}"
-                                        type="checkbox" name="select${productOptionId}" id="select${productOptionId}"/>
-                                </td>
-                            
-                                <th scope="row">
-                                    <label for="selectedOption${cartItem.productOption.productOptionId}">
-                                    <div class="d-flex align-items-center" style="width: max-content;">
-                                        <c:set value="${cartItem.productOption.images}" var="imageList"/>
-                                        <img src="img/${imageList.isEmpty()?"":imageList.get(0).imageText}" class="img-fluid me-5" style="width: 80px; height: 80px;" alt="">
-                                    </div>
-                                    </label>
-                                </th>
-                                <td>
-                                    <p class="mb-0 mt-4">${cartItem.productOption.product.productName}</p>
-                                </td>
-                                <td>
-                                    <p id="productOptionPrice${cartItem.productOption.productOptionId}"
-                                        class="mb-0 mt-4">${cartItem.productOption.price}</p>
-                                </td>
-                                <td>
-                                    <div class="input-group quantity mt-4" style="width: 100px;">
-                                        <div class="">
-                                            <button 
-                                                onclick="decreaseQuantity(${cartItem.productOption.productOptionId})" 
-                                                class="btn btn-sm btn-minus rounded-circle bg-light border" 
-                                                type="button"
-                                                >
-                                            <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                                <input  id="cartItem${cartItem.productOption.productOptionId}" 
-                                                    <%--oninput="checkQuantity(this.id, this.value, ${cartItem.productOption.numberInStock})" --%>
-                                                    oninput="checkInputQuantity(${cartItem.productOption.productOptionId}, this.value, ${cartItem.productOption.numberInStock}, 
-                                                    ${cartItem.quantity})
-                                                    "
-                                                    onchange="checkChangeQuantity(${cartItem.productOption.productOptionId}, ${cartItem.quantity})"
-                                            type="number" class="form-control form-control-sm text-center border-0" value="${cartItem.quantity}" min="1" >
-                                        <div class="input-group-btn">
-                                            <button onclick="increaseQuantity('${cartItem.productOption.productOptionId}', ${cartItem.productOption.numberInStock})" type="button"
-                                                class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4"
-                                       id="totalPrice${cartItem.productOption.productOptionId}"> </p>
-                                </td>
-                                <%-- 
-                                    Handle 
-                                --%>
-                                <td>
-                                    <button type="button" onclick="removeCartItem(${productOptionId})"
-                                        class="btn btn-md rounded-circle bg-light border mt-4" >
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
-                                </td>
-                           
-                            
-                            </tr>
-                            </c:forEach>
-                            
-                            <script type="text/javascript" >
-                                function selectOption(id){
-                                    var element = document.getElementById("selectedOption" + id);
-                                    window.console.log(element.checked);
-                                    if(element.checked === false){
-//                                        window.console.log(true);
-                                        element.checked = false;
-                                        sessionStorage.removeItem(id);
-                                    }
-                                    else{
-                                        sessionStorage.setItem(id, true);
-                                        element.checked = true;
-                                    }
-                                }
-                                
-                                function loadSelectedOption(){
-                                    for(var productOptionId of ${productOptionIdList}){
-                                        if(sessionStorage.getItem(productOptionId)){
-                                            document.getElementById("selectedOption" + productOptionId).checked = true;
-                                        }
-                                    }
-                                }
-                                
-                                function updateCart(productOptionId, quantity){
-                                    $.ajax({
-                                        url: "/SWP_Project/UpdateCartServlet",
-                                        type: 'POST',
-                                        data: {
-                                            "productOptionId": productOptionId,
-                                            "quantity": quantity
-                                        },
-                                        success: function (data, textStatus, jqXHR) {
-                                            
-                                        },
-                                        error: function (jqXHR, textStatus, errorThrown) {
-                                            
-                                        }
-                                    });
-                                }
-                                
-                                function checkChangeQuantity(id, oldQuantity){
-                                    if(document.getElementById("cartItem" + id).value === ""){
-//                                        document.getElementById("cartItem" + id).value = oldQuantity;
-//                                        calculatePrice(id, oldQuantity);
-//                                        updateCart(id, oldQuantity);
-                                        location.reload();
-                                    }
-                                }
-                                
-                                function checkInputQuantity(id, quantity, maxQuantity, oldQuantity){
-                                    var idd = "cartItem" + id;
-                                    window.console.log(oldQuantity);
-                                    if(quantity === "") {
-                                        return;
-                                    }
-                                    if(!checkQuantity(quantity)){
-//                                        document.getElementById(idd).value = oldQuantity;
-//                                        calculatePrice(id, oldQuantity);
-//                                        window.console.log(oldQuantity);
-                                        location.reload(false);
-                                        return;
-                                    }
-                                    if(!checkMaxQuantity(quantity, maxQuantity)){
-//                                        document.getElementById(idd).value = oldQuantity;
-//                                        calculatePrice(id, oldQuantity)
-                                        location.reload(true);
-                                        return;
-                                    }
-                                    document.getElementById(idd).value = quantity;
-                                    calculatePrice(id, quantity);
-                                    updateCart(id, quantity);
+        <div class="content-wrapper">
 
-                                }
-//                                function checkQuantity(id, quantity, maxQuantity){
-//                                    window.console.log(quantity);
-//                                    if(!checkQuantity(quantity)){
-//                                        document.getElementById(id).value = 1;
-//                                        return;
-//                                    }
-//                                    if(!checkMaxQuantity(quantity, maxQuantity)){
-//                                        document.getElementById(id).value = maxQuantity;
-//                                        return;
-//                                    }
-//                                    document.getElementById(id).value = quantity;
-//                                }
+                        <!-- Content -->
 
-                                function checkMaxQuantity(quantity, maxQuantity){
-                                    console.log(maxQuantity);
-                                    if(quantity > maxQuantity){
-                                        alert("Only " + maxQuantity + " item(s) available. You can not select more than " + maxQuantity + " item(s)!");
-                                        return false;
-                                    }
-                                    return true;
-                                }
+                        <div class="container-xxl flex-grow-1 container-p-y" data-select2-id="9">
 
-                                function checkQuantity(quantity){
-                                    if(quantity <= 0){
-//                                                document.getElementById(id).value = 1;
-                                        alert("Quantity must greater than 0");
-                                        return false;
-                                    }
-                                    return true;
-                                }
 
-                                function decreaseQuantity(id){
-                                    var idd = "cartItem" + id;
-                                    var quantity = Number(document.getElementById(idd).value) - 1;
-//                                            window.console.log(quantity);
-                                    if(checkQuantity(quantity)){
-                                        window.console.log("true");
-                                        document.getElementById(idd).value = quantity;
-                                    }
-                                    else{
-                                        document.getElementById(idd).value = 1;
-                                        quantity = 1;
-                                    }
-                                    calculatePrice(id, quantity);
-                                    updateCart(id, quantity);
-                                }
 
-                                function calculatePrice(id, quantity){
-                                    document.getElementById("totalPrice" + id).innerHTML = document.getElementById("productOptionPrice" + id).innerHTML * quantity;
+                            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Contact/</span> Contact List</h4>
 
-                                }
-
-                                function calculateTotalPrice(){
-                                    for (var productOptionId of ${productOptionIdList}) {
-                                        var productOptionPrice = Number(document.getElementById("productOptionPrice" + productOptionId).innerHTML) * document.getElementById("cartItem" + productOptionId).value;
-                                        document.getElementById('totalPrice' + productOptionId).innerHTML = productOptionPrice;
-                                    }
-                                }
-
-                                function increaseQuantity(id, maxItemQuantity){
-                                    var idd = "cartItem" + id;
-                                    var quantity = Number(document.getElementById(idd).value) + 1;
-//                                    if(quantity > maxItemQuantity){
-//                                        alert("Only " + maxItemQuantity + " item(s) available.You can not select more than " + maxItemQuantity + " item(s)!");
-//                                    }
-                                    if(!checkMaxQuantity(quantity, maxItemQuantity)){
-                                        document.getElementById(idd).value = maxItemQuantity;
-                                        quantity = maxItemQuantity;
-                                    }
-                                    else{
-                                        document.getElementById(idd).value = quantity;
-                                    }
-                                    calculatePrice(id, quantity);
-                                    updateCart(id, quantity);
-                                }
-                                
-                                function checkSelectedOption(){
-                                    for(var id of ${productOptionIdList}){
-                                        if(document.getElementById("selectedOption" + id).checked){
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                }
-                                
-                                function submitForm(){
-                                    window.console.log("${productOptionIdList}");
-                                    if("${productOptionIdList}" === "[]"){
-                                        alert("You don't have any product to checkout!");
-                                    }
-                                    else{
-                                        if(!checkSelectedOption()){
-                                            alert("You didn't choose anything to checkout!");
-                                            return;
-                                        }
-                                        document.getElementById("submitForm").submit();
-                                    }
-                                }
-                                
-                                function removeCartItem(productOptionId){
-                                    $.ajax({
-                                       url: "/SWP_Project/RemoveCartItem",
-                                       type: 'POST',
-                                       data: {
-                                           "productOptionId": productOptionId
-                                       },
-                                       success: function(data){
-                                           if(data === "success"){
-                                               sessionStorage.removeItem(productOptionId);
-                                               window.location.reload();
-                                           }
-                                           
-                                       }
-                                    });
-                                }
-                                
-//                                if(${requestScope.CartError != null}){
-//                                    alert("Please choose at least one item to checkout!");
-//                                }
-                            </script>
-                        </tbody>
-                    </table>
-                          </c:if>
-                </div>
-                <div class="mt-5">
-<!--                    <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
-                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>-->
-                </div>
-                <div class="row g-4 justify-content-end">
-                    <div class="col-8"></div>
-                    <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
-                        <!--<div class="bg-light rounded">-->
-<!--                            <div class="p-4">
-                                <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
-                                <div class="d-flex justify-content-between mb-4">
-                                    <h5 class="mb-0 me-4">Subtotal:</h5>
-                                    <p class="mb-0">$96.00</p>
+                            <div class="app-academy" data-select2-id="8">
+                                <div class="card p-0 mb-4">
+                                    <!--                                    <div class="card-body d-flex flex-column flex-md-row justify-content-between p-0 pt-4">
+                                                                            
+                                                                            <div class="app-academy-md-50 card-body d-flex align-items-md-center flex-column text-md-center">
+                                                                                <div class="d-flex align-items-center justify-content-between app-academy-md-80">
+                                                                                    <input type="search" placeholder="Find your course" class="form-control me-2">
+                                                                                    <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
+                                                                                </div>
+                                                                            </div>
+                                                                            
+                                                                        </div>-->
                                 </div>
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="mb-0 me-4">Shipping</h5>
-                                    <div class="">
-                                        <p class="mb-0">Flat rate: $3.00</p>
+
+                                <div class="card mb-4" data-select2-id="7">
+                                    <div class="card-header d-flex flex-wrap justify-content-between gap-3" data-select2-id="6">
+                                        <div class="card-title mb-0 me-1">
+                                            <h5 class="mb-1">Contact</h5>
+                                            <p class="text-muted mb-0">Total ${fn:length(contactList)} contact </p>
+                                        </div>
+                                        <%--
+                                        <form action="PostList" method="get">
+                                            <div class="d-flex justify-content-md-end align-items-center gap-3 flex-wrap" data-select2-id="5">
+                                                <div class="position-relative" data-select2-id="4">
+                                                    <select name="type" id="select2_course_select"  class="select2 form-select select2-hidden-accessible" data-placeholder="All Courses" data-select2-id="select2_course_select" tabindex="-1" aria-hidden="true">
+                                                        <option value="" data-select2-id="2">All Post</option>                                           
+                                                        <c:forEach items="${requestScope.postType}" var="postType">                                               
+                                                            <option value="${postType.postTypeDetail}" data-select2-id="11">${postType.postTypeDetail}</option>
+                                                        </c:forEach>
+                                                    </select>
+
+                                                </div>
+                                                <button type="submit" class="btn btn-primary btn-icon"><i class="bx bx-search"></i></button>
+                                                    akjshfegskjehfkjsehf
+                                            </div>
+                                        </form>
+                                        --%>    
+                                        
+                                        <%--
+                                        <div class="offcanvas-header">
+                                            <a href="adminView/AddPost.jsp"><button class="dt-button add-new btn btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
+                                                <span>
+                                                    <i class="bx bx-plus me-0 me-sm-1"></i>
+                                                    <span class="d-none d-sm-inline-block">Add Post</span></span></button></a>
+
+
+                                        </div>
+                                        --%>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gy-4 mb-4">
+                                            <c:forEach items="${requestScope.contactList}" var="contact">
+                                                <div class="col-sm-6 col-lg-12">
+
+                                                    <div class="card p-2 h-100 shadow-none border">
+                                                        <div class="rounded-2 text-center mb-3">
+                                                            <%--
+                                                            <a href="../SWP_Project/PostDetail?postId=${contact.contactId}">
+                                                                <img class="img-fluid" style="width: 50%" src="img/${contact.imageList.get(0)}" alt=""></a>
+                                                            --%>
+                                                        </div>
+                                                        <div class="card-body p-3 pt-2">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <span class="badge bg-label-primary"><%--${p.postTypeID.postTypeDetail}--%></span>
+                                                                
+                                                            </div>
+                                                            <a href="../SWP_Project/PostDetail?postId=" class="h5"></a>
+                                                            
+                                                            <table style="font-size: 21px;">
+                                                                <tr>
+                                                                    <td>Contact date: </td>
+                                                                    <td>${contact.contactDate}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>User Id:</td>
+                                                                    <td>${contact.account.id}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>User name:</td>
+                                                                    <td>${contact.account.accountProfile==null?"User":contact.account.accountProfile.fullName}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>User email: </td>
+                                                                    <td>${contact.email}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>User phone number: </td>
+                                                                    <td>${contact.phoneNumber}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Content: </td>
+                                                                    <td style="border: solid 1px black;">${contact.content} <br/>
+                                                                    <c:forEach items="${contact.imageList}" var="image">
+                                                                        <img src="img/${image}" width="100px" height="100px" alt="alt" style="border: solid 1px rgba(0, 0, 0, 0.4)"/>
+                                                                    </c:forEach>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </table>
+                                                            <%--<p class="d-flex align-items-center"><i class="bx bx-time-five me-2"></i>Contact date: ${contact.contactDate}</p>--%>
+                                                            <p class="d-flex align-items-center"></p>
+                                                            <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
+                                                                <h5></h5>
+                                                                <a style="color: blue;" class="app-academy-md-50 d-flex align-items-center" href="/SWP_Project/UpdateContact?ContactId=${contact.contactId}">
+                                                                    <span class="">Update contact</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </c:forEach>
+
+
+
+
+                                        </div>
+                                        <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
+                                            <ul class="pagination">
+                                                <li class="page-item prev">
+                                                    <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>
+                                                </li>
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="javascript:void(0);">1</a>
+                                                </li>
+
+                                                <li class="page-item next">
+                                                    <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
-                                <p class="mb-0 text-end">Shipping to Ukraine.</p>
-                            </div>-->
-<!--                            <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                                <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                <p class="mb-0 pe-4">$99.00</p>
-                            </div>-->
-                                <button onclick="submitForm()"
-                                class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Checkout</button>
-                        <!--</div>-->
+
+
+
+
+                            </div>
+
+                        </div>
+                        <!-- / Content -->
+
+
+
+
+                        <!-- Footer -->
+
+                        <!-- / Footer -->
+
+
+                        <div class="content-backdrop fade"></div>
                     </div>
-                </div>
-            </div>
-            </form>
-        </div>
         <!-- Cart Page End -->
         
         
@@ -569,6 +414,8 @@
     <script src="lib/lightbox/js/lightbox.min.js"></script>
     <!--<script src="lib/owlcarousel/owl.carousel.min.js"></script>-->
 
+    
+    
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script type="text/javascript">
