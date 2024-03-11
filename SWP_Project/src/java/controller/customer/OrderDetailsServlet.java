@@ -4,9 +4,11 @@
  */
 package controller.customer;
 
+import DAO.DAOAccount;
 import DAO.OrderDAO;
 import Model.Account;
-import Model.Order;
+import Model.AccountProfile;
+import Model.Communications;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,8 +22,8 @@ import java.util.List;
  *
  * @author vinhp
  */
-@WebServlet(name = "OrderHistoryServlet", urlPatterns = {"/OrderHistoryServlet"})
-public class OrderHistoryServlet extends HttpServlet {
+@WebServlet(name = "OrderDetailsServlet", urlPatterns = {"/OrderDetailsServlet"})
+public class OrderDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +42,10 @@ public class OrderHistoryServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderHistoryServlet</title>");
+            out.println("<title>Servlet OrderDetailsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderHistoryServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,16 +70,19 @@ public class OrderHistoryServlet extends HttpServlet {
             return;
         }
         OrderDAO o = new OrderDAO();
+        DAOAccount ad = new DAOAccount();
         Account account = (Account) request.getSession().getAttribute("account");
-        System.out.println(account.getId());
-        List<Order> orderList = o.getAllOrderByAccountId(account.getId());
-        if (request.getParameter("orderId") != null) {
-            int orderId = Integer.parseInt(request.getParameter("orderId"));
-            System.out.println(orderId);
-            o.changeStatus(orderId, "cancel");
-        }
-        request.setAttribute("orderList", orderList);
-        request.getRequestDispatcher("OrderHistory.jsp").forward(request, response);
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        AccountProfile af = ad.getAccountProfileByAccountId(account.getId());
+        int communicationsId = o.getCommuniCationsIdByOrderId(orderId);
+        Communications communications = ad.getCommunicationByCommunicationIdAndAccountId(communicationsId, account);
+        List<Integer> productOptionList = o.getAllProductOptionIdByOrderId(orderId);
+        System.out.println(productOptionList.get(0));
+        request.setAttribute("productOptionList", productOptionList);
+        request.setAttribute("communications", communications);
+        request.setAttribute("af", af);
+        request.setAttribute("orderId", orderId);
+        request.getRequestDispatcher("OrderDetails.jsp").forward(request, response);
     }
 
     /**

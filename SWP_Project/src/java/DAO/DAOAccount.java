@@ -10,6 +10,8 @@ package DAO;
 import Model.Account;
 import Model.AccountProfile;
 import Model.AccountStatus;
+import Model.Communications;
+import Model.Role;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,7 +74,7 @@ public class DAOAccount extends DBContext {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
+        } finally {
             closeStatement(stm, rs);
         }
         return null;
@@ -95,7 +97,7 @@ public class DAOAccount extends DBContext {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
+        } finally {
             closeStatement(stm, rs);
         }
         return null;
@@ -168,7 +170,48 @@ public class DAOAccount extends DBContext {
             closeStatement(stm, rs);
         }
     }
+    
+    public AccountProfile getAccountProfileByAccountId(int accountId) {
+        String sql = "select * from Account_Profile where accountId = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                AccountProfile ap = new AccountProfile(getAccountByAccountId(rs.getInt("accountId")), rs.getString(2), rs.getDate(3), rs.getBoolean(4), rs.getString(5));
+                return ap;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
 
+    public Communications getCommunicationByCommunicationIdAndAccountId(int communicationsId, Account account) {
+        String sql = "select * from Communications where communicationsId= ? and accountID = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, communicationsId);
+            ps.setInt(2, account.getId());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Communications c = new Communications(communicationsId, account, rs.getString(3), rs.getString(4));
+                return c;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+    
     public AccountProfile getAccountProfileById(int id) {
         PreparedStatement stm = null;
         ResultSet rs = null;

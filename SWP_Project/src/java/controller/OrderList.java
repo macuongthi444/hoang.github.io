@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.customer;
+package controller;
 
 import DAO.OrderDAO;
-import Model.Account;
 import Model.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,13 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author vinhp
  */
-@WebServlet(name = "OrderHistoryServlet", urlPatterns = {"/OrderHistoryServlet"})
-public class OrderHistoryServlet extends HttpServlet {
+@WebServlet(name = "OrderList", urlPatterns = {"/orderList"})
+public class OrderList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class OrderHistoryServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderHistoryServlet</title>");
+            out.println("<title>Servlet OrderList</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderHistoryServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderList at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,23 +61,10 @@ public class OrderHistoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Object accountObject = request.getSession().getAttribute("account");
-        if (accountObject == null) {
-            System.out.println("null");
-            response.sendRedirect("/SWP_Project/login");
-            return;
-        }
         OrderDAO o = new OrderDAO();
-        Account account = (Account) request.getSession().getAttribute("account");
-        System.out.println(account.getId());
-        List<Order> orderList = o.getAllOrderByAccountId(account.getId());
-        if (request.getParameter("orderId") != null) {
-            int orderId = Integer.parseInt(request.getParameter("orderId"));
-            System.out.println(orderId);
-            o.changeStatus(orderId, "cancel");
-        }
+        List<Order> orderList = o.getAllOrder();
         request.setAttribute("orderList", orderList);
-        request.getRequestDispatcher("OrderHistory.jsp").forward(request, response);
+        request.getRequestDispatcher("adminView/OrderList.jsp").forward(request, response);
     }
 
     /**
@@ -91,7 +78,21 @@ public class OrderHistoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        OrderDAO o = new OrderDAO();
+        List<Order> orderList = o.getAllOrder();
+        for (int i = 0; i < orderList.size(); i++) {
+            String orderId = request.getParameter("orderId_" + i);
+            String[] statusArray = request.getParameterValues("orderStatusMap_" + i);
+            if (statusArray != null && orderId != null) {
+                int orderIdValue = Integer.parseInt(orderId);
+                for (String newStatus : statusArray) {
+                    System.out.println("OrderId: " + orderIdValue);
+                    System.out.println("New Status: " + newStatus);
+                    OrderDAO.INSTANCE.changeStatus(orderIdValue, newStatus);
+                }
+            }
+        }
+        doGet(request, response);
     }
 
     /**

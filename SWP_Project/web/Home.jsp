@@ -58,7 +58,8 @@
                         <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">group6@gmail.com</a></small>
                     </div>
                     <div style="display: flex;">
-                        <c:if test="${sessionScope.account!=null}">
+                        <c:if test="${sessionScope.account.getUsername()!=null}">
+                            <h3>Welcome ${sessionScope.account.getUsername()}</h3>
                         </c:if>
                     </div>
                     <div class="top-link pe-2">
@@ -94,8 +95,8 @@
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="/SWP_Project/CartServlet" class="dropdown-item">Cart</a>
                                     <a href="CheckOut.jsp" class="dropdown-item">Checkout</a>
-                                    <a href="Testimonial.jsp" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                    <a href="OrderHistoryServlet" class="dropdown-item">Order History</a>
+                                    
                                 </div>
                             </div>
                             <a href="/SWP_Project/contact" class="nav-item nav-link">Contact</a>
@@ -428,24 +429,24 @@
                                         <br/>
                                         <c:forEach items="${productOptionList}" var="productOption">
                                             <c:if test="${productOption.numberInStock > 0}">
-                                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                                <div class="rounded position-relative fruite-item">
-                                                     
-                                                    <!--${productDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}-->
-                                                    <div class="fruite-img">
-                                                        <c:set value="${ProductDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}" var="imageList"/>
-                                                        <img src="img/${imageList.isEmpty()?"":imageList.get(0).getImageText()}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
-                                                    </div>
-                                                   
-                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                        <h4 style="font-size: large" >${product.productName}</h4>                        
-                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                <div class="col-md-6 col-lg-4 col-xl-3">
+                                                    <div class="rounded position-relative fruite-item">
+
+                                                        <!--${productDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}-->
+                                                        <div class="fruite-img">
+                                                            <c:set value="${ProductDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}" var="imageList"/>
+                                                            <img src="img/${imageList.isEmpty()?"":imageList.get(0).getImageText()}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
+                                                        </div>
+
+                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                                            <h4 style="font-size: large" >${product.productName}</h4>                        
+                                                            <div class="d-flex justify-content-between flex-lg-wrap">
                                                                 <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>                                                                                                                                                      
                                                                 <button onclick="addToCart(${productOption.productOptionId})" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             </c:if>
                                         </c:forEach>
                                     </div>
@@ -474,6 +475,56 @@
 
 
 <!-- Featurs Start -->
+<<<<<<< HEAD
+=======
+<!--        <div class="container-fluid service py-5">
+            <div class="container py-5">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <a href="#">
+                            <div class="service-item bg-secondary rounded border border-secondary">
+                                <img src="img/featur-1.jpg" class="img-fluid rounded-top w-100" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-4 rounded">
+                                        <h5 class="text-white">Preferential prices</h5>
+                                        <h3 class="mb-0">20% OFF</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <a href="#">
+                            <div class="service-item bg-dark rounded border border-dark">
+                                <img src="img/featur-2.jpg" class="img-fluid rounded-top w-100" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-light text-center p-4 rounded">
+                                        <h5 class="text-primary">Delivery</h5>
+                                        <h3 class="mb-0">Free delivery</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <a href="#">
+                            <div class="service-item bg-primary rounded border border-primary">
+                                <img src="img/featur-3.jpg" class="img-fluid rounded-top w-100" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-secondary text-center p-4 rounded">
+                                        <h5 class="text-white">Stability Quality</h5>
+                                        <h3 class="mb-0">2 years warranty</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+<<<<<<< HEAD
+        </div>
+<!-- Featurs End -->
+>>>>>>> origin/order
 
 
 <!-- Vesitable Shop Start-->
@@ -570,8 +621,8 @@
 <!-- Footer End -->
 
 <script type="text/javascript">
-    
-    function addToCart(productOptionId){
+
+    function addToCart(productOptionId) {
         window.console.log(productOptionId === undefined);
         $.ajax({
             url: "/SWP_Project/AddToCartServlet",
@@ -581,11 +632,11 @@
             },
             success: function (data, textStatus, jqXHR) {
 //                        window.console.log(data);
-                if(data === "accountNotFound"){
+                if (data === "accountNotFound") {
                     alert("Please login before add product to cart!");
                     return;
                 }
-                if(data !== ""){
+                if (data !== "") {
                     window.console.log(data);
                     alert("Add success");
                 }

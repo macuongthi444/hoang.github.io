@@ -65,5 +65,4 @@ public class AccountProfile {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-
 }

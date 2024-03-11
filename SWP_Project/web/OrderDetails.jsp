@@ -1,19 +1,13 @@
-<%-- 
-    Document   : Cart
-    Created on : 12-01-2024, 10:59:52
-    Author     : hoang
---%>
-<%@page import="java.util.HashMap"%>
-<%@ page import="java.util.List" %>
-<%@ page import="Model.ProductWithImage" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@page import="DAO.CartItemDAO, DAO.PaymentDAO, DAO.OrderDAO, DAO.ProductDAO,java.util.ArrayList, Model.PaymentMethod, java.util.stream.Collectors" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8">
-        <title>Group 6</title>
+        <title>Fruitables - Vegetable Website Template</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -37,6 +31,12 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+
+        <style>
+            .paymentInfo > table > tbody > tr > td{
+                border: 0px;
+            }
+        </style>
     </head>
 
     <body>
@@ -50,67 +50,50 @@
 
         <!-- Navbar start -->
         <div class="container-fluid fixed-top">
-
-            <div class="container topbar bg-primary d-none d-lg-block">
-                <div class="d-flex justify-content-between">
-                    <div class="top-info ps-2">
-                        <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">Thach Hoa, Thach That, Ha Noi</a></small>
-                        <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">group6@gmail.com</a></small>
-                    </div>
-                    <div style="display: flex;">
-                        <c:if test="${sessionScope.username!=null}">
-                            <h3>Welcome ${sessionScope.username}</h3>
-                        </c:if>
-                    </div>
-                    <div class="top-link pe-2">
-                        <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
-                        <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
-                        <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
-                    </div>
-                </div>
-            </div>
-            <c:if test ="${sessionScope.acc.role.roleId == 2}">
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Customer</a>
-                    <div class="dropdown-menu m-0">     
-                        <a href="userprofile?userid=${acc.id}" class="dropdown-item">User profile</a>
-
-                    </div>
-                </div>
-            </c:if>
-
+            <!--            <div class="container topbar bg-primary d-none d-lg-block">
+                            <div class="d-flex justify-content-between">
+                                <div class="top-info ps-2">
+                                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
+                                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+                                </div>
+                                <div class="top-link pe-2">
+                                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                                </div>
+                            </div>
+                        </div>-->
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="home" class="navbar-brand"><h1 class="text-primary display-6">Group 6</h1></a>
+                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="Home.jsp" class="nav-item nav-link active">Home</a>
-                            <a href="HomePageShop.jsp" class="nav-item nav-link">Shop</a>
-                            <a href="HomePageDetail.jsp" class="nav-item nav-link">Shop Detail</a>
+                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="shop.html" class="nav-item nav-link">Shop</a>
+                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
-                                <a href="HomePageShop.jsp" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="Cart.jsp" class="dropdown-item">Cart</a>
-                                    <a href="CheckOut.jsp" class="dropdown-item">Checkout</a>
-                                    <a href="Testimonial.jsp" class="dropdown-item">Testimonial</a>
+                                    <a href="cart.html" class="dropdown-item">Cart</a>
+                                    <a href="chackout.html" class="dropdown-item active">Chackout</a>
+                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                                     <a href="404.html" class="dropdown-item">404 Page</a>
                                 </div>
                             </div>
-                            <a href="contact.jsp" class="nav-item nav-link">Contact</a>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            <a href="cart" class="position-relative me-4 my-auto">
+                            <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
-                            <a href="login.jsp" class="my-auto">
+                            <a href="#" class="my-auto">
                                 <i class="fas fa-user fa-2x"></i>
                             </a>
-
                         </div>
                     </div>
                 </nav>
@@ -140,72 +123,102 @@
 
 
         <!-- Single Page Header start -->
-        <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Order History</h1>
+        <div id="single-page-header" class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Order Details</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Order History</li>
+                <li class="breadcrumb-item active text-white">Order Details</li>
             </ol>
         </div>
+        <script type="text/javascript">
+            document.getElementById("single-page-header").setAttribute("style", "margin-top: 100px !important");
+        </script>
         <!-- Single Page Header End -->
 
 
-        <!-- Cart Page Start -->
+        <!-- Checkout Page Start -->
         <div class="container-fluid py-5">
             <div class="container py-5">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Products</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Handle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="cart" items="${listCart}">
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="img/${cart.imageText}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="mb-0 mt-4">${cart.productName}</p>
-                                    </td>
-                                    <td>
-                                        <p class="mb-0 mt-4">${cart.price}</p>
-                                    </td>
-                                    <td class="quantity-box">
-                                        <form action="quantityCard?pid=${cart.pid}">
-                                            <input type="hidden" name ="pid" value="${cart.pid}"/>
-                                            <button type="submit" formaction="quantityCard" formmethod="get"  class="btn btn-danger btn-sm"> - </button>
-                                            ${cart.quantity}
-                                            <button type="submit" formaction="quantityCard" formmethod="post" class="btn btn-success btn-sm"> + </button>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <p class="mb-0 mt-4">${cart.getTotal()}</p>
-                                    </td>
-                                    <td class="remove-pr">
-                                        <a href="cart?pid=${cart.pid}" method="post">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                <h1 class="mb-4">Your information</h1>
+                <div class="row g-5">
+                    <div class="col-md-12 col-lg-6 col-xl-6">
+                        <div class="large-frame">
+                            <p><strong>Mr/Ms:</strong> ${af.fullName}</p>
+                            <p><strong>Birth Date:</strong> ${af.birthDate}</p>
+                            <p><strong>Phone number:</strong> ${communications.phoneNumber}</p>
+                            <p><strong>Receive at address:</strong> ${communications.address}</p>
+                            <p><strong>Payment method:</strong> ${OrderDAO.INSTANCE.getPaymentMethodByOderId(orderId)}</p>
+                            <p><strong>Order status:</strong><span style="color: blue"> ${OrderDAO.INSTANCE.getOrderStatusByOrderId(orderId)}</span></p>
+                        </div>
+                    </div>
 
-                        </tbody>
-                    </table>
-                </div>              
+
+                    <div class="col-md-12 col-lg-6 col-xl-6">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Products</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${productOptionList}" var="polist">  
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <img src="img/${ProductDAO.INSTANCE.getImageByProductOptionId(polist).imageText}" width="50px" height="50px" alt="alt"/> 
+                                                </div>
+                                            </th>
+                                            <td class="py-5">${ProductDAO.INSTANCE.getProductById(polist).productName}</td>
+                                            <td class="py-5">${ProductDAO.INSTANCE.getProductOptionById(polist).price}</td>
+                                            <td class="py-5">${OrderDAO.INSTANCE.getProductOptionQuantityByOrderIdAndProductOptionId(orderId,polist)}</td>
+                                            <td class="py-5">${ProductDAO.INSTANCE.getProductOptionById(polist).price*OrderDAO.INSTANCE.getProductOptionQuantityByOrderIdAndProductOptionId(orderId,polist)}</td>
+                                        </tr>
+                                    </c:forEach>
+                                    <tr>
+                                        <th scope="row">
+                                        </th>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <p class="mb-0 text-dark py-3">Total</p>
+                                        </td>
+                                        <td>
+                                            <div class="py-3 border-bottom border-top">
+                                                <p id="totalPrice" class="mb-0 text-dark">${OrderDAO.INSTANCE.getTotalMoneyByOrderId(orderId)}</p>
+                                            </div>
+                                        </td>
+                                    </tr>                                   
+                                </tbody>
+                            </table>
+                        </div>               
+                        <form action="OrderHistoryServlet" method="get">
+                            <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                                <button type="submit"  class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Back to Order History</button>
+                            </div>
+                        </form>
+                                          
+                    </div>
+                </div>
+
             </div>
         </div>
-        <!-- Cart Page End -->
-        
+        <style>
+            .large-frame {
+                border: 2px solid #000; /* Đường viền 2px, màu đen */
+                padding: 20px; /* Khoảng cách bên trong khung trắng */
+                height: 300px; /* Chiều cao của khung trắng */
+                width: 100%; /* Chiều rộng của khung trắng */
+                background-color: #f0f0f0; /* Màu nền của khung trắng */
+            }
+        </style>
+        <!-- Checkout Page End -->
+
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
             <div class="container py-5">
@@ -316,3 +329,4 @@
     </body>
 
 </html>
+
