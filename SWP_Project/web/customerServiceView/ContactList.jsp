@@ -221,16 +221,6 @@
 
                     <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
 
-
-
-
-
-
-
-
-
-
-
                         <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
                             <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
                                 <i class="bx bx-menu bx-sm"></i>
@@ -239,23 +229,10 @@
 
 
                         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
-
-
-
                             <!-- Search -->
 
                             <!-- /Search -->
-
-
-
-
-
                             <ul class="navbar-nav flex-row align-items-center ms-auto">
-
-
-
-
                                 <!-- Language -->
                                 <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
                                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -549,7 +526,7 @@
 
 
 
-                            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Post/</span> Post List</h4>
+                            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Contact/</span> Contact List</h4>
 
                             <div class="app-academy" data-select2-id="8">
                                 <div class="card p-0 mb-4">
@@ -589,6 +566,7 @@
                                         </form>
                                         --%>    
                                         
+                                        <%--
                                         <div class="offcanvas-header">
                                             <a href="adminView/AddPost.jsp"><button class="dt-button add-new btn btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
                                                 <span>
@@ -597,7 +575,7 @@
 
 
                                         </div>
-                                          
+                                        --%>
                                     </div>
                                     <div class="card-body">
                                         <div class="row gy-4 mb-4">
@@ -613,8 +591,8 @@
                                                         </div>
                                                         <div class="card-body p-3 pt-2">
                                                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                <span class="badge bg-label-primary">skjefhsjkefh<%--${p.postTypeID.postTypeDetail}--%></span>
-
+                                                                <span class="badge bg-label-primary"><%--${p.postTypeID.postTypeDetail}--%></span>
+                                                                
                                                             </div>
                                                             <a href="../SWP_Project/PostDetail?postId=" class="h5"></a>
                                                             
@@ -624,11 +602,19 @@
                                                                     <td>${contact.contactDate}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>User's email: </td>
+                                                                    <td>User Id:</td>
+                                                                    <td>${contact.account.id}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>User name:</td>
+                                                                    <td>${contact.account.accountProfile==null?"User":contact.account.accountProfile.fullName}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>User email: </td>
                                                                     <td>${contact.email}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>User's phone number: </td>
+                                                                    <td>User phone number: </td>
                                                                     <td>${contact.phoneNumber}</td>
                                                                 </tr>
                                                                 <tr>

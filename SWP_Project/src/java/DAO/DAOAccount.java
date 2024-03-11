@@ -36,8 +36,10 @@ public class DAOAccount extends DBContext {
             ps.setInt(1, accountId);
             rs = ps.executeQuery();
             if(rs.next()){
-                return new Account(rs.getInt("accountId"), rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+                Account account = new Account(rs.getInt("accountId"), rs.getString("username"), rs.getString("password"), rs.getString("email"), 
                         RoleDAO.INSTANCE.getRoleById(rs.getInt("roleId")), AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
+                account.setAccountProfile(UserDao.INSTANCE.getAccountProfileById(rs.getInt("accountId")));
+                return account;
             }
         } catch (SQLException e) {
             System.out.println("error at getAccountByAccountId " + e.getMessage());

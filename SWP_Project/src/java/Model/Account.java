@@ -17,7 +17,9 @@ public class Account {
     private String email;
     private Role role;
     private AccountStatus accountStatus;
-
+    
+    private AccountProfile accountProfile;
+    
     public Account(int id, String username, String password, String email, Role role, AccountStatus accountStatus) {
         this.id = id;
         this.username = username;
@@ -27,6 +29,16 @@ public class Account {
         this.accountStatus = accountStatus;
     }
 
+    public AccountProfile getAccountProfile() {
+        return accountProfile;
+    }
+
+    public void setAccountProfile(AccountProfile accountProfile) {
+        this.accountProfile = accountProfile;
+    }
+    
+    
+    
     public String getEmail() {
         return email;
     }
