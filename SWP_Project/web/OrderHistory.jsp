@@ -193,7 +193,7 @@
                                         <a href="OrderDetailsServlet?orderId=${order.getOrderId()}">More Details</a>
                                     </td>
                                     <td class="remove-pr">
-                                        <!-- Cancel button -->
+                                        <a href="OrderHistoryServlet?orderId=${order.getOrderId()}"><span style="color: red">Cancel</span></a>
                                     </td>
                                 </tr>
                             </c:forEach>

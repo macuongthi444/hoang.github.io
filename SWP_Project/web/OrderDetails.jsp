@@ -202,11 +202,7 @@
                                 <button type="submit"  class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Back to Order History</button>
                             </div>
                         </form>
-                          <form action="OrderDetailsServlet" method="post">
-                            <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                <button type="submit"  class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary"><span style="color: red">Cancel order</span></button>
-                            </div>
-                        </form>                  
+                                          
                     </div>
                 </div>
 

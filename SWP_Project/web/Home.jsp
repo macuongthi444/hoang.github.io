@@ -92,8 +92,8 @@
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="/SWP_Project/CartServlet" class="dropdown-item">Cart</a>
                                     <a href="CheckOut.jsp" class="dropdown-item">Checkout</a>
-                                    <a href="Testimonial.jsp" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                    <a href="OrderHistoryServlet" class="dropdown-item">Order History</a>
+                                    
                                 </div>
                             </div>
                             <a href="contact.jsp" class="nav-item nav-link">Contact</a>

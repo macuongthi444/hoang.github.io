@@ -71,6 +71,11 @@ public class OrderHistoryServlet extends HttpServlet {
         Account account = (Account) request.getSession().getAttribute("account");
         System.out.println(account.getId());
         List<Order> orderList = o.getAllOrderByAccountId(account.getId());
+        if (request.getParameter("orderId") != null) {
+            int orderId = Integer.parseInt(request.getParameter("orderId"));
+            System.out.println(orderId);
+            o.changeStatus(orderId, "cancel");
+        }
         request.setAttribute("orderList", orderList);
         request.getRequestDispatcher("OrderHistory.jsp").forward(request, response);
     }
