@@ -53,6 +53,7 @@ public class AddReview extends HttpServlet {
         if(a==null) {
         	response.sendRedirect("login");       	
         }
+        
         int accountID = a.getId();
         String contentReview = request.getParameter("contentReview");
         int productID = Integer.parseInt(request.getParameter("productID"));

@@ -93,7 +93,7 @@
         <!-- Navbar End -->
 
 
-        <!-- Modal Search Start -->
+<!--         Modal Search Start 
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content rounded-0">
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal Search End -->
+         Modal Search End -->
 
 
         <!-- Single Page Header start -->
@@ -239,7 +239,7 @@
                                                     <div  id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                                                         <h5><span>${countAllReview}</span> review for <span>${detail.productName}</span></h5>
 
-                                                    <h5 class="mt-4">Add a review</h5>
+<!--                                                    <h5 class="mt-4">Add a review</h5>-->
                                                     <p></p>
                                                     <div>
                                                         <!-- Your review -->
@@ -268,20 +268,27 @@
 
 
                                                                             <p class="mb-0">${r.contentReview }</p>
+                                                                            <div class="nav-item dropdown">
+                                                                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">&equiv;</a>
+                                                                                <div class="dropdown-menu m-0">     
+                                                                                    
+                                                                                    <c:choose>
+                                                                                        
+                                                                                        <c:when test="${acc.id == r.accountID}">
+                                                                                            <a href="load?id=${r.id}" class="dropdown-item">Edit your review</a> </br>
+                                                                                            <a href="#" onclick="confirmDelete('${r.id}', '${r.productID}')"title="Delete" class="dropdown-item">Delete the review</a> 
+                                                                                        </c:when>
+                                                                                        <c:otherwise>
+                                                                                            <a href="loadotherprofile?id=${a.id}&productId=${detail.productID}" class="dropdown-item">View profile</a>
+                                                                                        </c:otherwise>
+                                                                                    </c:choose>
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </div>
+                                                                    </div>
 
-                                                                            <c:choose>
-                                                                                <c:when test="${acc.id == r.accountID}">
-                                                                                    <a href="load?id=${r.id}">Edit your review</a> </br>
-                                                                                    <a href="#" onclick="confirmDelete('${r.id}', '${r.productID}')"title="Delete">Delete the review</a> 
-                                                                                </c:when>
-                                                                                <c:otherwise>
-                                                                                    <a href="loadotherprofile?id=${a.id}&productId=${detail.productID}" >View profile</a>
-                                                                                </c:otherwise>
-                                                                            </c:choose>
-                                                                        </c:if>
-                                                                    </c:forEach>
 
-                                                                  
+
 
                                                                 </div>
 
@@ -381,21 +388,21 @@
                                 <div class="mb-4">
                                     <h4>Brand</h4>
                                     <ul class="list-unstyled fruite-categorie">
-                                       <c:forEach var="brandList" items="${brandList}">
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>${brandList.brandName}</a>
-                                                <span>(3)</span>
-                                            </div>
-                                        </li>
-                                       
-                                        
-                                       </c:forEach>
+                                        <c:forEach var="brandList" items="${brandList}">
+                                            <li>
+                                                <div class="d-flex justify-content-between fruite-name">
+                                                    <a href="#"><i class="fas fa-apple-alt me-2"></i>${brandList.brandName}</a>
+                                                    <span>(3)</span>
+                                                </div>
+                                            </li>
+
+
+                                        </c:forEach>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <h4 class="mb-4">Featured products</h4>
+<!--                                <h4 class="mb-4">Featured products</h4>
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div class="rounded" style="width: 100px; height: 100px;">
                                         <img src="img/featur-1.jpg" class="img-fluid rounded" alt="Image">
@@ -513,7 +520,7 @@
                                 <div class="d-flex justify-content-center my-4">
                                     <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="col-lg-12">
                                 <div class="position-relative">
                                     <img src="img/${detail.imageText}" class="img-fluid w-100 rounded" alt="">
@@ -526,7 +533,7 @@
                     </div>
                 </div>
                 <h1 class="fw-bold mb-0">Related products</h1>
-                
+
                 <div class="vesitable">
                     <div class="owl-carousel vegetable-carousel justify-content-center">
                         <div class="border border-primary rounded position-relative vesitable-item">
@@ -755,56 +762,56 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
-         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script>
-
-
-                                                function addReview(pID) {
-                                                    var cntReview = document.getElementById("form76").value;
-                                                    $.ajax({
-                                                        url: "/SWP_Project/addReview",
-                                                        type: "get",
-                                                        data: {
-                                                            productID: pID,
-                                                            contentReview: cntReview
-                                                        },
-                                                        success: function (data) {
-                                                            var row = document.getElementById("reviews");
-                                                            row.innerHTML += data;
-                                                        },
-                                                        error: function (xhr) {
-                                                            //Do Something to handle error
-                                                        }
-                                                    });
-                                                }
-                                                function confirmDelete(id, productID) {
-                                                    if (confirm("Bạn có muốn xóa đánh giá này không?")) {
-
-
-                                                        window.location.href = "deletereview?id=" + id + "&productID=" + productID;
-                                                    } else {
-
-                                                    }
-                                                }
-    </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script>
-                                                                                        function chooseOption(id) {
+
+
+                                                                                        function addReview(pID) {
+                                                                                            var cntReview = document.getElementById("form76").value;
                                                                                             $.ajax({
-                                                                                                url: "/SWP_Project/UpdatePrice",
-                                                                                                type: 'GET',
+                                                                                                url: "/SWP_Project/addReview",
+                                                                                                type: "get",
                                                                                                 data: {
-                                                                                                    "productOptionId": id
+                                                                                                    productID: pID,
+                                                                                                    contentReview: cntReview
                                                                                                 },
-                                                                                                success: function (data, textStatus, jqXHR) {
-                                                                                                    document.getElementById('price').innerHTML = data;
+                                                                                                success: function (data) {
+                                                                                                    var row = document.getElementById("reviews");
+                                                                                                    row.innerHTML += data;
                                                                                                 },
-                                                                                                error: function (jqXHR, textStatus, errorThrown) {
-
+                                                                                                error: function (xhr) {
+                                                                                                    //Do Something to handle error
                                                                                                 }
-
-
                                                                                             });
                                                                                         }
+                                                                                        function confirmDelete(id, productID) {
+                                                                                            if (confirm("Bạn có muốn xóa đánh giá này không?")) {
+
+
+                                                                                                window.location.href = "deletereview?id=" + id + "&productID=" + productID;
+                                                                                            } else {
+
+                                                                                            }
+                                                                                        }
+        </script>
+        <script>
+            function chooseOption(id) {
+                $.ajax({
+                    url: "/SWP_Project/UpdatePrice",
+                    type: 'GET',
+                    data: {
+                        "productOptionId": id
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        document.getElementById('price').innerHTML = data;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+
+                    }
+
+
+                });
+            }
         </script>
     </body>
 
