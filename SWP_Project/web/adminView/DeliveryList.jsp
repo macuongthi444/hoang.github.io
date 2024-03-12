@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="DAO.ProductDAO,DAO.OrderDAO,DAO.DAOAccount, java.util.List, java.util.ArrayList, Model.Product,DAO.CouponDAO" %>
+<%@page import="DAO.ProductDAO, DAO.DeliveryDAO, java.util.List, java.util.ArrayList, Model.Product,DAO.CouponDAO" %>
 <!DOCTYPE html>
 <html
     lang="en"
@@ -635,83 +635,43 @@
                                     <div class="card">
 
                                         <table class="product-table" >
-                                            <h2>Order List</h2>
-                                            <h5>${error}</h5>
+                                            <h2>Delivery Man List</h2>    
                                             <br>
                                             <br>
-                                            <form action="orderList" method="post">
-                                                <table border="1">
-                                                    <thead>
+                                            <table border="1">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Account ID</th>
+                                                        <th>Avatar</th>
+                                                        <th>Full name</th>
+                                                        <th>Birth Date</th>
+                                                        <th>Gender</th>
+                                                        <th>Company</th>                                                    
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="delivery" items="${deliveryList}">
                                                         <tr>
-                                                            <th>Order ID</th>
-                                                            <th>Mr/Ms</th>
-                                                            <th>Order Date</th>
-                                                            <th>Product</th>
-                                                            <th>Total</th>
-                                                            <th>Status</th>
-                                                            <th>Change status</th>
-                                                        </tr>
-                                                    </thead>      
-                                                    <tbody>
-                                                        <c:forEach var="order" items="${orderList}" varStatus="loop">
-                                                        <input type="hidden" name="orderId_${loop.index}" value="${order.orderId}">
-                                                        <tr>
-                                                            <!-- Các phần tử khác của bảng -->
-                                                            <td>${order.orderId}</td>
-                                                            <td>${DAOAccount.INSTANCE.getAccountProfileByAccountId(order.accountId).fullName}</td>
-                                                            <td>${order.orderDate}</td>
+                                                            <td>${delivery.id}</td>
+                                                            <td><img src="img/${delivery.avatar}" alt="img"/></td>
+                                                            <td>${delivery.fullName}</td>
+                                                            <td>${delivery.birthDate}</td>
+                                                            <td>${delivery.gender ? "Male" : "Female"}</td>
                                                             <td>
-                                                                <c:forEach items="${OrderDAO.INSTANCE.getAllImageTextByOrderId(order.getOrderId())}" var="image">
-                                                                    <img src="img/${image}" width="50px" height="50px" alt="alt"/> 
-                                                                </c:forEach>
+                                                                ${DeliveryDAO.INSTANCE.getDeliveryCompanyByAccountId(delivery.id).deliveryCompany}                      
                                                             </td>
-                                                            <td>${OrderDAO.INSTANCE.getTotalMoneyByOrderId(order.getOrderId())}</td>
-                                                            <td style="color: blue">
-                                                                ${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId())}                      
-                                                            </td>
-                                                            <td>
-                                                                <select name="orderStatusMap_${loop.index}">
-                                                                    <c:choose>
-                                                                        <c:when test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'waiting'}">
-                                                                            <option value="waiting" selected>Waiting</option>
-                                                                            <option value="shipping">Shipping</option>
-                                                                        </c:when>
-                                                                        <c:when test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'shipping'}">
-                                                                            <option value="waiting">Waiting</option>
-                                                                            <option value="shipping" selected>Shipping</option>
-                                                                            <option value="cancelled">Cancelled</option>
-                                                                            <option value="success">Success</option>
-                                                                        </c:when>
-                                                                        <c:when test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'cancelled' or OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'success'}">
-                                                                            <option value="cancelled" <c:if test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'cancelled'}">selected</c:if>>Cancel</option>
-                                                                            <option value="success" <c:if test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'success'}">selected</c:if>>Success</option>
-                                                                        </c:when>
-                                                                    </c:choose>
-                                                                </select>
-                                                            </td>
-
                                                         </tr>
                                                     </c:forEach>
 
-                                                    </tbody>
-                                                </table>
-                                                <input type="submit" class="submit-button" value="Update Status" >
-                                            </form>
+                                                </tbody>
+                                            </table>
                                         </table>
-
                                     </div>
                                 </div>
 
                                 <!--/ Transactions -->
                             </div>
                         </div>
-                        <style>
-                            .submit-button {
-                                width: 20%;
-                                margin-left: 940px; /* Đặt nút ở bên phải */
-                                margin-top: 10px; /* Khoảng cách từ đỉnh của form */
-                            }
-                        </style>
                         <!-- / Content -->
 
                         <!-- Footer -->

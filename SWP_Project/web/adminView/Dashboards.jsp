@@ -237,6 +237,24 @@
                                     </ul>
                                 </li>
                             </ul>
+                            <li class="menu-item">
+                                    <a
+                                        href="/SWP_Project/orderList"
+                                        target="_blank"
+                                        class="menu-link">
+                                        <div data-i18n="Logistics">Order List</div>
+
+                                    </a>
+                                </li>
+                            <li class="menu-item">
+                                    <a
+                                        href="/SWP_Project/DeliveryManList"
+                                        target="_blank"
+                                        class="menu-link">
+                                        <div data-i18n="Logistics">Delivery Man</div>
+
+                                    </a>
+                                </li>
                         </li>        
                         <!-- Pages -->
                         <li class="menu-item">

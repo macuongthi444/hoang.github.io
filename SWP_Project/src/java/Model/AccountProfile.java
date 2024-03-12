@@ -26,6 +26,22 @@ public class AccountProfile {
         this.avatar = avatar;
     }
 
+    public AccountProfile(int id, String fullName, Date birthDate, boolean gender, String avatar) {
+        this.id = id;
+        this.fullName = fullName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.avatar = avatar;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public Account getAccount() {
         return account;
     }

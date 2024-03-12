@@ -323,6 +323,8 @@ select * From Account_Profile
 drop table contact_image
 drop table contact
 
+alter table contact add isResponded bit default 0
+
 create table Contact(
 	contactId int not null primary key,
 	accountId int foreign key references Account(accountId) not null,
@@ -330,13 +332,17 @@ create table Contact(
 	phoneNumber varchar(20),
 	content nvarchar(200) not null,
 	contactDate datetime not null,
-
+	isResponded bit default 0
 )
 
 create table Contact_Image(
 	contactId int foreign key references Contact(contactId) not null,
 	[imageText] varchar(255) not null,
 	primary key(contactId, imageText)
+)
+
+create table Reply_Contact(
+	
 )
 
 select * from account
@@ -347,3 +353,20 @@ select * from Contact
 select * from Contact_Image
 
 
+CREATE TABLE Shiped_History (
+    accountId INT  NOT NULL,
+    orderId INT NOT NULL,
+    PRIMARY KEY (accountId, orderId)
+);
+
+create table deliveryMan_Company(
+	accountId int primary key,
+	deliveryCompany nvarchar(255) 
+)
+insert into Role values('Delivery Man')
+insert into Account values('shipper1','123','shipper1@gmail.com',6,1)
+insert into Account values('mkt1','123','mkt1@gmail.com',3,1)
+update Account set roleId = 6 where accountId =4
+insert into Account_Profile values(4,'shipper1','2003-12-30',1,null)
+insert into deliveryMan_Company values(4,'Company A') 
+delete deliveryMan_Company where accountId=6

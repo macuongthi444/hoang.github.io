@@ -150,7 +150,7 @@
                             <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
                             <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;" >Submit Now</button>
                         </div>
-                            </form>
+                        </form>
                     </div>
                     <div class="col-md-12 col-lg-5">
                         <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
@@ -475,8 +475,6 @@
 
 
 <!-- Featurs Start -->
-<<<<<<< HEAD
-=======
 <!--        <div class="container-fluid service py-5">
             <div class="container py-5">
                 <div class="row g-4 justify-content-center">
@@ -521,17 +519,15 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
         </div>
 <!-- Featurs End -->
->>>>>>> origin/order
-
 
 <!-- Vesitable Shop Start-->
 <!-- Vesitable Shop End -->
 
 
 <!-- Banner Section Start-->
+
         <!-- Featurs End -->
 
 
