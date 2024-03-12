@@ -103,15 +103,15 @@
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
-                             <c:if test ="${sessionScope.acc.role.roleId == 3}">
-                                    <div class="nav-item dropdown">
-                                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
-                                        <div class="dropdown-menu m-0">     
-                                            <a href="userprofile?userid=${acc.id}" class="dropdown-item">User profile</a>
-
-                                        </div>
+                            <c:if test ="${sessionScope.acc.role.roleId == 3}">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
+                                    <div class="dropdown-menu m-0">     
+                                        <a href="userprofile?userid=${acc.id}" class="dropdown-item">User profile</a>
+                                        <a href="logout" class="dropdown-item">Log out</a>
                                     </div>
-                                </c:if>
+                                </div>
+                            </c:if>
 
                         </div>
                     </div>
@@ -149,11 +149,11 @@
                         <h4 class="mb-3 text-secondary">100% Quality</h4>
                         <h1 class="mb-5 display-3 text-primary">Brand new Laptop & Acc  essories</h1>
                         <<form action="listproduct">
-                        <div class="position-relative mx-auto">
-                            <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
-                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;" >Submit Now</button>
-                        </div>
-                            </form>
+                            <div class="position-relative mx-auto">
+                                <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
+                                <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;" >Submit Now</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="col-md-12 col-lg-5">
                         <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
@@ -277,9 +277,9 @@
                                                 <a class="cart add-to-cart" href="home?accountID=${sessionScope.accountID}&pid=${product.productID}&amount=1" data-quantity="${product.quantity}">Add to Cart</a>
                                             </c:otherwise>
                                         </c:choose>
-                                               <a  href="detail?productId=${product.productID}&brandId=${pr}">View Detail</a>    
+                                        <a  href="detail?productId=${product.productID}&brandId=${pr}">View Detail</a>    
                                     </div>
-                                        
+
                                     <div class="text-dark2 justify-content-between flex-lg-wrap" style="font-weight: bold"></div>
                                 </div>
                             </div>

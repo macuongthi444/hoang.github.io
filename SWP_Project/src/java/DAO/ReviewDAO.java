@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,9 +43,9 @@ public class ReviewDAO {
         return new java.sql.Date(today.getTime());
     }
 
-    public void insertReview(int accountID, int productID, String contentReview) {
-        String query = "insert Feedback(accountId, productId, contentReview, dateReview)\r\n"
-                + "values(?,?,?,?)";
+    public void insertReview(int accountID, int productID, String contentReview, int rating) {
+        String query = "insert Feedback(accountId, productId, contentReview, dateReview,rating)\r\n"
+                + "values(?,?,?,?,?)";
 
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
@@ -51,6 +54,7 @@ public class ReviewDAO {
             ps.setInt(2, productID);
             ps.setString(3, contentReview);
             ps.setDate(4, getCurrentDate());
+            ps.setInt(5, rating);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -104,6 +108,26 @@ public class ReviewDAO {
         }
         return list;
     }
+     public List<Review> getAllReviewByProductID2(int productId) {
+        List<Review> list = new ArrayList<>();
+        String query = "select * from Feedback\r\n"
+                + "where [productId] =?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, productId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+              
+                Review r = new Review();
+                r.setRating(rs.getInt(6));
+                list.add(r);
+            }
+            
+        } catch (Exception e) {
+        }
+        return list;
+    }
 
     public Review getNewReview(int accountID, int productID) {
         String query = "   select top 1 * from Feedback\n"
@@ -151,7 +175,8 @@ public class ReviewDAO {
         }
         return null;
     }
-  public List<Review> getReviewByAccountId(int id) {
+
+    public List<Review> getReviewByAccountId(int id) {
         String query = "    select * from  [feedback] f join Product p on f.productId = p.productId where [accountId] = ?";
         List<Review> list = new ArrayList<>();
         try {
@@ -160,7 +185,7 @@ public class ReviewDAO {
             ps.setInt(1, id);
 
             rs = ps.executeQuery();
-           
+
             while (rs.next()) {
                 Review r = new Review();
                 r.setContentReview(rs.getString(4));
@@ -168,21 +193,95 @@ public class ReviewDAO {
                 r.setProductName(rs.getString("productName"));
                 r.setProductID(rs.getInt(3));
                 list.add(r);
-               
+
             }
         } catch (Exception e) {
         }
         return list;
     }
+
+    public HashMap<Integer, List<Review>> getReviewByOrder(int con, int productId) {
+        HashMap<Integer, List<Review>> result = new HashMap<>();
+        ReviewDAO dao = new ReviewDAO();
+        List<Review> listReviewById = dao.getAllReviewByProductID(String.valueOf(productId));
+
+        switch (con) {
+            case 1:
+                Collections.sort(listReviewById, Comparator.comparing(Review::getDateReview));
+                break;
+            case 2:
+                Collections.sort(listReviewById, Comparator.comparing(Review::getDateReview));
+                Collections.reverse(listReviewById);
+                break;
+        }
+        result.put(productId, listReviewById);
+        return result;
+    }
+
+    public HashMap<Integer, List<Review>> getReviewByOrder1(int con, int productId) {
+        HashMap<Integer, List<Review>> result = new HashMap<>();
+        ReviewDAO dao = new ReviewDAO();
+        List<Review> listReviewById = dao.getAllReviewByProductID(String.valueOf(productId));
+
+        switch (con) {
+            case 1:
+                Collections.sort(listReviewById, Comparator.comparing(Review::getDateReview));
+                break;
+            case 2:
+                Collections.sort(listReviewById, Comparator.comparing(Review::getDateReview));
+                Collections.reverse(listReviewById);
+                break;
+        }
+        result.put(productId, listReviewById);
+        return result;
+    }
+
+    public int getTotalUserReviewByProductId(int productId) {
+        String query = "  select count(DISTINCT accountId) from Feedback  where productId = ? ";
+        int count = 0;
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, productId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                count = rs.getInt(1);
+
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
+
+    public double getAvarageVoteByProductId(int productId) {
+        double totalUser = getTotalUserReviewByProductId(productId);
+        long totalVote = 0;
+        long numberOfVote = 0;
+        List<Review> list = getAllReviewByProductID2(productId);
+        for (Review review : list) {
+            if (review.getRating() == 0) {
+                continue;
+            }
+            totalVote += review.getRating();
+            numberOfVote++;
+        }
+        double avarageVote =(totalVote / numberOfVote);
+//        if (avarageVote > 5) {
+//            avarageVote = 5;
+//        }
+        return avarageVote;
+    }
+
     public static void main(String[] args) {
         ReviewDAO dao = new ReviewDAO();
-           List<Review> list = dao.getReviewByAccountId(15);
-           for (Review review : list) {
-               System.out.println(review.getProductName());
-               System.out.println(review.getAvatar());
-               System.out.println(review.getContentReview().matches("."));
+        double vote = 0;
+        List<Review> list = dao.getAllReviewByProductID2(3);
+        for (Review review : list) {
+            System.out.println(review.getRating());
         }
-        dao.deleteReview(23);
-
+        vote = dao.getAvarageVoteByProductId(3);
+        System.out.println(vote);
     }
 }
