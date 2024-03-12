@@ -12,6 +12,7 @@ import Model.AccountProfile;
 import Model.AccountStatus;
 import Model.Communications;
 import Model.Role;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +29,45 @@ import java.util.logging.Logger;
 public class DAOAccount extends DBContext {
     
     public static final DAOAccount INSTANCE = new DAOAccount();
+    
+    
+    public void insertAccount(String username, String password, String email, int roleId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "insert into account values(?, ?, ?, ?, ?)";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setInt(4, roleId);
+            ps.setInt(5, 1);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error at insertAccount " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+    }
+    
+    public void insertAccountProfile(int accountId, String fullName, Date birthDate, Boolean gender, String avatar){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "Insert into account_Profile values(?, ?, ?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setString(2, fullName);
+            ps.setDate(3, birthDate);
+            ps.setBoolean(4, gender);
+            ps.setString(5, avatar);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error at insertAccountProfile" + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+    }
     
     public Account getAccountByAccountId(int accountId){
         PreparedStatement ps = null;
@@ -69,7 +109,7 @@ public class DAOAccount extends DBContext {
                 Account ac = new Account(id, rs.getString("username"), rs.getString("password"), rs.getString("email"),
                         RoleDAO.INSTANCE.getRoleById(rs.getInt("RoleId")), 
 //                        AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
-                        new AccountStatus(1, ""));
+                        AccountStatusDAO.INSTANCE.getAccountStatusById(rs.getInt("accountStatusId")));
                 return ac;
             }
         } catch (SQLException ex) {
@@ -242,9 +282,6 @@ public class DAOAccount extends DBContext {
     }
     
     public static void main(String[] args) {
-        DAOAccount dao = new DAOAccount();
-        AccountProfile acc = dao.getAccountProfileById(14);
-        System.out.println(DAOAccount.INSTANCE.getAccountByAccountId(2));
     }
 
 }

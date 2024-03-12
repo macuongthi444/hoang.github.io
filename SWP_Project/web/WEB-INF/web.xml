@@ -88,6 +88,10 @@
         <servlet-name>DeliveryManList</servlet-name>
         <servlet-class>controller.DeliveryManList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddNewUser</servlet-name>
+        <servlet-class>controller.admin.AddNewUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeControl</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -176,6 +180,10 @@
     <servlet-mapping>
         <servlet-name>DeliveryManList</servlet-name>
         <url-pattern>/DeliveryManList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNewUser</servlet-name>
+        <url-pattern>/AddNewUser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
