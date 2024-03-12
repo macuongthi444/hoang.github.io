@@ -249,6 +249,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
+                                                                    <td>Status:</td>
+                                                                    <td>
+                                                                        <c:if test="${contact.isResponded}">
+                                                                            Responded
+                                                                        </c:if>
+                                                                        <c:if test="${!contact.isResponded}">
+                                                                            Contact wasn't responded
+                                                                        </c:if>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
                                                                     <td></td>
                                                                     <td></td>
                                                                 </tr>
@@ -257,9 +268,11 @@
                                                             <p class="d-flex align-items-center"></p>
                                                             <div class="d-flex flex-column flex-md-row gap-2 text-nowrap pe-xl-3 pe-xxl-0">
                                                                 <h5></h5>
-                                                                <a style="color: blue;" class="app-academy-md-50 d-flex align-items-center" href="/SWP_Project/UpdateContact?ContactId=${contact.contactId}">
-                                                                    <span class="">Update contact</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
-                                                                </a>
+                                                                <c:if test="${!contact.isResponded}">
+                                                                    <a style="color: blue;" class="app-academy-md-50 d-flex align-items-center" href="/SWP_Project/UpdateContact?contactId=${contact.contactId}">
+                                                                        <span class="">Update contact</span><i class="bx bx-chevron-right lh-1 scaleX-n1-rtl"></i>
+                                                                    </a>
+                                                                </c:if>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -268,23 +281,9 @@
                                             </c:forEach>
 
 
-
+                                            
 
                                         </div>
-                                        <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
-                                            <ul class="pagination">
-                                                <li class="page-item prev">
-                                                    <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>
-                                                </li>
-                                                <li class="page-item active">
-                                                    <a class="page-link" href="javascript:void(0);">1</a>
-                                                </li>
-
-                                                <li class="page-item next">
-                                                    <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
                                     </div>
                                 </div>
 
@@ -307,7 +306,11 @@
                         <div class="content-backdrop fade"></div>
                     </div>
         <!-- Cart Page End -->
-        
+        <c:if test="${updateSuccess != null}">
+            <script type="text/javascript">
+                alert("Update Success");
+            </script>
+        </c:if>
         
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">

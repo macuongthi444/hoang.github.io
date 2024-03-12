@@ -329,7 +329,8 @@ create table Contact(
 	email varchar(50) not null,
 	phoneNumber varchar(20),
 	content nvarchar(200) not null,
-	contactDate datetime not null
+	contactDate datetime not null,
+
 )
 
 create table Contact_Image(
@@ -339,6 +340,10 @@ create table Contact_Image(
 )
 
 select * from account
+select * from Account_Profile
 select *from Account_Status where accountStatusId = 1
+
 select * from Contact
 select * from Contact_Image
+
+

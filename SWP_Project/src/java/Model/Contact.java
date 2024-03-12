@@ -18,6 +18,7 @@ public class Contact {
     private String phoneNumber;
     private String content;
     private Timestamp contactDate;
+    private boolean isResponded;
     
     private List<String> imageList;
     
@@ -31,8 +32,19 @@ public class Contact {
         this.phoneNumber = phoneNumber;
         this.content = content;
         this.contactDate = contactDate;
+        isResponded = false;
     }    
 
+    public boolean isIsResponded() {
+        return isResponded;
+    }
+
+    public void setIsResponded(boolean isResponded) {
+        this.isResponded = isResponded;
+    }
+    
+    
+    
     public String getEmail() {
         return email;
     }

@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import Model.Account;
 import Model.Contact;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +21,64 @@ import java.util.List;
 public class ContactDAO extends DBContext{
     public static final ContactDAO INSTANCE = new ContactDAO();
     
+    public void deleteContactImageByContactId(int contactId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "delete from contact_Image where contactId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, contactId);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error at deleteContactImageByContactId " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+    }
+    
+    public void updateContact(int contactId, int accountId, String email, String phoneNumber, String content, Timestamp contactDate){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "update contact set accountId = ?, email = ?, phoneNumber = ?, content = ?, contactDate = ? where contactId = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setString(2, email);
+            ps.setString(3, phoneNumber);
+            ps.setString(4, content);
+            ps.setTimestamp(5, contactDate);
+            ps.setInt(6, contactId);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error at updateContact " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+    }
+    
+    public Contact getContactByContactId(int contactId){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from contact where contactId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, contactId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                Contact contact = new Contact(rs.getInt("contactId"), DAOAccount.INSTANCE.getAccountByAccountId(rs.getInt("accountId")), 
+                        rs.getString("email"), rs.getString("phoneNumber"), rs.getString("content"), rs.getTimestamp("contactDate"));
+                contact.setImageList(getContactImageListByContactId(rs.getInt("contactId")));
+                contact.setIsResponded(rs.getBoolean("isResponded"));
+                return contact;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getContactByContactId " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+    
     public List<Contact> getContactList(){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -32,6 +91,7 @@ public class ContactDAO extends DBContext{
                 Contact contact = new Contact(rs.getInt("contactId"), DAOAccount.INSTANCE.getAccountByAccountId(rs.getInt("accountId")), rs.getString("email"), 
                         rs.getString("phoneNumber"), rs.getString("content"), rs.getTimestamp("contactDate"));
                 contact.setImageList(getContactImageListByContactId(rs.getInt("contactId")));
+                contact.setIsResponded(rs.getBoolean("isResponded"));
                 list.add(contact);
             }
         } catch (SQLException e) {
@@ -75,6 +135,7 @@ public class ContactDAO extends DBContext{
                 Contact contact = new Contact(rs.getInt("contactId"), DAOAccount.INSTANCE.getAccountByAccountId(rs.getInt("accountId")), rs.getString("email"), 
                         rs.getString("phoneNumber"), rs.getString("content"), rs.getTimestamp("contactDate"));
                 contact.setImageList(getContactImageListByContactId(rs.getInt("contactId")));
+                contact.setIsResponded(rs.getBoolean("isResponded"));
                 list.add(contact);
                 
             }

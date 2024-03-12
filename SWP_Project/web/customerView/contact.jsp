@@ -158,7 +158,7 @@
                             </div>
                         </div>-->
                         <div class="col-lg-10">
-                            <form action="contact" method="post" class="" id="contact-form" onsubmit="return checkInput()">
+                            <form action="${action.equals("update")?UpdateContact:"contact"}" method="post" class="" id="contact-form" onsubmit="return checkInput()">
                                 <table class="table contact-table" style="color: black;">
                                     <tr>
                                         <td>
@@ -174,7 +174,7 @@
                                             <label for="email">Email*</label>
                                         </td>
                                         <td>
-                                            <input value="${profile.account.email}" autocomplete="off" name="email" style="color: black;" id="email"
+                                            <input value="${contact==null?profile.account.email:contact.email}" autocomplete="off" name="email" style="color: black;" id="email"
                                                    type="email" class="w-100 form-control border-0 py-3" placeholder="Enter Your Email"
                                                    >
                                         </td>
@@ -182,7 +182,7 @@
                                     <tr>
                                         <td><label>Phone number</label></td>
                                         <td>
-                                            <input name="phoneNumber"
+                                            <input name="phoneNumber" value="${contact==null?"":contact.phoneNumber}"
                                                 type="text" placeholder="Phone number" class="w-100 form-control border-0 py-3" list="phoneNumberList" autocomplete="off"
                                                    pattern="[0-9]{9,}" title="Phone number only contains number 0-9 with at least 9 digits" style="color: black;"/>
                                             <datalist id="phoneNumberList">
@@ -199,15 +199,30 @@
                                         </td>
                                         <td>
                                             <textarea id="content" name="content" style="color: black;" required=""
-                                                      class="w-100 form-control border-0" rows="5" cols="10" placeholder="Your Message"></textarea>
+                                                      class="w-100 form-control border-0" rows="5" cols="10" placeholder="Your Message">${contact.content}</textarea>
                                         </td>
                                     </tr>
+                                    <c:if test="${contact!=null}">
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <c:forEach items="${contact.imageList}" var="image">
+                                                    <img src="img/${image}" width="100px" height="100px" alt="alt" style="border: solid 1px rgba(0, 0, 0, 0.4)"/>
+                                                </c:forEach>
+                                            </td>
+                                        </tr>
+                                    </c:if>
                                     <tr>
                                         <td>
-                                            <label for="">File Attach:</label>
+                                            <label for="">Image Attach:</label>
                                         </td>
                                         <td> 
                                             <input type="file" multiple="on" name="image"/>
+                                            <c:if test="${contact!=null}">
+                                            <input title="This option will remove your images then add images selected" type="radio" id="overrideImage" value="overrideImage" name="imageOption"/> <label title="This option will remove your images then add images selected"
+                                                for="overrideImage">Override image </label> &nbsp;&nbsp;&nbsp;&nbsp;
+                                              <input type="radio" name="imageOption" value="addMoreImage" id="addMoreImage" checked/><label for="addMoreImage">Add more image </label>
+                                            </c:if>
                                         </td>
                                     </tr>
                                 </table>
