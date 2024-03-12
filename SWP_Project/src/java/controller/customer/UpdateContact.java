@@ -112,8 +112,11 @@ public class UpdateContact extends HttpServlet {
                 }
             }
             System.out.println("Update Success");
-            request.getSession().setAttribute("updateSuccess", "updateSuccess");
-            response.sendRedirect("/SWP_Project/ViewSentContact");
+            request.setAttribute("contactId", contact);
+            request.setAttribute("updateSuccess", "updateSuccess");
+            doGet(request, response);
+//            request.getSession().setAttribute("updateSuccess", "updateSuccess");
+//            response.sendRedirect("/SWP_Project/ViewSentContact");
 //            request.getRequestDispatcher("/ViewSentContact").forward(request, response);
         } catch (IOException e) {
             System.out.println(e.getMessage() + " UPdate fail");

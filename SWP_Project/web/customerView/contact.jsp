@@ -266,6 +266,10 @@
                 }
                 return false;
             }
+            
+            <c:if test="${updateSuccess!=null}">
+                alert("Update Success");
+            </c:if>
         </script>
         <!-- Footer Start -->
 <!--        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">

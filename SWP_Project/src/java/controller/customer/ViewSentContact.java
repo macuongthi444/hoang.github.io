@@ -59,9 +59,7 @@ public class ViewSentContact extends HttpServlet {
     throws ServletException, IOException {
         Account account = (Account)request.getSession().getAttribute("account");
         request.setAttribute("contactList", ContactDAO.INSTANCE.getContactListByAccountId(account.getId()));
-        if(request.getSession().getAttribute("updateSuuccess") != null){
-            request.setAttribute("updateSuccess", "updateSuccess");
-        }
+        
         request.getRequestDispatcher("customerView/ViewSentContact.jsp").forward(request, response);
     } 
 
