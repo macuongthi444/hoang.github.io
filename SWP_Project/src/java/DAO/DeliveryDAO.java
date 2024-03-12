@@ -17,9 +17,9 @@ import java.util.List;
  * @author vinhp
  */
 public class DeliveryDAO extends DBContext {
-    
+
     public static final DeliveryDAO INSTANCE = new DeliveryDAO();
-    
+
     public List<AccountProfile> getAllDeliveryMan() {
         List<AccountProfile> list = new ArrayList<>();
         PreparedStatement ps = null;
@@ -39,34 +39,51 @@ public class DeliveryDAO extends DBContext {
         }
         return null;
     }
-    
-    public List<DeliveryMan> getDeliveryCompanyByAccountId(int id) {
+
+    public String getDeliveryCompanyByAccountId(int id) {
         PreparedStatement ps = null;
         ResultSet rs = null;
-        List<DeliveryMan> list = new ArrayList<>();
-        String sql = "select * from deliveryMan_Company where accountId= ? ";
+        String company = null;
+        String sql = "select deliveryCompany from deliveryMan_Company where accountId= ? ";
         try {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new DeliveryMan(rs.getInt(1), rs.getString(2)));
+            if (rs.next()) {
+                company = rs.getString(1);
+                return company;
             }
-            return list;
         } catch (SQLException e) {
-            System.out.println("error at getAllDeliveryManByAccountId " + e.getMessage());
+            System.out.println("error at getDeliveryCompanyByAccountId " + e.getMessage());
         } finally {
             closeStatement(ps, rs);
         }
         return null;
     }
-    
+    public void giveOrderToDeliveryMan(int accountId,int orderId){
+    String sql="insert into Shipped_History values( ?, ?)";
+    PreparedStatement ps =null;
+    ResultSet rs = null;
+        try {
+            ps =connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("error at giveOrderToDeliveryMan " + e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+    }
+
     public static void main(String[] args) {
         DeliveryDAO d = new DeliveryDAO();
         List<AccountProfile> l = d.getAllDeliveryMan();
-        List<DeliveryMan> l2= d.getDeliveryCompanyByAccountId(4);
-        for (AccountProfile company : l) {
-            System.out.println(company.getAvatar());
-        }
+        String company = d.getDeliveryCompanyByAccountId(4);
+//        for (AccountProfile list : l) {
+//            System.out.println(list.getAvatar());
+//        }
+        System.out.println(company);
+        d.giveOrderToDeliveryMan(4, 1);
     }
 }
