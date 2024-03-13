@@ -345,7 +345,7 @@ create table Reply_Contact(
 	
 )
 
-select * from account
+select * from account a join Role r on a.roleId = r.roleId
 select * from Account_Profile
 select *from Account_Status where accountStatusId = 1
 
@@ -376,25 +376,46 @@ alter table feedback add [contentReview] [nvarchar](500) NULL
 alter table feedback add [dateReview] [date] NULL
 alter table feedback add [rating] [int] NULL
 
+drop table PostProduct
+drop table PostDescription
+drop table post
+drop table postType
 
-CREATE TABLE [dbo].[Feedback](
-	[feedbackId] [int] IDENTITY(1,1) NOT NULL,
-	[accountId] [int] NOT NULL,
-	[productId] [int] NOT NULL,
-	[contentReview] [nvarchar](500) NULL,
-	[dateReview] [date] NULL,
-	[rating] [int] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[feedbackId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD FOREIGN KEY([accountId])
-REFERENCES [dbo].[Account] ([accountId])
-GO
-
-ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD FOREIGN KEY([productId])
-REFERENCES [dbo].[Product] ([productId])
-GO
+create table PostType(
+postTypeID  int identity(1, 1) primary key not null,
+postTypeDetail nvarchar(50) not null,
+)
+create table Post(
+	postId int identity(1, 1) primary key not null,
+	postTitle nvarchar(255) not null,
+	postImg varchar(255) not null,
+	postStart datetime not null,
+	postEnd datetime not null,
+	postTypeID int foreign key references PostType(postTypeID) not null,
+	postByUserMarketing int foreign key references Account(accountId) not null,
+	couponId int foreign key references Coupon(couponId) not null
+	
+	
+)
+CREATE TABLE PostProduct(
+	[postProductId] [int] IDENTITY(1,1) NOT NULL,
+	[postId] int foreign key references Post(postId) not null,
+	[productPost] int foreign key references Product_Option(productOptionId) not null
+	)
+CREATE TABLE PostDescription(
+	[postDescriptionId] [int] IDENTITY(1,1) NOT NULL,
+	[postId] int foreign key references Post(postId) not null,
+	[PostTitleDescription] [nvarchar](255) NOT NULL,
+	[postDetail] [nvarchar](500) NOT NULL,
+	[postImg] [varchar](255) NOT NULL
+)
+select * from Coupon
+insert into Coupon values (0.3, '2024-3-13', '2024-3-20', 0, 40)
+select * from Product_Option
+insert into PostType values('Hot'), ('New'), ('Sale'),('Announcements')
+insert into account values('mkt1', '123', 'mkt1@gmail.com', 4, 1)
+select * from Role
+insert into Post values(N'🚀 Khám Phá Thế Giới Công Nghệ Tại Group 6! 💻🌐','','2024-01-10','2024-04-29',4,6,3)
+insert into Post values(N'🚀 Khám Phá Sức Mạnh Mới - MacBook Air M1🌟 Đỉnh Cao Công Nghệ Đến Từ Apple 💻🌐','https://cdn.mediamart.vn/images/news/flash-sale-thang-3--apple-macbook-pro-m1-gim-mnh-6-triu-dng-macbook-air-m1-gia-ch-con-23_1cf2e752.jpg ','2024-01-10','2024-04-29',4,6,3)		
+insert into Post values(N'🎮 Chinh Phục Thế Giới Game - Laptop Lenovo IdeaPad Gaming 3: Sức Mạnh Đỉnh Cao Tại Đầu Ngón Tay! 🚀💻','https://product.hstatic.net/1000167396/product/lenovo_ideapad_gaming_3_2023_281574a64fc942e9b9c6db3f7de142bb_grande.png','2024-02-10','2024-03-29 ',2,6,3)
+insert into Post values(N'🌟 Đẳng Cấp Sáng Tạo - Laptop MSI Modern 14: Khi Nghệ Thuật Gặp Công Nghệ 🌈💻','https://product.hstatic.net/1000167396/product/msi_12_evo_d11938c43ec24c94a3bdd367481e9bc6_grande.png','2024-02-10','2024-03-09',3,6,3)
