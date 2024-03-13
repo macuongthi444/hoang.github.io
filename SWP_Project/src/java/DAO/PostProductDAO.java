@@ -17,15 +17,13 @@ import java.sql.SQLException;
  */
 public class PostProductDAO extends DBContext {
     public static final PostProductDAO INSTANCE = new PostProductDAO();
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
+    
     public PostProduct getPostProductByPostId(int id) {
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from PostProduct where postId=?";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {

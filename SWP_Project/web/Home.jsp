@@ -36,7 +36,7 @@
         <link rel="stylesheet" href="scss/bootstrap/scss/_navbar.scss" type="text/css"/>
         <link rel="stylesheet" href="scss/bootstrap/scss/_navbar.scss" type="text/css">
 
-
+        
     </head>
 
     <body>

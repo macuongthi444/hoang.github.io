@@ -23,34 +23,33 @@ import java.util.List;
 public class PostDAO extends DBContext {
 
     public static final PostDAO INSTANCE = new PostDAO();
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
 
     public PostType getPostTypeById(int id) {
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from [PostType] where [postTypeID] = ?";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 return new PostType(rs.getInt("postTypeID"), rs.getString("postTypeDetail"));
             }
         } catch (SQLException e) {
-
+            System.out.println("Error at getPostTypeById " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }
 
     public List<Post> getAllPost() {
         ArrayList<Post> post = new ArrayList<>();
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from Post ";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -65,19 +64,21 @@ public class PostDAO extends DBContext {
                 ));
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getAllPost " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return post;
     }
 
     public List<Post> getAllPostDesc() {
         ArrayList<Post> post = new ArrayList<>();
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from Post ORDER BY [postId] DESC;";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -92,19 +93,21 @@ public class PostDAO extends DBContext {
                 ));
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getAllPostDesc " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return post;
     }
 
     public List<Post> getPostTop3() {
         ArrayList<Post> post = new ArrayList<>();
-       
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "   select top 3*from  [Post] WHERE postEnd > GETDATE() ORDER BY [postId] DESC;";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -119,18 +122,20 @@ public class PostDAO extends DBContext {
                 ));
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getPostTop3 " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return post;
     }
 
     public Post getPostById(int id) {
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from Post where postId=?";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -147,23 +152,26 @@ public class PostDAO extends DBContext {
                 return post;
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getPostById " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }
 
     public List<Post> searchPostByTitle(String searchTxt) {
         List<Post> list = new ArrayList<>();
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         String sql = "SELECT * FROM [Post] WHERE [postTitle] LIKE '?';";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             if (searchTxt == null || searchTxt.isEmpty()) {
                 searchTxt = "";
             }
             ps.setString(1, "%" + searchTxt + "%");
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Post(rs.getInt(1),
                         rs.getString(2),
@@ -176,31 +184,37 @@ public class PostDAO extends DBContext {
                 ));
             }
         } catch (SQLException e) {
-
+            System.out.println("Error at searchPostByTitle " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return list;
     }
 
     public List<PostType> getAllPostType() {
         List<PostType> list = new ArrayList<>();
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         String sql = "select * from [PostType]";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new PostType(rs.getInt(1),
                         rs.getString(2)));
             }
         } catch (SQLException e) {
-
+            System.out.println("Error at getAllPostType " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return list;
     }
 
     public List<Post> getPostByType(String type) {
         List<Post> list = new ArrayList<>();
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         String sql = "select  *from Post p join PostType pt on p.postTypeID=pt.postTypeID\n"
                 + "  where pt.postTypeDetail  like ?";
         try {
@@ -208,10 +222,9 @@ public class PostDAO extends DBContext {
                 type = "";
             }
 
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setString(1, "%" + type + "%");
-
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Post(rs.getInt(1),
                         rs.getString(2),
@@ -225,15 +238,19 @@ public class PostDAO extends DBContext {
 
             }
         } catch (SQLException e) {
-
+            System.out.println("Error at getPostByType " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return list;
     }
 
     public void addPost(String postTitle, String postImg, Date postStart, Date postEnd, int postTypeID, int postByUserMarketing, int couponid) {
         String sql = "insert into Post values(?,?,?,?,?,?,?)";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setString(1, postTitle);
             ps.setString(2, postImg);
             ps.setDate(3, postStart);
@@ -243,6 +260,9 @@ public class PostDAO extends DBContext {
             ps.setInt(7, couponid);
             ps.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("Error at addPost "+ e.getMessage());  
+        } finally{
+            closeStatement(ps, rs);
         }
     }
 

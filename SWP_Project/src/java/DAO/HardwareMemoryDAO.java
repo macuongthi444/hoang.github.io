@@ -16,15 +16,18 @@ public class HardwareMemoryDAO extends DBContext{
       public static final HardwareMemoryDAO INSTANCE = new HardwareMemoryDAO();
      public HardwareMemory getHardwareMemoryById(int hmID) throws SQLException{
         String sql = "select * from [HardwareMemory] where [hardwareMemoryId] = ?";
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, hmID);  
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return new HardwareMemory(rs.getInt("hardwareMemoryId"), rs.getString("hardwareMemory"));
             }
         } catch (SQLException e) {
-            
+            System.out.println("Error at getHardwareMemoryById " + e.getMessage());
+        } finally{
+            closeStatement(ps, null);
         }
         return null;
     }

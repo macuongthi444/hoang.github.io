@@ -21,38 +21,50 @@ public class CouponDAO extends DBContext {
 
     public List<Coupon> getAllCoupon() {
         String sql = "select * from Coupon";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         List<Coupon> list = new ArrayList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Coupon(rs.getInt(1), rs.getDouble(2), rs.getDate(3), rs.getDate(4), rs.getBoolean(5)));
             }
             return list;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println("Error at getAllCoupon " + e.getMessage());
+        }finally{
+            closeStatement(ps, rs);
         }
         return list;
     }
 
     public Coupon getCouponByID(int couponID) {
         String sql = "select * from Coupon where couponId = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, couponID);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Coupon c = new Coupon(rs.getInt(1), rs.getDouble(2), rs.getDate(3), rs.getDate(4), rs.getBoolean(5));
                 return c;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println("Error at getCouponById " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }
 
     public void addCoupon(double discountRate, Date startDate, Date endDate, boolean isUsed, Integer productID) {
         String sql = "insert into Coupon values(?,?,?,?,?)";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setDouble(1, discountRate);
             ps.setDate(2, startDate);
             ps.setDate(3, endDate);
@@ -64,18 +76,25 @@ public class CouponDAO extends DBContext {
             }
             ps.executeUpdate();
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error at addCoupon " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
     }
 
     public void banCouponByCouponId(int couponId) {
         String sql = "update Coupon set isUsed = 0 where couponId= ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, couponId);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println("Error at banCouponByCouponId " + e.getMessage());
+        }finally{
+            closeStatement(ps, rs);
         }
     }
 
@@ -165,25 +184,33 @@ public class CouponDAO extends DBContext {
 
     public void AttachProductID(int productId, int couponId) {
         String sql = "update Coupon set productOptionId = ? where couponId= ?";
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, productId);
             ps.setInt(2, couponId);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+        } finally{
+            closeStatement(ps, null);
         }
     }
 
     public Coupon getCouponByProductOptionId(int poid) {
         String sql = "select * from Coupon where productOptionId = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, poid);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if (rs.next()) {
                 return new Coupon(rs.getInt(1), rs.getDouble(2), rs.getDate(3), rs.getDate(4), rs.getBoolean(5));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println("Error at getCouponByProductOptionId " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }
@@ -217,8 +244,9 @@ public class CouponDAO extends DBContext {
                 + "SET productOptionId = ?\n"
                 + "WHERE couponId = ?;\n"
                 + "COMMIT;"; // Kết thúc giao dịch
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, cid1);
             ps.setInt(2, poid);
             ps.setInt(3, cid2);
@@ -231,16 +259,22 @@ public class CouponDAO extends DBContext {
             } catch (SQLException ex) {
                 ex.printStackTrace(); // Xử lý lỗi rollback (đã bổ sung để ghi log lỗi)
             }
+        } finally{
+            closeStatement(ps, null);
         }
     }
 
     public void removeProductIdWhenHaveOutDatedCoupon() {
         String sql = "update Coupon set productOptionId = null where isUsed=0";
+        PreparedStatement ps =  null;
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.executeQuery();
             ps.close();
         } catch (SQLException e) {
+            
+        } finally{
+            closeStatement(ps, null);
         }
     }
 

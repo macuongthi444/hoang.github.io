@@ -16,17 +16,20 @@ import java.sql.SQLException;
 public class ColorDAO extends DBContext{
     public static final ColorDAO INSTANCE = new ColorDAO();
      public Color getColorById(int colorID) {
-        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
             String sql = "select * from [HardwareMemory] where [hardwareMemoryId] = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, colorID);  
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()){
                 return new Color(rs.getInt("colorId"), rs.getString("color"));
             }
         } catch (SQLException e) {
             
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }

@@ -9,6 +9,7 @@ import Model.PostDescription;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +20,14 @@ import java.util.List;
 public class PostDescriptionDAO extends DBContext {
 
     public static final PostDescriptionDAO INSTANCE = new PostDescriptionDAO();
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
 
     public List<PostDescription> getPostDescriptionByPostId(int id) {
         List<PostDescription> list = new ArrayList<>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from PostDescription where postId=?";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -43,17 +42,19 @@ public class PostDescriptionDAO extends DBContext {
                
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getPostDescriptionByPostId " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return list;
     }
     public Post getPostById(int id) {
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             String sql = "select * from Post where postId=?";
-            conn = new DBContext().connection;
-            ps = conn.prepareStatement(sql);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -70,8 +71,10 @@ public class PostDescriptionDAO extends DBContext {
                 return post;
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getPostById " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }

@@ -948,11 +948,13 @@ public class ProductDAO extends DBContext {
         }
         return null;
     }
-//    public List<Object> getProductOptionList(){
+//    public List<Object> getProductOptionObjectList(){
 ////        String sql = "select * From product_option";
 //        String sql = "select p.productId, p.productName, c.color, hm.hardwareMemory, rm.ramMemory, b.brandName from Brand b, Product_Option po, product p, HardwareMemory hm, RamMemory rm, Color c where po.productId = p.productId and po.hardwareMemoryId = hm.hardwareMemoryId\n" +
 //"	and po.ramMemoryId = rm.ramMemoryId and po.colorId = c.colorId and po.brandId = b.brandId";
 //        List<Object> list = new ArrayList();
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
 //        try {
 //            ps = connection.prepareStatement(sql);
 //            rs = ps.executeQuery();
@@ -974,6 +976,8 @@ public class ProductDAO extends DBContext {
 //            }
 //        } catch (SQLException e) {
 //            System.out.println("Error at getProductOptionList " + e.getMessage());
+//        } finally{
+//            closeStatement(ps, rs);
 //        }
 //        return list;
 //    }
