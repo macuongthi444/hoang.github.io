@@ -1182,26 +1182,48 @@ public class ProductDAO extends DBContext {
         return -1;
     }
 
-    public void insertProduct(int id, String productName, int brandId, String productDetail) {
-        String sql = "insert into Product values(?, ?, ?, ?)";
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.setString(2, productName);
-            ps.setInt(3, brandId);
-            ps.setString(4, productDetail);
-            ps.execute();
-        } catch (SQLException e) {
-            System.out.println("Error at ProductDAO.insertProduct " + e.getMessage());
-        } finally{
-            if(ps != null) try {
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+     public ProductWithOption getProductWithOptionPriceById(int productId) {
+         String sql = "select * from [Product_Option] where [productOptionId] = ?";
+         PreparedStatement ps = null;
+         ResultSet rs =null;
+         try {
+             ps = connection.prepareStatement(sql);
+             ps.setInt(1, productId);
+             rs = ps.executeQuery();
+             if (rs.next()) {
+                 ProductWithOption o = new ProductWithOption();
+                 o.setPrice(rs.getDouble("price"));
+                 return o;
+             }
+         } catch (SQLException e) {
+             System.out.println("Error at ProductDAO.getProductOptionId ");
+         } finally{
+             closeStatement(ps, rs);
+         }
+         return null;
+     }
+
+     public void insertProduct(int id, String productName, Integer brandId, String productDetail) {
+         PreparedStatement ps = null;
+         ResultSet rs = null;
+         String sql = "insert into Product values(?, ?, ?, ?, ?)";
+         try {
+             ps = connection.prepareStatement(sql);
+             ps.setInt(1, id);
+             ps.setString(2, productName);
+             ps.setInt(3, brandId);
+             ps.setString(4, productDetail);
+             ps.execute();
+         } catch (SQLException e) {
+             System.out.println("Error at ProductDAO.insertProduct " + e.getMessage());
+         } finally{
+             if(ps != null) try {
+                 ps.close();
+             } catch (SQLException ex) {
+                 Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         }
+     }
 
     public void insertOption(String optionName) {
         String sql = "insert into [option] values (?) ";
@@ -1228,7 +1250,7 @@ public class ProductDAO extends DBContext {
 //            PreparedStatement ps = connection.prepareStatement(sql);
 //            ps.setInt(1, productId);
 //            ps.setInt(2, optionId);
-//            ps.setString(3, optionDetail);
+//            ps.setString(3,insertProduct optionDetail);
 //            ps.setDouble(4, price);
 //            ps.setInt(5, numberInStock);
 //            ps.setInt(6, quantitySold);
@@ -1427,22 +1449,22 @@ public class ProductDAO extends DBContext {
             if (search == null || search.isEmpty()) {
                 search = "";
             }
-            if (hardware == null || hardware.isEmpty()||hardware.equalsIgnoreCase("all")) {
+            if (hardware == null || hardware.isEmpty() || hardware.equalsIgnoreCase("all")) {
                 hardware = "";
             }
-            if (color == null || color.isEmpty()||color.equalsIgnoreCase("all")) {
+            if (color == null || color.isEmpty() || color.equalsIgnoreCase("all")) {
                 color = "";
             }
-            if (ram == null || ram.isEmpty()||ram.equalsIgnoreCase("all")) {
+            if (ram == null || ram.isEmpty() || ram.equalsIgnoreCase("all")) {
                 ram = "";
             }
-            if (screen == null || screen.isEmpty()||screen.equalsIgnoreCase("all")) {
+            if (screen == null || screen.isEmpty() || screen.equalsIgnoreCase("all")) {
                 screen = "";
             }
-            if (reso == null || reso.isEmpty()||reso.equalsIgnoreCase("all")) {
+            if (reso == null || reso.isEmpty() || reso.equalsIgnoreCase("all")) {
                 reso = "";
             }
-            if (card == null || card.isEmpty()||card.equalsIgnoreCase("all")) {
+            if (card == null || card.isEmpty() || card.equalsIgnoreCase("all")) {
                 card = "";
             }
             if (priceFrom == null || priceFrom.isEmpty()) {
@@ -1520,6 +1542,81 @@ public class ProductDAO extends DBContext {
         return arr;
     }
 
+     public ProductWithImage getProductWithImageById(int id) {
+         PreparedStatement ps = null;
+         ResultSet rs = null;
+        
+         String sql = "select  p.productId,p.productName,p.productDetail,i.imageText,po.price,po.numberInStock \n"
+                 + "                from Product p join Product_Option po\n"
+                 + "				on p.productId=po.productId \n"
+                 + "				join Image i on \n"
+                 + "                 po.productOptionId=i.product_OptionId\n"
+                 + "				where p.productId = " + id;
+         try {
+             ps = connection.prepareStatement(sql);
+             rs = ps.executeQuery();
+             if (rs.next()) {
+                 ProductWithImage product = new ProductWithImage(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getInt(6));
+                 return product;
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
+         } finally{
+             closeStatement(ps, rs);
+         }
+         return null;
+     }
+
+    public int getBrandIdByProductId(int productId) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from Brand b join Product_Option p on p.brandId = b.brandId\n"
+                + "                							where p.productId = " + productId;
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+
+                return rs.getInt("brandId");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            closeStatement(ps, rs);
+        }
+        return 0;
+    }
+
+    public List<ProductWithImage> getListProductByBrandId(int id) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "  select  p.productId,p.productName,p.productDetail,i.imageText,po.price,po.numberInStock\n"
+                + "                             from Product p join Product_Option po \n"
+                + "               				on p.productId=po.productId \n"
+                + "               			join Image i on \n"
+                + "                              po.productOptionId=i.product_OptionId \n"
+                + "                			where po.brandId =  " + id ;
+      
+        try {
+            List<ProductWithImage> list = new ArrayList<>();
+            ps = connection.prepareStatement(sql);
+//            ps.setInt(1, id);
+            rs = ps.executeQuery();
+           while (rs.next()) {
+                ProductWithImage product = new ProductWithImage(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getInt(6));
+                list.add(product);
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+
+//    public ProductOption getProductOption(){
+//    }
     public static void main(String[] args) {
 //        System.out.println(ProductDAO.INSTANCE.checkOptionNameIsExist("color"));
 //        ProductDAO.INSTANCE.insertProduct(3, "test", 1, null);

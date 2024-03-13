@@ -73,7 +73,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Customer</a>
                     <div class="dropdown-menu m-0">     
-                        <a href="userprofile?userid=${acc.id}" class="dropdown-item">User profile</a>
+                        <a href="userprofile?userid=${account.id}" class="dropdown-item">User profile</a>
 
                     </div>
                 </div>
@@ -107,9 +107,15 @@
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
-                            <a href="login" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                            <c:if test ="${sessionScope.account.role.roleId == 3}">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
+                                    <div class="dropdown-menu m-0">     
+                                        <a href="userprofile?userid=${account.id}" class="dropdown-item">User profile</a>
+                                        <a href="logout" class="dropdown-item">Log out</a>
+                                    </div>
+                                </div>
+                            </c:if>
 
                         </div>
                     </div>
@@ -277,38 +283,37 @@
         </div>
         <!-- Featurs Section End -->
         <!--Best Seller Products Start -->
+                   <%--
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
-                <div class="tab-class text-center">
-                    <div class="row g-4">
-                        <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                            <h1 class="display-4">Best Seller Products</h1>
-                            <p> The Best Seller Products</p>
-                        </div>                       
-                    </div>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
-                            <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <!--                                    <div class="row g-4">
-                                    <c:forEach var="product" items="${newestList}">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/${product.imageText}" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hot</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                    <h4 style="font-size: large" >${product.productName}</h4>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                </div>-->
+                <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+                    <h1 class="display-4">Newest Products</h1>
+                    <p>The newest products</p>
+                </div>
+                <div class="row g-4">
+                    <c:forEach var="product" items="${productList}">
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="rounded position-relative fruite-item">
+                   div          <div class="fruite-img">
+                                    <img src="img/${product.imageText}" class="img-fluid w-100 rounded-top" alt="">
+                                </div>
+                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hot</div>
+                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                    <h4 >${product.productName}</h4>
+                                    <div class="d-flex justify-content-between flex-lg-wrap">
+                                        <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.username == null || sessionScope.password == null}">
+                                                <a class="cart" href="login">Add to Cart</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="cart add-to-cart" href="home?accountID=${sessionScope.accountID}&pid=${product.productID}&amount=1" data-quantity="${product.quantity}">Add to Cart</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <a  href="detail?productId=${product.productID}&brandId=${pr}">View Detail</a>    
+                                    </div>
+
+                                    <div class="text-dark2 justify-content-between flex-lg-wrap" style="font-weight: bold"></div>
                                 </div>
                             </div>
                         </div>
@@ -316,6 +321,7 @@
                 </div>
             </div>
         </div>
+                                    --%>
         <!-- Best Seller Product End -->
         <!-- Newest Product Start -->
         <div class="container-fluid fruite py-5">
@@ -441,8 +447,9 @@
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
                                                             <h4 style="font-size: large" >${product.productName}</h4>                        
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>                                                                                                                                                      
+                                                                <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>  
                                                                 <button onclick="addToCart(${productOption.productOptionId})" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                                <a  href="detail?productId=${productOption.productId}&brandId=">View Detail</a> 
                                                             </div>
                                                         </div>
                                                     </div>

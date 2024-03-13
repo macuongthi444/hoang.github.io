@@ -51,15 +51,19 @@ public class AddReview extends HttpServlet {
        HttpSession session = request.getSession();
        Account a = (Account) session.getAttribute("acc");
         if(a==null) {
-        	response.sendRedirect("login");       	
+        response.sendRedirect("login.jsp");
+            
         }
+        
         int accountID = a.getId();
         String contentReview = request.getParameter("contentReview");
         int productID = Integer.parseInt(request.getParameter("productID"));
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        System.out.println(rating);
         ReviewDAO dao = new ReviewDAO();
-        dao.insertReview(accountID, productID, contentReview);
+        dao.insertReview(accountID, productID, contentReview,rating);
         Review newReview = dao.getNewReview(accountID, productID);
-         PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
 
         
             out.println(" <div class=\"media mt-3 mb-4\">\r\n"

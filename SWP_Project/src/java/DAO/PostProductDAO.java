@@ -9,6 +9,7 @@ import Model.PostProduct;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -36,8 +37,10 @@ public class PostProductDAO extends DBContext {
                 return postProduct;
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            System.out.println("Error at getPostProductByPostId " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
         return null;
     }

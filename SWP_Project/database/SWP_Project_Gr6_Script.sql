@@ -366,7 +366,35 @@ create table deliveryMan_Company(
 insert into Role values('Delivery Man')
 insert into Account values('shipper1','123','shipper1@gmail.com',6,1)
 insert into Account values('mkt1','123','mkt1@gmail.com',3,1)
-update Account set roleId = 6 where accountId =4
+
 insert into Account_Profile values(4,'shipper1','2003-12-30',1,null)
 insert into deliveryMan_Company values(4,'Company A') 
-delete deliveryMan_Company where accountId=6
+
+select * From feedback
+
+alter table feedback add [contentReview] [nvarchar](500) NULL
+alter table feedback add [dateReview] [date] NULL
+alter table feedback add [rating] [int] NULL
+
+
+CREATE TABLE [dbo].[Feedback](
+	[feedbackId] [int] IDENTITY(1,1) NOT NULL,
+	[accountId] [int] NOT NULL,
+	[productId] [int] NOT NULL,
+	[contentReview] [nvarchar](500) NULL,
+	[dateReview] [date] NULL,
+	[rating] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[feedbackId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD FOREIGN KEY([accountId])
+REFERENCES [dbo].[Account] ([accountId])
+GO
+
+ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD FOREIGN KEY([productId])
+REFERENCES [dbo].[Product] ([productId])
+GO

@@ -10,7 +10,27 @@ public class Review {
 	  private Date dateReview;
           private String productName;
           private String avatar;
+          private int rating;
 
+    public Review(int id, int accountID, int productID, String contentReview, Date dateReview, String productName, String avatar, int rating) {
+        this.id = id;
+        this.accountID = accountID;
+        this.productID = productID;
+        this.contentReview = contentReview;
+        this.dateReview = dateReview;
+        this.productName = productName;
+        this.avatar = avatar;
+        this.rating = rating;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+          
     public String getAvatar() {
         return avatar;
     }
