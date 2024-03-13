@@ -51,7 +51,7 @@ public class AddReview extends HttpServlet {
        HttpSession session = request.getSession();
        Account a = (Account) session.getAttribute("acc");
         if(a==null) {
-        response.sendRedirect("login.jsp");
+            response.sendRedirect("login.jsp");
             
         }
         

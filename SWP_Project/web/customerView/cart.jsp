@@ -30,22 +30,27 @@
 
 
         <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="/SWP_Project/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-        
+        <link href="/SWP_Project/css/style.css" rel="stylesheet">
+
         <style >
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
+                -webkit-appearance: none;
+                margin: 0;
             }
 
             /* Firefox */
             input[type=number] {
-              -moz-appearance: textfield;
-}
+                -moz-appearance: textfield;
+            }
+        </style>
+        <style>
+            .table-container {
+                overflow-y: hidden; 
+            }
         </style>
     </head>
 
@@ -90,6 +95,7 @@
                                     <a href="cart.html" class="dropdown-item active">Cart</a>
                                     <a href="chackout.html" class="dropdown-item">Chackout</a>
                                     <a href="OrderHistoryServlet" class="dropdown-item">Order History</a>
+                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                                     <a href="404.html" class="dropdown-item">404 Page</a>
                                 </div>
                             </div>

@@ -187,7 +187,6 @@ public class ReviewDAO {
             ps.setInt(1, id);
 
             rs = ps.executeQuery();
-
             while (rs.next()) {
                 Review r = new Review();
                 r.setContentReview(rs.getString(4));
@@ -195,7 +194,6 @@ public class ReviewDAO {
                 r.setProductName(rs.getString("productName"));
                 r.setProductID(rs.getInt(3));
                 list.add(r);
-
             }
         } catch (Exception e) {
         }

@@ -45,7 +45,6 @@ public class OrderDAO extends DBContext {
         }
         return null;
     }
-
     public List<Order> getAllOrder() {
         String sql = "select * from [order] order by orderId desc";
         PreparedStatement ps = null;

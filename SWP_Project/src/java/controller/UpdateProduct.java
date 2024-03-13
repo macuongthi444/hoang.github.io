@@ -86,7 +86,7 @@ public class UpdateProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-            System.out.println("Update product");
+        try {
             String productName = request.getParameter("productName");
 //            int category = Integer.parseInt(request.getParameter("category"));
             String productDetail = request.getParameter("productDetail");
@@ -106,7 +106,7 @@ public class UpdateProduct extends HttpServlet {
             ProductDAO.INSTANCE.updateProductOption(productOptionId, ProductDAO.INSTANCE.getProductByProductOptionId(productOptionId).getProductId(), 
                     hardwareMemoryId, ramMemoryId, colorId, screenSizeId, resolutionId, graphicCardId, productPrice, numberInStock, 0);
             
-            System.out.println(brandId + " " + hardwareMemoryId + " " + ramMemoryId + " " + colorId + " " + screenSizeId + " " + graphicCardId);
+            // System.out.println(brandId + " " + hardwareMemoryId + " " + ramMemoryId + " " + colorId + " " + screenSizeId + " " + graphicCardId);
             
             String imageOption = request.getParameter("imageOption");
             if(images.length != 0 && !images[0].trim().equals("")){
@@ -121,6 +121,9 @@ public class UpdateProduct extends HttpServlet {
             }
             request.getSession().setAttribute("updateSuccess", "updateSuccess");
             request.getSession().removeAttribute("productOptionListAfterSearching");
+        } catch (NumberFormatException e) {
+            
+        }
         response.sendRedirect("/SWP_Project/AdminShowAllProducts");
 //        request.getRequestDispatcher("adminView/admin-show-all-products.jsp").forward(request, response);
 //        System.out.println(images + " " + productOptionId);

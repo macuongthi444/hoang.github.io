@@ -4,7 +4,9 @@
  */
 package controller;
 
+import DAO.PostDAO;
 import DAO.ProductDAO;
+import Model.Post;
 import Model.Product;
 import Model.ProductWithImage;
 import java.io.IOException;
@@ -47,6 +49,9 @@ public class HomeControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO p = new ProductDAO();
+        PostDAO dao = new PostDAO();
+        List<Post> post = dao.getPostTop3();
+
         HttpSession session = request.getSession();
         ////////////////////////////////////////////////
         Integer accountID = (Integer) session.getAttribute("accountID");
@@ -70,11 +75,12 @@ public class HomeControl extends HttpServlet {
         request.setAttribute("num", num);
         request.setAttribute("productList", list);
         request.setAttribute("newestList", newestList);
+         request.setAttribute("post", post);
         request.setAttribute("productOptionList", ProductDAO.INSTANCE.getProductOptionList());
-//        System.out.println(num);
-//        System.out.println(list);
-//        System.out.println(newestList);
-        //////////////////////////////////////////////// 
+        System.out.println(num);
+        System.out.println(list);
+        System.out.println(newestList);
+        ////////////////////////////////////////////////
         request.getRequestDispatcher("Home.jsp").include(request, response);
     }
 

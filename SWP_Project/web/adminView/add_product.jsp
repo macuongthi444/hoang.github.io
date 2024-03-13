@@ -76,7 +76,6 @@
             .add-product-table select{
                 width: 200px;
             }
-            
             .add-product-table tr{
                 border-bottom: 1px solid rgba(0, 0, 0, 0.3);
             }
@@ -85,279 +84,267 @@
             }
             .product-option div:nth-child(2){
                 margin: 20px 0 20px 100px;
-                
             }
         </style>
     </head>
 
     <body>
+        <div class="layout-wrapper layout-content-navbar">
+            <div class="layout-container">
+                <jsp:include page="HeaderAdmin.jsp" />
+                <!-- / Menu -->
 
-        <div class="content-wrapper">
-            <!--            <div class="row">
-                            
-                        </div>-->
-            <div class="container-xxl flex-grow-1 container-p-y">
-                <div class="row" style="background-color: white; width: 97%; margin: auto;">
-                    <!--                    
-                                        <h5 class="card-header">Input Sizing</h5>-->
-                    <div class="col-md-6">
-                    <div class="card-body">
+                <!-- Layout container -->
+                <div class="layout-page" >
+
+                    <!-- Navbar -->
+                    <jsp:include page="Narbar.jsp"/>
+
+                    <div class="content-wrapper">
                         <form action="AddProduct" method="post">
-                            <table class="add-product-table">
-                                <tr>
-                                    
-                                <a href="/SWP_Project/AdminShowAllProducts">Show all products</a>
-                                <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Add product  <span style="color: red;">(Please press clear button to create new product line)</span></h4>
-                                    
-                                
-                            <!--<table>-->
-                                <!--<tr>-->
-                                    <!--<td>-->
-                                    <td>
-                                        
-                                        <h5 style="color: red;">${errorMessage}</h5>
-                                        <label for="productName" class="form-label">Product name: </label>
-                                    </td>
-                                    <td>
-                                        
-<!--                                    </td>
-                                    <td style="width: 80%">-->
-                                        <input name="productName" id="productName" class=""  type="text" ${sessionScope.productId != null?"readonly":""} 
-                                               placeholder="Product name" required="" autocomplete="off" value="${productName==null?sessionScope.product.productName:productName}"/>
-                                    </td>
-                                        
-<!--                                    </td>
-                                </tr>-->
-                            <!--</table>-->
-                            </tr>
-<!--                            <tr>
-                                <td>
-                                    <label for="productCategory" class="form-label">Category: </label>
-                                </td>
-                                <td>
-                                    
-                                            
-                                </td>
-                            </tr>-->
-                                  
-                            <tr>
-                                <td>
-                                    <label for="productDetail">Product detail: </label>
-                                </td>
-                                <td>
-                                    <textarea id="productDetail" name="productDetail" rows="3" cols="20" ${sessionScope.productId != null?"readonly":""} >${productDetail==null?sessionScope.product.productDetail:productDetail}</textarea>
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>
-                                    <label for="brandId" class="form-label">Brand: </label>
-                                </td>
-                                <td>
-                                    <select id="brandId" name="brandId">
-                                        <c:forEach items="<%=ProductDAO.INSTANCE.getBrandList()%>" var="brand">
-                                            <option value="${brand.brandId}" ${brandId==brand.brandId?"selected":""}>${brand.brandName}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="hardwareMemoryId" class="form-label">Hardware memory: </label>
-                                </td>
-                                <td>
-                                    <select id="hardwareMemoryId" name="hardwareMemoryId">
-                                        <c:forEach items="<%=ProductDAO.INSTANCE.getHardwareMemoryList()%>" var="hardwareMemory">
-                                            <option value="${hardwareMemory.hardwareMemoryId}" ${hardwareMemoryId==hardwareMemory.hardwareMemoryId?"selected":""}
-                                                    >${hardwareMemory.hardwareMemory}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="ramMemoryId" class="form-label">Ram memory: </label>
-                                </td>
-                                <td>
-                                    <select id="ramMemoryId" name="ramMemoryId">
-                                        <!--<option></option>-->
-                                        <c:forEach items="<%=ProductDAO.INSTANCE.getRamMemoryList()%>" var="ramMemory">
-                                            <option value="${ramMemory.ramMemoryId}" ${ramMemoryId==ramMemory.ramMemoryId?"selected":""}>${ramMemory.ramMemory}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                                    
-                                <!--option--> 
-                            <%--
-                            <div class="mb-3">
-                                <label for="addOption" class="form-label">Add Option</label>
-                                <input style="width: 300px;" name="addOption" id="addOption" placeholder="color, size, memory size, etc (optional)" 
-                                       value="${optionName}"/>
-<!--                                <button type="submit" name="addOptionSubmit">
-                                    +
-                                </button>-->
-                                <c:if test="${addOptionList != null}">
-                                    <span>Added: &nbsp
-                                        <c:forEach items="${addOptionList}" var="option">
-                                            ${option}, &nbsp;
-                                        </c:forEach>
-                                    </span>
-                                </c:if>
-                            </div>
-                            --%>
-                            <tr>
-                                <td>
-                                    <label for="colorId" class="form-label">Product color: </label>
-                                </td>
-                                <td>
-                                    <select id="colorId" name="colorId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getColorList()%>" var="color">
-                                        <option value="${color.colorId}" ${colorId==color.colorId?"selected":""}>${color.color}</option>
-                                    </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <label for="screenSizeId" class="form-label">Screen size: </label>
-                                </td>
-                                <td>
-                                    <select id="screenSizeId" name="screenSizeId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getScreenSizeList()%>" var="ss">
-                                        <option value="${ss.screenSizeId}" ${screenSizeId==ss.screenSizeId?"selected":""}>${ss.screenSize}</option>
-                                    </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="resolutionId" class="form-label">Resolution: </label>
-                                </td>
-                                <td>
-                                    <select id="resolutionId" name="resolutionId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getResolutionList()%>" var="resolution">
-                                        <option value="${resolution.resolutionId}" ${resolutionId==resolution.resolutionId?"selected":""}>${resolution.resolution}</option>
-                                    </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                        <label for="graphicCardId" class="form-label">Graphic card: </label>
-                                </td>
-                                <td>
-                                    <select id="resolutionId" name="graphicCardId">
-                                    <c:forEach items="<%=ProductDAO.INSTANCE.getGraphicCardList()%>" var="gc">
-                                        <option value="${gc.graphicCardId}" ${graphicCardId==gc.graphicCardId?"selected":""}>${gc.graphicCard}</option>
-                                    </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <td>
-                                    <label for="productPrice" class="form-label">Product price: </label>
-                                </td>
-                                <td>
-                                    <input name="productPrice" id="productPrice" type="number" min="0" placeholder="Product price" required="" autocomplete="off"
-                                           value="${price==null?0:price}" 
-                                           <%--oninput="inputProductPrice()"--%>
-                                           />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="quantity" class="form-label">Quantity: </label>
-                                </td>
-                                <td>
-                                    <input name="quantity" id="quantity" type="number" min="0" placeholder="Quantity" required="" autocomplete="off"
-                                           value="${quantity==null?0:quantity}"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="image" class="form-label">Image: </label>
-                                </td>
-                                <td>
-                                    <input style="width: 216px;" multiple
-                                           name="image" type="file" min="0" placeholder="image" autocomplete="off"/>
-                                </td>
-                            </tr>
-                        </table>
-                            <div class="mb-3">
-                                <input name="submit" id="submit" type="submit" value="Add"/>
-                                <input name="clear" value="clear" style="margin-left: 40px;" type="submit"/>
-                            </div>
-                            
-                            
-                            
-                        </form>
-                    </div>
-                    </div>
-                                
-                    <div class="col-md-6 product-option">
-                        <div>
-                            
-                        <c:if test="${addFail != null}">
-                            <h3 style="color: red;">Add fail</h3>
-                            <h5 style="color: red;">
-                                Option: ${ProductDAO.INSTANCE.getBrandById(brandId).brandName} - ${ProductDAO.INSTANCE.getHardwareMemoryById(hardwareMemoryId).hardwareMemory} 
-                              - ${ProductDAO.INSTANCE.getRamMemoryById(ramMemoryId).ramMemory} - ${ProductDAO.INSTANCE.getColorById(colorId).color} - ${ProductDAO.INSTANCE.getScreenSizeById(screenSizeId).screenSize} - ${ProductDAO.INSTANCE.getResolutionById(resolutionId).resolution} - ${ProductDAO.INSTANCE.getGraphicCardById(graphicCardId).graphicCard} 
-                                already exist
-                            </h5>
-                        </c:if>
-                        <c:if test="${addSuccess != null}">
-                            <h3 style="color: green;">Add success</h3>
-                        </c:if>
-                        </div>
-                        <div>
-                            <c:if test="${product != null}">
-                                <table>
-                                    <tr>
-                                        <td>Brand: </td>
-                                        <td>${product.brand.brandName}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Product name: </td>
-                                        <td>${product.productName}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Product detail: </td>
-                                        <td>${product.productDetail}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Product option: </td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                                <ul>
-                                <c:forEach items="${ProductDAO.INSTANCE.getProductOptionByProductId(product.productId)}" var="po">
-                                    <li>
-                                        ${ProductDAO.INSTANCE.getHardwareMemoryById(po.hardwareMemoryId).hardwareMemory} 
-                              - ${ProductDAO.INSTANCE.getRamMemoryById(po.ramMemoryId).ramMemory} - ${ProductDAO.INSTANCE.getColorById(po.colorId).color} - ${ProductDAO.INSTANCE.getScreenSizeById(po.screenSizeId).screenSize} - ${ProductDAO.INSTANCE.getResolutionById(po.resolutionId).resolution} - ${ProductDAO.INSTANCE.getGraphicCardById(po.graphicCardId).graphicCard} - ${po.price}
-                                    </li>
-                                </c:forEach>
-                                </ul>
-                            </c:if>
-                        </div>
-                    </div>
-                </div>
-                                
+                            <!-- Content -->
 
-            </div>
-        </div>
-        
+                            <div class="container-xxl flex-grow-1 container-p-y" style="background: blanchedalmond;">
+
+
+
+                                <h4 class="py-3 mb-4">
+                                    <span class="text-muted fw-light">eCommerce /</span><span> Add Product</span>
+
+                                </h4>
+                                <h5 style="color: red;">${errorMessage}</h5>
+                                <label for="productName" class="form-label">Product name: </label>
+                                <div class="app-ecommerce">
+
+                                    <!-- Add Product -->
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h4 class="mb-1 mt-3">Add a new Product</h4>
+                                        </div>
+                                        <div class="d-flex align-content-center flex-wrap gap-3" style="padding-right: 300px;">
+
+
+
+                                            <button type="submit" name="clear"  value="clear" class="btn btn-label-primary">Clear</button>
+                                            <button type="submit" name="submit" value="Add" class="btn btn-primary">Publish product</button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <!-- First column-->
+                                        <div class="col-12 col-lg-8">
+                                            <!-- Product Information -->
+                                            <div class="card mb-4">
+                                                <div class="card-header">
+                                                    <h5 class="card-tile mb-0">Product information</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="ecommerce-product-name">Name</label>
+
+                                                        <input name="productName" id="ecommerce-product-name" class="form-control" placeholder="Product title" aria-label="Product title"
+                                                               type="text" ${sessionScope.productId != null?"readonly":""} autocomplete="off" value="${productName==null?sessionScope.product.productName:productName}">
+                                                    </div>
+
+
+
+
+                                                    <div class="">
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                                <label class="form-label" for="ecommerce-product-sku">Category:</label>
+                                                                <c:if test="${sessionScope.productId == null}">
+                                                                    <%!
+                                                                        List<Category> list = CategoryDAO.INSTANCE.getCategoryList();
+                                                                    %>
+                                                                    <select id="productCategory" name="productCategory" ${sessionScope.productId != null?"readonly":""} class="select2 form-select select2-hidden-accessible" >
+                                                                        <c:forEach items="<%=CategoryDAO.INSTANCE.getCategoryList()%>" var="cat">
+                                                                            <option value="${cat.categoryName}" ${(categoryName==null?SessionScope.product.category.categotyName:categoryName).equals(cat.categoryName)?"selected":""}>${cat.categoryName}</option>
+                                                                        </c:forEach>
+                                                                    </select>
+                                                                </c:if>
+                                                                <c:if test="${sessionScope.productId != null}">
+                                                                    <input type="hidden" readonly="" name="productCategory" value="${product.category.categoryId}"/> ${product.category.categoryName}
+                                                                </c:if>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- Description -->
+                                                    <div class="card mb-5">
+                                                        <label class="form-label">Product detail: <span class="text-muted">(Optional)</span></label>
+                                                        <div class="form-control p-0 pt-1">
+                                                            <textarea name="productDetail" id="form76" class="md-textarea form-control pr-6" rows="4"></textarea>
+                                                            <label for="form76"></label>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card mb-4" data-select2-id="21">
+                                                <div class="card-header">
+                                                    <h5 class="card-title mb-0">Product Option:</h5>
+                                                </div>
+                                                <div class="card-body" data-select2-id="20">
+
+                                                    <div data-repeater-list="group-a" data-select2-id="18">
+                                                        <div data-repeater-item="" data-select2-id="17">
+                                                            <div class="row mb-3" data-select2-id="16">
+
+                                                                <div class=" col-6" data-select2-id="15">
+                                                                    <label class="form-label" for="form-repeater-1-1">Brand:</label>
+                                                                    <div class="position-relative" data-select2-id="14">
+                                                                        <select id="brandId" name="brandId" class="select2 form-select select2-hidden-accessible" data-placeholder="Size" data-select2-id="form-repeater-1-1" tabindex="-1" aria-hidden="true">
+                                                                            <c:forEach items="<%=ProductDAO.INSTANCE.getBrandList()%>" var="brand">
+                                                                                <option value="${brand.brandId}" ${brandId==brand.brandId?"selected":""}>${brand.brandName}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class=" col-6" data-select2-id="15" style="padding-bottom: inherit;">
+                                                                    <label class="form-label" for="form-repeater-1-1">Hardware memory:</label>
+                                                                    <div class="position-relative" data-select2-id="14">
+                                                                        <select id="hardwareMemoryId" name="hardwareMemoryId" class="select2 form-select select2-hidden-accessible" data-placeholder="Size" data-select2-id="form-repeater-1-1" tabindex="-1" aria-hidden="true">
+                                                                            <c:forEach items="<%=ProductDAO.INSTANCE.getHardwareMemoryList()%>" var="hardwareMemory">
+                                                                                <option value="${hardwareMemory.hardwareMemoryId}" ${hardwareMemoryId==hardwareMemory.hardwareMemoryId?"selected":""}
+                                                                                        >${hardwareMemory.hardwareMemory}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class=" col-6" data-select2-id="15" style="padding-bottom: inherit;">
+                                                                    <label class="form-label" for="form-repeater-1-1">Ram memory:</label>
+                                                                    <div class="position-relative" data-select2-id="14">
+                                                                        <select id="ramMemoryId" name="ramMemoryId" class="select2 form-select select2-hidden-accessible" data-placeholder="Size" data-select2-id="form-repeater-1-1" tabindex="-1" aria-hidden="true">
+                                                                            <c:forEach items="<%=ProductDAO.INSTANCE.getRamMemoryList()%>" var="ramMemory">
+                                                                                <option value="${ramMemory.ramMemoryId}" ${ramMemoryId==ramMemory.ramMemoryId?"selected":""}>${ramMemory.ramMemory}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class=" col-6" data-select2-id="15" style="padding-bottom: inherit;">
+                                                                    <label class="form-label" for="form-repeater-1-1">Product color:</label>
+                                                                    <div class="position-relative" data-select2-id="14">
+                                                                        <select id="colorId" name="colorId" class="select2 form-select select2-hidden-accessible" data-placeholder="Size" data-select2-id="form-repeater-1-1" tabindex="-1" aria-hidden="true">
+                                                                            <c:forEach items="<%=ProductDAO.INSTANCE.getColorList()%>" var="color">
+                                                                                <option value="${color.colorId}" ${colorId==color.colorId?"selected":""}>${color.color}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class=" col-6" data-select2-id="15" style="padding-bottom: inherit;">
+                                                                    <label class="form-label" for="form-repeater-1-1">Screen size:</label>
+                                                                    <div class="position-relative" data-select2-id="14">
+                                                                        <select id="screenSizeId" name="screenSizeId" class="select2 form-select select2-hidden-accessible" data-placeholder="Size" data-select2-id="form-repeater-1-1" tabindex="-1" aria-hidden="true">
+                                                                            <c:forEach items="<%=ProductDAO.INSTANCE.getScreenSizeList()%>" var="ss">
+                                                                                <option value="${ss.screenSizeId}" ${screenSizeId==ss.screenSizeId?"selected":""}>${ss.screenSize}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class=" col-6" data-select2-id="15" style="padding-bottom: inherit;">
+                                                                    <label class="form-label" for="form-repeater-1-1">Resolution:</label>
+                                                                    <div class="position-relative" data-select2-id="14">
+                                                                        <select id="resolutionId" name="resolutionId" class="select2 form-select select2-hidden-accessible" data-placeholder="Size" data-select2-id="form-repeater-1-1" tabindex="-1" aria-hidden="true">
+                                                                            <c:forEach items="<%=ProductDAO.INSTANCE.getResolutionList()%>" var="resolution">
+                                                                                <option value="${resolution.resolutionId}" ${resolutionId==resolution.resolutionId?"selected":""}>${resolution.resolution}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class=" col-6" data-select2-id="15" style="padding-bottom: inherit;">
+                                                                    <label class="form-label" for="form-repeater-1-1">Graphic card:</label>
+                                                                    <div class="position-relative" data-select2-id="14">
+                                                                        <select id="resolutionId" name="graphicCardId" class="select2 form-select select2-hidden-accessible" data-placeholder="Size" data-select2-id="form-repeater-1-1" tabindex="-1" aria-hidden="true">
+                                                                            <c:forEach items="<%=ProductDAO.INSTANCE.getGraphicCardList()%>" var="gc">
+                                                                                <option value="${gc.graphicCardId}" ${graphicCardId==gc.graphicCardId?"selected":""}>${gc.graphicCard}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-2" >
+                                                                    <div class="col" style="padding-bottom: inherit;">
+                                                                        <label class="form-label" for="ecommerce-product-sku">Product price:</label>
+                                                                        <input type="number" min="0" placeholder="Product price" required="" autocomplete="off"
+                                                                               value="${price==null?0:price}" 
+                                                                               class="form-control" id="ecommerce-product-sku" placeholder="SKU" name="productPrice" aria-label="productPrice"></div>
+                                                                    <div class="col" style="padding-bottom: inherit;">
+                                                                        <label class="form-label" for="ecommerce-product-barcode">Quantity:</label>
+                                                                        <input  type="number" min="0" placeholder="Quantity" required="" autocomplete="off"
+                                                                                value="${quantity==null?0:quantity}" 
+                                                                                class="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="quantity" aria-label="quantity"></div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <!-- /Product Information -->
+                                            <!-- Media -->
+                                            <div class="card mb-4">
+                                                <div class="card-header d-flex justify-content-between align-items-center">
+                                                    <h5 class="mb-0 card-title">Image:</h5>
+
+                                                </div>
+                                                <div class="card-body">
+
+                                                    <div  class="dropzone needsclick dz-clickable" id="dropzone-basic">
+                                                        <input style="width: 216px;" multiple
+                                                               name="image" id="productPrice" type="file" min="0" placeholder="image" autocomplete="off"/>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- /Media -->
+                                        <!-- Variants -->
+
+                                        <!-- /Variants -->
+                                        <!-- Inventory -->
+
+                                        <!-- /Inventory -->
+                                    </div>
+                                    <!-- /Second column -->
+
+                                    <!-- Second column -->
+
+                                    <!-- /Second column -->
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div> </div></div>
         <script type="text/javascript">
-            function inputProductPrice(){
+            function inputProductPrice() {
                 var priceElement = document.getElementById("productPrice");
                 var price = priceElement.value.toString();
-                if(price.endsWith(" ")){
+                if (price.endsWith(" ")) {
                     priceElement.value = price.substring(0, price.length - 1);
                     return;
                 }
-                if (!isNumeric(removeSpace(price))){
+                if (!isNumeric(removeSpace(price))) {
                     priceElement.value = price.substring(0, price.length - 1);
                     return;
                 }
@@ -373,10 +360,10 @@
 //                }
 //                window.console.log(noOfLoop + "  " + price.length + "  " + price);
                 priceElement.value = addSpace(price);
-    
+
             }
-            
-            function addSpace(string){
+
+            function addSpace(string) {
                 var len = string.length;
                 var noOfLoop = parseInt((len - 1) / 3);
                 // 1 293 -> 1
@@ -397,17 +384,18 @@
                 return string;
 //                priceElement.value = price;
             }
-            
-            function removeSpace(string){
+
+            function removeSpace(string) {
                 return string.toString().replaceAll(" ", "");
             }
-            
+
             function isNumeric(str) {
-                if (typeof str !== "string") return false;
-                return !isNaN(str) && !isNaN(parseFloat(str)) ; 
+                if (typeof str !== "string")
+                    return false;
+                return !isNaN(str) && !isNaN(parseFloat(str));
             }
         </script>
-                                
+
         <script src="/SWP_Project/assets/vendor/libs/jquery/jquery.js"></script>
         <script src="/SWP_Project/assets/vendor/libs/popper/popper.js"></script>
         <script src="/SWP_Project/assets/vendor/js/bootstrap.js"></script>

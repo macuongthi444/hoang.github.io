@@ -100,9 +100,9 @@ public class PostDAO extends DBContext {
 
     public List<Post> getPostTop3() {
         ArrayList<Post> post = new ArrayList<>();
-
+       
         try {
-            String sql = "  select top 3*from  [Post]  ORDER BY [postId] DESC;";
+            String sql = "   select top 3*from  [Post] WHERE postEnd > GETDATE() ORDER BY [postId] DESC;";
             conn = new DBContext().connection;
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();

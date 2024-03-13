@@ -152,10 +152,11 @@
                     <div class="col-md-12 col-lg-7">
                         <h4 class="mb-3 text-secondary">100% Quality</h4>
                         <h1 class="mb-5 display-3 text-primary">Brand new Laptop & Accessories</h1>
-                        <div class="position-relative mx-auto">
-                            <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
-                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;" >Submit Now</button>
-                        </div>
+                        <form action="listproduct">
+                            <div class="position-relative mx-auto">
+                                <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
+                                <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;" >Submit Now</button>
+                            </div>
                         </form>
                     </div>
                     <div class="col-md-12 col-lg-5">
@@ -231,443 +232,432 @@
                         </div>
                     </div>
                 </div>
-        <div class="blog-section">
-            <div class="container">
-                <div class="row mb-5">
-                    <div class="col-md-6">
-                        <h2 class="section-title">Posts</h2>
-                    </div>
-                    <div class="col-md-6 text-start text-md-end">
-                        <a href="/SWP_Project/PostHome" class="more">View All Posts</a>
-                    </div>
-                </div>
-                <%
-        // Lấy ngày hiện tại
-        java.util.Date currentDate = new java.util.Date();
+                <div class="blog-section">
+                    <div class="container">
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <h2 class="section-title">Posts</h2>
+                            </div>
+                            <div class="col-md-6 text-start text-md-end">
+                                <a href="/SWP_Project/PostHome" class="more">View All Posts</a>
+                            </div>
+                        </div>
+                        <%
+                // Lấy ngày hiện tại
+                java.util.Date currentDate = new java.util.Date();
 
-        // Định dạng ngày theo định dạng mong muốn
-        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                // Định dạng ngày theo định dạng mong muốn
+                java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
 
-        // Chuyển đổi ngày thành chuỗi theo định dạng đã chọn
-        String formattedDate = dateFormat.format(currentDate);
-                %>
+                // Chuyển đổi ngày thành chuỗi theo định dạng đã chọn
+                String formattedDate = dateFormat.format(currentDate);
+                        %>
 
-                <div class="row">
-                    <c:set var="ngayhientai" value="<%= formattedDate %>" />
-                    <p>Ngày hiện tại là: <%= formattedDate %></p>
+                        <div class="row">
+                            <c:set var="ngayhientai" value="<%= formattedDate %>" />
+                            <p>Ngày hiện tại là: <%= formattedDate %></p>
 
 
 
-                    <c:forEach items="${post}" var="p">
-                        <c:set var="ngayEnd" value="${p.postEnd}" />
-                        <c:if test="${ngayhientai lt ngayEnd}">
+                            <c:forEach items="${post}" var="p">
+                                <c:set var="ngayEnd" value="${p.postEnd}" />
+                                <c:if test="${ngayhientai lt ngayEnd}">
 
-                            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
-                                <div class="post-entry">
-                                    <a href="/SWP_Project/PostDetailHome?postId=${p.postId}" class="post-thumbnail"><img src="${p.postImg}" style="width: 20%" alt="Image" class="img-fluid"></a>
-                                    <h4>${p.postTypeID.postTypeDetail}</h4>
-                                    <div class="post-content-entry">
-                                        <h3><a href="/SWP_Project/PostDetailHome?postId=${p.postId}">${p.postTitle}</a></h3>
-                                        <div class="meta">
-                                            <span>Start ${p.postStart}</span>
-                                            <span>End ${p.postEnd}</span>
+                                    <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                                        <div class="post-entry">
+                                            <a href="/SWP_Project/PostDetailHome?postId=${p.postId}" class="post-thumbnail"><img src="${p.postImg}" style="width: 20%" alt="Image" class="img-fluid"></a>
+                                            <h4>${p.postTypeID.postTypeDetail}</h4>
+                                            <div class="post-content-entry">
+                                                <h3><a href="/SWP_Project/PostDetailHome?postId=${p.postId}">${p.postTitle}</a></h3>
+                                                <div class="meta">
+                                                    <span>Start ${p.postStart}</span>
+                                                    <span>End ${p.postEnd}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </c:if>
-                    </c:forEach>
-                </div>
-
-            </div>
-        </div>
-        <!-- Featurs Section End -->
-        <!--Best Seller Products Start -->
-                   <%--
-        <div class="container-fluid fruite py-5">
-            <div class="container py-5">
-                <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                    <h1 class="display-4">Newest Products</h1>
-                    <p>The newest products</p>
-                </div>
-                <div class="row g-4">
-                    <c:forEach var="product" items="${productList}">
-                        <div class="col-md-6 col-lg-4 col-xl-3">
-                            <div class="rounded position-relative fruite-item">
-                   div          <div class="fruite-img">
-                                    <img src="img/${product.imageText}" class="img-fluid w-100 rounded-top" alt="">
-                                </div>
-                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hot</div>
-                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                    <h4 >${product.productName}</h4>
-                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                        <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
-                                        <c:choose>
-                                            <c:when test="${sessionScope.username == null || sessionScope.password == null}">
-                                                <a class="cart" href="login">Add to Cart</a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a class="cart add-to-cart" href="home?accountID=${sessionScope.accountID}&pid=${product.productID}&amount=1" data-quantity="${product.quantity}">Add to Cart</a>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <a  href="detail?productId=${product.productID}&brandId=${pr}">View Detail</a>    
-                                    </div>
-
-                                    <div class="text-dark2 justify-content-between flex-lg-wrap" style="font-weight: bold"></div>
-                                </div>
-                            </div>
+                                </c:if>
+                            </c:forEach>
                         </div>
+
                     </div>
                 </div>
-            </div>
-        </div>
-                                    --%>
-        <!-- Best Seller Product End -->
-        <!-- Newest Product Start -->
-        <div class="container-fluid fruite py-5">
-            <div class="container py-5">
-                <div class="tab-class text-center">
-                    <div class="row g-4">
-                        <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                            <h1 class="display-4">Newest Products</h1>
-                            <p> The Newest Products</p>
-                        </div>                       
-                    </div>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                <!-- Featurs Section End -->
+                <!--Best Seller Products Start -->
+                <div class="container-fluid fruite py-5">
+                    <div class="container py-5">
+                        <div class="tab-class text-center">
                             <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <div class="row g-4">
-                                        <%--
-                                        <c:forEach var="product" items="${newestList}">
-                                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                                <div class="rounded position-relative fruite-item">
-                                                    <div class="fruite-img">
-                                                        <img src="img/${product.imageText}" class="img-fluid w-100 rounded-top" alt="">
-                                                    </div>
-                                                    <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
-                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Sale ${100 * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}%</div>
-                                                    </c:if>
-                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                        <h4 style="font-size: large" >${product.productName}</h4>                        
-                                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                                            <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">
-                                                                    <c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
-                                                                    ${discountedPrice}
-                                                                </p>
-                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
-                                                            </c:if>
-                                                            <c:if test="${!CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">    
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>                                                                                                                                                      
-                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
-                                                            </c:if>
-
-                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hot</div>
-                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                        <h4 style="font-size: large" >${product.productName}</h4>
-                                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                                            <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
-                                                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
-                                        --%>
-                                        
-                                    </div>
-                                </div>
+                                <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+                                    <h1 class="display-4">Best Seller Products</h1>
+                                    <p> The Best Seller Products</p>
+                                </div>                       
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Bestsaler Product End -->
-        <!-- Fruits Shop Start-->
-        <div class="container-fluid fruite py-5">
-            <div class="container py-5">
-                <div class="tab-class text-center">
-                    <div class="row g-4">
-                        <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                            <h1 class="display-4">Our Products</h1>
-                            <p> You can see all products we have</p>
-                        </div>                       
-                    </div>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
-                            <div class="row g-4">
-                                <div class="col-lg-12">
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane fade show p-0 active">
                                     <div class="row g-4">
-                                        <%--
-                                        <c:forEach var="product" items="${productList}">
-
-                                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                                <div class="rounded position-relative fruite-item">
-                                                    <div class="fruite-img">
-                                                        <img src="img/${product.imageText}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
-                                                    </div>
-                                                    <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
-                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Sale ${100 * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}%</div>
-                                                    </c:if>
-                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                        <h4 style="font-size: large" >${product.productName}</h4>                        
-                                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                                            <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">
-                                                                    <c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
-                                                                    ${discountedPrice}
-                                                                </p>
-                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
-                                                            </c:if>
-                                                            <c:if test="${!CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">    
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>                                                                                                                                                      
-                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
-                                                            </c:if>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
-                                        --%>
-                                        
-                                        <br/>
-                                        <c:forEach items="${productOptionList}" var="productOption">
-                                            <c:if test="${productOption.numberInStock > 0}">
+                                        <div class="col-lg-12">
+                                            <!--                                    <div class="row g-4">
+                                            <c:forEach var="product" items="${newestList}">
                                                 <div class="col-md-6 col-lg-4 col-xl-3">
                                                     <div class="rounded position-relative fruite-item">
-
-                                                        <!--${productDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}-->
                                                         <div class="fruite-img">
-                                                            <c:set value="${ProductDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}" var="imageList"/>
-                                                            <img src="img/${imageList.isEmpty()?"":imageList.get(0).getImageText()}" width="200px" height="200px" class="img-fluid w-100 rounded-top" alt="">
+                                                            <img src="img/${product.imageText}" class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
-
+                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hot</div>
                                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
-                                                            <h4 style="font-size: large" >${product.productName}</h4>                        
+                                                            <h4 style="font-size: large" >${product.productName}</h4>
                                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>  
-                                                                <button onclick="addToCart(${productOption.productOptionId})" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
-                                                                <a  href="detail?productId=${productOption.productId}&brandId=">View Detail</a> 
+                                                                <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </c:if>
-                                        </c:forEach>
+                                            </c:forEach>
+                                        </div>-->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="pagination-container">
-                            <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                                <a class="${i==page?"active":""}" href="home?page=${i}">
-                                    <span class="page-item ${i==page?"active":""}">
-                                        ${i}
-                                    </span>
-                                </a>
-                            </c:forEach>
+                    </div>
+                </div>
+                <!-- Best Seller Product End -->
+                <!-- Newest Product Start -->
+                <div class="container-fluid fruite py-5">
+                    <div class="container py-5">
+                        <div class="tab-class text-center">
+                            <div class="row g-4">
+                                <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+                                    <h1 class="display-4">Newest Products</h1>
+                                    <p> The Newest Products</p>
+                                </div>                       
+                            </div>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane fade show p-0 active">
+                                    <div class="row g-4">
+                                        <div class="col-lg-12">
+                                            <div class="row g-4">
+
+                                                <c:forEach var="product" items="${newestList}" >
+                                                    <div class="col-md-6 col-lg-4 col-xl-3" >
+                                                        <div class="rounded position-relative fruite-item" >
+
+                                                            <div class="fruite-img">
+                                                                <img src="img/${product.imageText}" style="height: 170px ;"class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
+                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Sale ${100 * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}%</div>
+                                                            </c:if>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
+                                                                        <p class="text-dark fs-5 fw-bold mb-0">
+                                                                            <c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
+                                                                            ${discountedPrice}
+                                                                        </p>
+                                                                        <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                                    </c:if>
+
+
+                                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hot</div>
+                                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                                                        <h4 style="font-size: large;
+                                                                            top: 50px; /* Thay đổi giá trị này để đặt vị trí theo ý muốn */
+                                                                            left: 50px; /* Thay đổi giá trị này để đặt vị trí theo ý muốn */
+                                                                            background-color: #f0f0f0;
+                                                                            padding: 10px;
+                                                                            border: 1px solid #ccc;
+                                                                            object-fit: cover; width:180px; height:90px;" >${product.productName}</h4>
+                                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                            <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </c:forEach>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <!-- Bestsaler Product End -->
+                        <!-- Fruits Shop Start-->
+                        <div class="container-fluid fruite py-5">
+                            <div class="container py-5">
+                                <div class="tab-class text-center">
+                                    <div class="row g-4">
+                                        <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+                                            <h1 class="display-4">Our Products</h1>
+                                            <p> You can see all products we have</p>
+                                        </div>                       
+                                    </div>
+                                    <div class="tab-content">
+                                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                                            <div class="row g-4">
+                                                <div class="col-lg-12">
+                                                    <div class="row g-4">
+                                                        <c:forEach var="product" items="${productList}">
 
-    </div>
-</div>      
-</div>
-</div>
-<!-- Fruits Shop End-->
+                                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                <div class="rounded position-relative fruite-item">
+                                                                    <div class="fruite-img">
+                                                                        <img src="img/${product.imageText}" style="object-fit: cover; width:200px; height:200px;"  class="img-fluid w-100 rounded-top" alt="">
+                                                                    </div>
+                                                                    <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
+                                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Sale ${100 * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}%</div>
+                                                                    </c:if>
+                                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                                                        <h4 style="font-size: large" >${product.productName}</h4>                        
+                                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                            <c:if test="${CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">
+                                                                                <p class="text-dark fs-5 fw-bold mb-0">
+                                                                                    <c:set var="discountedPrice" value="${product.price * CouponDAO.INSTANCE.getCouponByProductOptionId(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID())).discountRate}" />
+                                                                                    ${discountedPrice}
+                                                                                </p>
+                                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                                            </c:if>
+                                                                            <c:if test="${!CouponDAO.INSTANCE.checkProductOptionIdExisted(ProductDAO.INSTANCE.get1ProductOptionIdByProductId(product.getProductID()))}">    
+                                                                                <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>                                                                                                                                                      
+                                                                                <button onclick="addToCart()" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                                            </c:if>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                                                        <br/>
+                                                        <h2>choose from here please</h2>
+                                                        <c:forEach items="${productOptionList}" var="productOption">
+                                                            <c:if test="${productOption.numberInStock > 0}">
+                                                                <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                    <div class="rounded position-relative fruite-item">
 
+                                                                        <!--${productDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}-->
+                                                                        <div class="fruite-img">
+                                                                            <c:set value="${ProductDAO.INSTANCE.getImageListByProductOptionId(productOption.productOptionId)}" var="imageList"/>
+                                                                            <img src="img/${imageList.isEmpty()?"":imageList.get(0).getImageText()}" style="object-fit: cover; width:200px; height:200px;" class="img-fluid w-100 rounded-top" alt="">
+                                                                        </div>
 
-<!-- Featurs Start -->
-<!--        <div class="container-fluid service py-5">
-            <div class="container py-5">
-                <div class="row g-4 justify-content-center">
-                    <div class="col-md-6 col-lg-4">
-                        <a href="#">
-                            <div class="service-item bg-secondary rounded border border-secondary">
-                                <img src="img/featur-1.jpg" class="img-fluid rounded-top w-100" alt="">
-                                <div class="px-4 rounded-bottom">
-                                    <div class="service-content bg-primary text-center p-4 rounded">
-                                        <h5 class="text-white">Preferential prices</h5>
-                                        <h3 class="mb-0">20% OFF</h3>
+                                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">                                                       
+                                                                            <h4 style="font-size: large" >${product.productName}</h4>                        
+                                                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                                <p class="text-dark fs-5 fw-bold mb-0">$${productOption.price}</p>                                                                                                                                                      
+                                                                                <button onclick="addToCart(${productOption.productOptionId})" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                                                                <a  href="detail?productId=${productOption.productId}&brandId=">View Detail</a> 
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pagination-container">
+                                            <c:forEach begin="${1}" end="${requestScope.num}" var="i">
+                                                <a class="${i==page?"active":""}" href="home?page=${i}">
+                                                    <span class="page-item ${i==page?"active":""}">
+                                                        ${i}
+                                                    </span>
+                                                </a>
+                                            </c:forEach>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
+
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <a href="#">
-                            <div class="service-item bg-dark rounded border border-dark">
-                                <img src="img/featur-2.jpg" class="img-fluid rounded-top w-100" alt="">
-                                <div class="px-4 rounded-bottom">
-                                    <div class="service-content bg-light text-center p-4 rounded">
-                                        <h5 class="text-primary">Delivery</h5>
-                                        <h3 class="mb-0">Free delivery</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <a href="#">
-                            <div class="service-item bg-primary rounded border border-primary">
-                                <img src="img/featur-3.jpg" class="img-fluid rounded-top w-100" alt="">
-                                <div class="px-4 rounded-bottom">
-                                    <div class="service-content bg-secondary text-center p-4 rounded">
-                                        <h5 class="text-white">Stability Quality</h5>
-                                        <h3 class="mb-0">2 years warranty</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                </div>      
             </div>
         </div>
-<!-- Featurs End -->
-
-<!-- Vesitable Shop Start-->
-<!-- Vesitable Shop End -->
-
-
-<!-- Banner Section Start-->
-
-        <!-- Featurs End -->
-
-
-        <!-- Vesitable Shop Start-->
-        <!-- Vesitable Shop End -->
-
-
-        <!-- Banner Section Start-->
-<!-- Banner Section End -->
-        <!-- Banner Section End -->
-
-
-
-
-
-<!-- Fact Start -->
-<div class="container-fluid py-5">
-    <div class="container">
-        <div class="bg-light p-5 rounded">
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>satisfied customers</h4>
-                        <h1>1963</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>quality of service</h4>
-                        <h1>99%</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>quality certificates</h4>
-                        <h1>33</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>Available Products</h4>
-                        <h1>789</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Fact Start -->
-
-
-<!-- Tastimonial Start -->
-        <!-- Fact Start -->
-        <!-- Fact Start -->
-        <!-- Tastimonial Start -->
-<!-- Tastimonial End -->
-
-
-        <!-- Tastimonial End -->
-
-
-        <!-- Footer Start -->
-        <!-- Footer End -->
-
-        <!-- Copyright Start -->
-        <div class="container-fluid copyright bg-dark py-4">
+        
+        <div class="container-fluid py-5">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Group 6</a>, All right reserved.</span>
-                    </div>
-                    <div class="col-md-6 my-auto text-center text-md-end text-white">
-                        <!--/*** This template is free as long as you keep the below author?s credit link/attribution link/backlink. ***/-->
-                        <!--/*** If you'd like to use the template without the below author?s credit link/attribution link/backlink, ***/-->
-                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-
+                <div class="bg-light p-5 rounded">
+                    <div class="row g-4 justify-content-center">
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="counter bg-white rounded p-5">
+                                <i class="fa fa-users text-secondary"></i>
+                                <h4>satisfied customers</h4>
+                                <h1>1963</h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="counter bg-white rounded p-5">
+                                <i class="fa fa-users text-secondary"></i>
+                                <h4>quality of service</h4>
+                                <h1>99%</h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="counter bg-white rounded p-5">
+                                <i class="fa fa-users text-secondary"></i>
+                                <h4>quality certificates</h4>
+                                <h1>33</h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="counter bg-white rounded p-5">
+                                <i class="fa fa-users text-secondary"></i>
+                                <h4>Available Products</h4>
+                                <h1>789</h1>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- Footer End -->
-
-<script type="text/javascript">
-
-    function addToCart(productOptionId) {
-        window.console.log(productOptionId === undefined);
-        $.ajax({
-            url: "/SWP_Project/AddToCartServlet",
-            type: 'POST',
-            data: {
-                "productOptionId": productOptionId
-            },
-            success: function (data, textStatus, jqXHR) {
-//                        window.console.log(data);
-                if (data === "accountNotFound") {
-                    alert("Please login before add product to cart!");
-                    return;
-                }
-                if (data !== "") {
-                    window.console.log(data);
-                    alert("Add success");
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-            }
-        });
-    }
-</script>
-
-<!-- Copyright End -->
+       
+        
 
 
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+                <!-- Footer Start -->
+                <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+                    <div class="container py-5">
+                        <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
+                            <div class="row g-4">
+                                <div class="col-lg-3">
+                                    <a href="#">
+                                        <h1 class="text-primary mb-0">Fruitables</h1>
+                                        <p class="text-secondary mb-0">Fresh products</p>
+                                    </a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="position-relative mx-auto">
+                                        <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
+                                        <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="d-flex justify-content-end pt-3">
+                                        <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
+                                        <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-5">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="footer-item">
+                                    <h4 class="text-light mb-3">Why People Like us!</h4>
+                                    <p class="mb-4">typesetting, remaining essentially unchanged. It was 
+                                        popularised in the 1960s with the like Aldus PageMaker including of Lorem Ipsum.</p>
+                                    <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="d-flex flex-column text-start footer-item">
+                                    <h4 class="text-light mb-3">Shop Info</h4>
+                                    <a class="btn-link" href="">About Us</a>
+                                    <a class="btn-link" href="">Contact Us</a>
+                                    <a class="btn-link" href="">Privacy Policy</a>
+                                    <a class="btn-link" href="">Terms & Condition</a>
+                                    <a class="btn-link" href="">Return Policy</a>
+                                    <a class="btn-link" href="">FAQs & Help</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="d-flex flex-column text-start footer-item">
+                                    <h4 class="text-light mb-3">Account</h4>
+                                    <a class="btn-link" href="">My Account</a>
+                                    <a class="btn-link" href="">Shop details</a>
+                                    <a class="btn-link" href="">Shopping Cart</a>
+                                    <a class="btn-link" href="">Wishlist</a>
+                                    <a class="btn-link" href="">Order History</a>
+                                    <a class="btn-link" href="">International Orders</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="footer-item">
+                                    <h4 class="text-light mb-3">Contact</h4>
+                                    <p>Address: 1429 Netus Rd, NY 48247</p>
+                                    <p>Email: Example@gmail.com</p>
+                                    <p>Phone: +0123 4567 8910</p>
+                                    <p>Payment Accepted</p>
+                                    <img src="img/payment.png" class="img-fluid" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer End -->
+
+                <!-- Copyright Start -->
+                <div class="container-fluid copyright bg-dark py-4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                                <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Group 6</a>, All right reserved.</span>
+                            </div>
+                            <div class="col-md-6 my-auto text-center text-md-end text-white">
+                                <!--/*** This template is free as long as you keep the below author?s credit link/attribution link/backlink. ***/-->
+                                <!--/*** If you'd like to use the template without the below author?s credit link/attribution link/backlink, ***/-->
+                                <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script type="text/javascript">
+
+                    function addToCart(productOptionId) {
+                        window.console.log(productOptionId === undefined);
+                        $.ajax({
+                            url: "/SWP_Project/AddToCartServlet",
+                            type: 'POST',
+                            data: {
+                                "productOptionId": productOptionId
+                            },
+                            success: function (data, textStatus, jqXHR) {
+                                //                        window.console.log(data);
+                                if (data === "accountNotFound") {
+                                    alert("Please login before add product to cart!");
+                                    return;
+                                }
+                                if (data !== "") {
+                                    window.console.log(data);
+                                    alert("Add success");
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                            }
+                        });
+                    }
+                </script>
+
+                <!-- Copyright End -->
 
 
-<!-- JavaScript Libraries -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/lightbox/js/lightbox.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-<!-- Template Javascript -->
-<script src="js/main.js"></script>
-</body>
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
-</html>
+
+                <!-- JavaScript Libraries -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="lib/easing/easing.min.js"></script>
+                <script src="lib/waypoints/waypoints.min.js"></script>
+                <script src="lib/lightbox/js/lightbox.min.js"></script>
+                <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+                <!-- Template Javascript -->
+                <script src="js/main.js"></script>
+                </body>
+
+                </html>

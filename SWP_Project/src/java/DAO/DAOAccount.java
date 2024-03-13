@@ -282,6 +282,9 @@ public class DAOAccount extends DBContext {
     }
     
     public static void main(String[] args) {
+        DAOAccount dao = new DAOAccount();
+        AccountProfile acc = dao.getAccountProfileById(14);
+        System.out.println(DAOAccount.INSTANCE.getAccountByAccountId(2));
     }
 
 }

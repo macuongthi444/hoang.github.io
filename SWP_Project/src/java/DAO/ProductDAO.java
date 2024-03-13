@@ -444,7 +444,6 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-
     public int get1ProductOptionIdByProductId(int pid) {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -559,8 +558,9 @@ public class ProductDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("Error at getImageByProductOptionId " + e.getMessage());
+        } finally{
+            closeStatement(ps, rs);
         }
-        closeStatement(ps, rs);
         return null;
     }
 
@@ -619,7 +619,6 @@ public class ProductDAO extends DBContext {
         }
         return null;
     }
-
     public List<ScreenSize> getScreenSizeList() {
         String sql = "select * from ScreenSize";
         List<ScreenSize> list = new ArrayList<>();
@@ -698,7 +697,6 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-
     public List<ProductOption> getProductOptionList() {
 //        String sql = "select po.productOptionId, p.productId, p.productName, p.categoryId, p.productDetail, c.color, hm.hardwareMemory, "
 //                + "rm.ramMemory, b.brandName, sc.screenSize, r.resolution, gc.graphicCard from Brand b, Product_Option po, product p, "
@@ -950,7 +948,6 @@ public class ProductDAO extends DBContext {
         }
         return null;
     }
-
 //    public List<Object> getProductOptionList(){
 ////        String sql = "select * From product_option";
 //        String sql = "select p.productId, p.productName, c.color, hm.hardwareMemory, rm.ramMemory, b.brandName from Brand b, Product_Option po, product p, HardwareMemory hm, RamMemory rm, Color c where po.productId = p.productId and po.hardwareMemoryId = hm.hardwareMemoryId\n" +
@@ -1447,7 +1444,6 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-
     public ArrayList<ProductWithImage> getListProductSearch2(String search, String priceFrom, String priceTo, String hardware, String ram, String color, String screen, String reso, String card, String sortType) {
         PreparedStatement ps = null;
         ResultSet rs = null;

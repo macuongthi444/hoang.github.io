@@ -339,7 +339,7 @@ public class UserDao extends DBContext {
     }
 
     public void addUser(String userName, String password, int role) {
-        String sql = "insert into Account values(?,?,?,?, 5)";
+        String sql = "insert into Account values(?,?,?,?, 1)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, userName);

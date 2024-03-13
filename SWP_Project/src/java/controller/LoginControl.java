@@ -39,7 +39,6 @@ public class LoginControl extends HttpServlet {
         DAOAccount dao = new DAOAccount();
         Account acc = dao.login(username, password);
         HttpSession session = request.getSession();
-        System.out.println(acc);
         if (acc == null) {
             request.setAttribute("message", "Wrong user or pass");
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -51,6 +50,7 @@ public class LoginControl extends HttpServlet {
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
                     response.sendRedirect("/SWP_Project/ChartControll");
+                    // response.sendRedirect("/SWP_Project/UserList");
                     session.setAttribute("accl", acc);
                 }
 

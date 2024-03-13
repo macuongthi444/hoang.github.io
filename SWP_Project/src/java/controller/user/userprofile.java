@@ -76,6 +76,10 @@ public class userprofile extends HttpServlet {
         DAOAccount dao = new DAOAccount();
         AccountProfile acc = dao.getAccountProfileById(account.getId());
         
+        // int userid = Integer.parseInt(request.getParameter("userid"));
+        // DAOAccount dao = new DAOAccount();
+        // AccountProfile acc = dao.getAccountProfileById(userid);
+        
         // out.print(acc.getUsername());
         request.setAttribute("acc", acc);
         request.getRequestDispatcher("userprofile.jsp").forward(request, response);
