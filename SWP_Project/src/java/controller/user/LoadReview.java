@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author This PC
  */
-@WebServlet(name="LoadReview", urlPatterns={"/load"})
+@WebServlet(name="LoadReview", urlPatterns={"/loadReview"})
 public class LoadReview extends HttpServlet {
    
     /** 

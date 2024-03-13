@@ -48,7 +48,13 @@
               -moz-appearance: textfield;
             }
             
+            .search-form{
+                margin: 15px 0 30px 30px;
+            }
             
+            .search-form label{
+                font-size: 22px;
+            }
         </style>
     </head>
 
@@ -164,8 +170,22 @@
                                                                             
                                                                         </div>-->
                                 </div>
-
+                                
                                 <div class="card mb-4" data-select2-id="7">
+                                    <div class="search-form">
+                                        <div>
+                                            <input type="checkbox" name="searchContact" value="" id="searchDate"/> <label style="font-size: 22px;" for="searchDate">Search by date:</label>
+                                            <label>Start: </label> <input type="datetime-local" />
+                                            <label for="id">End: </label> <input type="datetime-local" />
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="" /> <label for="id">Search by status: </label>
+                                            <input type="radio" name="searchStatus" id="searchStatusResponded"/> <label for="searchStatusResponded">Responded</label> &nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="searchStatus" id="searchStatusNotResponded" /> <label for="searchStatusNotResponded">Not Responded</label>
+                                            
+                                        </div>
+                                        
+                                    </div>
                                     <div class="card-header d-flex flex-wrap justify-content-between gap-3" data-select2-id="6">
                                         <div class="card-title mb-0 me-1">
                                             <h5 class="mb-1">Contact</h5>

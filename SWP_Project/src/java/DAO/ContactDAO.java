@@ -167,7 +167,7 @@ public class ContactDAO extends DBContext{
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String sql = "insert into contact values(?, ?, ?, ?, ?, ?)";
+            String sql = "insert into contact values(?, ?, ?, ?, ?, ?, 0)";
             ps = connection.prepareStatement(sql);
             ps.setInt(1, contactId);
             ps.setInt(2, accountId);

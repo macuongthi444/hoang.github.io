@@ -11,12 +11,9 @@
 # /SWP_Project/SWP_Project/nbproject/private/
 /SWP_Project/nbproject/private/
 /SWP_Project/build/
-/SWP_Project/src/java/DAO/DBContext.java
+#/SWP_Project/src/java/DAO/DBContext.java
 
 # /SWP_Project/SWP_Project_Online_Shop/nbproject/private/
 # /SWP_Project_Online_Shop/nbproject/private/
 # /SWP_Project_Online_Shop/build/
-<<<<<<< HEAD
 /SWP_Project/dist/
-=======
->>>>>>> origin/ganhoanthanh1
