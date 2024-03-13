@@ -42,9 +42,6 @@ public class ProductDAO extends DBContext {
 
     public static final ProductDAO INSTANCE = new ProductDAO();
 
-//    public void updateImage(int imageId, String imageText, int productOptionId){
-//        
-//    }
     public List<ProductWithOption> getProductWithOptionById(int id) {
         PreparedStatement ps = null;
         ResultSet rs = null;
