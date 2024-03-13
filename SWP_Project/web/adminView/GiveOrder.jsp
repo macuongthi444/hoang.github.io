@@ -639,7 +639,7 @@
                                             <h5>${error}</h5>
                                             <br>
                                             <br>
-                                            <form action="orderList" method="post">
+                                            <form action="GiveOrder" method="post" onsubmit="return confirmDelivery()" >
                                                 <table border="1">
                                                     <thead>
                                                         <tr>
@@ -649,14 +649,13 @@
                                                             <th>Product</th>
                                                             <th>Total</th>
                                                             <th>Status</th>
-                                                            <th>Change status</th>
+                                                            <th>Choose Order(s)</th>
                                                         </tr>
                                                     </thead>      
                                                     <tbody>
                                                         <c:forEach var="order" items="${orderList}" varStatus="loop">
                                                         <input type="hidden" name="orderId_${loop.index}" value="${order.orderId}">
                                                         <tr>
-                                                            <!-- Các phần tử khác của bảng -->
                                                             <td>${order.orderId}</td>
                                                             <td>${DAOAccount.INSTANCE.getAccountProfileByAccountId(order.accountId).fullName}</td>
                                                             <td>${order.orderDate}</td>
@@ -670,31 +669,18 @@
                                                                 ${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId())}                      
                                                             </td>
                                                             <td>
-                                                                <select name="orderStatusMap_${loop.index}">
-                                                                    <c:choose>
-                                                                        <c:when test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'waiting'}">
-                                                                            <option value="waiting" selected>Waiting</option>
-                                                                            <option value="shipping">Shipping</option>
-                                                                        </c:when>
-                                                                        <c:when test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'shipping'}">
-                                                                            <option value="shipping" selected>Shipping</option>
-                                                                            <option value="cancelled">Cancelled</option>
-                                                                            <option value="success">Success</option>
-                                                                        </c:when>
-                                                                        <c:when test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'cancelled' or OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'success'}">
-                                                                            <option value="cancelled" <c:if test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'cancelled'}">selected</c:if>>Cancel</option>
-                                                                            <option value="success" <c:if test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'success'}">selected</c:if>>Success</option>
-                                                                        </c:when>
-                                                                    </c:choose>
-                                                                </select>
+                                                                <input type="checkbox" name = "selectedOrder" value="${order.orderId}">
                                                             </td>
-
                                                         </tr>
                                                     </c:forEach>
 
                                                     </tbody>
-                                                </table>
-                                                <input type="submit" class="submit-button" value="Update Status" >
+                                                </table>    
+                                                <div class="md-4" style="display: flex; justify-content: flex-end;">
+                                                    <button type="submit" style="width: 120px; ">
+                                                        Give Order
+                                                    </button></div>
+
                                             </form>
                                         </table>
 
@@ -711,6 +697,24 @@
                                 margin-top: 10px; /* Khoảng cách từ đỉnh của form */
                             }
                         </style>
+                        <script>
+                            function confirmDelivery() {
+                                var checkboxes = document.querySelectorAll('input[name="selectedOrder"]:checked');
+                                if (checkboxes.length > 0) {
+                                    var message = "Bạn có chắc chắn muốn giao các đơn hàng sau đây không?\n";
+                                    checkboxes.forEach(function (checkbox) {
+                                        var orderId = checkbox.value;
+                                        var row = checkbox.closest('tr');
+                                        var orderInfo = row.cells[0].textContent + ": " + row.cells[1].textContent; // Thay index bằng index cần lấy
+                                        message += orderInfo + "\n";
+                                    });
+                                    return confirm(message);
+                                } else {
+                                    alert("Vui lòng chọn ít nhất một đơn hàng để giao.");
+                                    return false;
+                                }
+                            }
+                        </script>
                         <!-- / Content -->
 
                         <!-- Footer -->

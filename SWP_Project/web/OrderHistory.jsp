@@ -193,7 +193,13 @@
                                         <a href="OrderDetailsServlet?orderId=${order.getOrderId()}">More Details</a>
                                     </td>
                                     <td class="remove-pr">
-                                        <a href="OrderHistoryServlet?orderId=${order.getOrderId()}"><span style="color: red">Cancel</span></a>
+                                        <c:choose>
+                                            <c:when test="${OrderDAO.INSTANCE.getOrderStatusByOrderId(order.getOrderId()) eq 'waiting'}">
+                                                <a href="OrderHistoryServlet?orderId=${order.getOrderId()}" onclick="return confirm('Are you sure want to cancel this order?')">
+                                                    <span style="color: red">Cancel</span>
+                                                </a>
+                                            </c:when>
+                                        </c:choose>
                                     </td>
                                 </tr>
                             </c:forEach>

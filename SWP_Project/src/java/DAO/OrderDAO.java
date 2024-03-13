@@ -28,8 +28,8 @@ import java.util.List;
 public class OrderDAO extends DBContext {
 
     public static OrderDAO INSTANCE = new OrderDAO();
-    
-    public PaymentMethod getPaymentMethodById(int paymentMethodId){
+
+    public PaymentMethod getPaymentMethodById(int paymentMethodId) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -37,7 +37,7 @@ public class OrderDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, paymentMethodId);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return new PaymentMethod(rs.getInt("paymentMethodId"), rs.getString("paymentMethod"));
             }
         } catch (SQLException e) {
@@ -45,7 +45,7 @@ public class OrderDAO extends DBContext {
         }
         return null;
     }
-    
+
     public List<Order> getAllOrder() {
         String sql = "select * from [order] order by orderId desc";
         PreparedStatement ps = null;
@@ -65,8 +65,8 @@ public class OrderDAO extends DBContext {
         }
         return null;
     }
-    
-    public Payment getPaymentByOrderId(int orderId){
+
+    public Payment getPaymentByOrderId(int orderId) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -74,7 +74,7 @@ public class OrderDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return new Payment(rs.getInt("paymentId"), OrderDAO.INSTANCE.getOrderByOrderId(rs.getInt("orderId")), rs.getTimestamp("payDate"),
                         rs.getDouble("moneyAmount"), getPaymentMethodById(rs.getInt("paymentMethod")));
             }
@@ -85,8 +85,8 @@ public class OrderDAO extends DBContext {
         }
         return null;
     }
-    
-    public OrderStatusDetail getOrderStatusDetailById(int orderStatusDetailId){
+
+    public OrderStatusDetail getOrderStatusDetailById(int orderStatusDetailId) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -94,7 +94,7 @@ public class OrderDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, orderStatusDetailId);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return new OrderStatusDetail(rs.getInt("orderStatusDetailId"), rs.getString("status"), rs.getString("discription"));
             }
         } catch (SQLException e) {
@@ -104,10 +104,8 @@ public class OrderDAO extends DBContext {
         }
         return null;
     }
-    
-    
-    
-    public List<OrderInfo> getOrderInfosByOrderId(int orderId){
+
+    public List<OrderInfo> getOrderInfosByOrderId(int orderId) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Order order = getOrderByOrderId(orderId);
@@ -117,8 +115,8 @@ public class OrderDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
-            while(rs.next()){
-                list.add(new OrderInfo(rs.getInt("orderInfoId"), order, ProductDAO.INSTANCE.getProductOptionById(rs.getInt("productOptionId")), 
+            while (rs.next()) {
+                list.add(new OrderInfo(rs.getInt("orderInfoId"), order, ProductDAO.INSTANCE.getProductOptionById(rs.getInt("productOptionId")),
                         rs.getDouble("productPrice"), rs.getInt("quantity")));
             }
         } catch (SQLException e) {
@@ -128,8 +126,8 @@ public class OrderDAO extends DBContext {
         }
         return list;
     }
-    
-    public Order getOrderByOrderId(int orderId){
+
+    public Order getOrderByOrderId(int orderId) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select * from [order] where orderId = ?";
@@ -137,8 +135,8 @@ public class OrderDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
-            if(rs.next()){
-                return new Order(orderId, CartItemDAO.INSTANCE.getAccountById(rs.getInt("accountId")), rs.getTimestamp("OrderDate"), 
+            if (rs.next()) {
+                return new Order(orderId, CartItemDAO.INSTANCE.getAccountById(rs.getInt("accountId")), rs.getTimestamp("OrderDate"),
                         CartItemDAO.INSTANCE.getCommunicationsByCommunicationsId(rs.getInt("communicationsId")));
             }
         } catch (SQLException e) {
@@ -149,7 +147,6 @@ public class OrderDAO extends DBContext {
         return null;
     }
 
-    
     public void changeStatus(int orderId, String newStatus) {
         String sql = "update Order_Status set orderStatusDetailId = ? where orderId = ?";
         PreparedStatement ps = null;
@@ -288,10 +285,8 @@ public class OrderDAO extends DBContext {
             closeStatement(ps, rs);
         }
     }
-    
-    
-    
-    public void insertOrder(int orderId, int accountId, Timestamp orderDate, int communicationsId){
+
+    public void insertOrder(int orderId, int accountId, Timestamp orderDate, int communicationsId) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "insert into [Order] values (?, ?, ?, ?)";
@@ -399,6 +394,27 @@ public class OrderDAO extends DBContext {
                 String paymentMethod = rs.getString(1);
                 return paymentMethod;
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            closeStatement(ps, rs);
+        }
+        return null;
+    }
+
+    public List<Order> getWaittingOrder() {
+        String sql = "select o.* from [Order] o join Order_Status os on o.orderId=os.orderId left join Shipped_History sh on os.orderId = sh.orderId\n"
+                + "where os.orderStatusDetailId=1 and sh.orderId is null order by orderId desc";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Order> l = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                l.add(new Order(rs.getInt(1), rs.getInt(2), rs.getTimestamp(3), rs.getInt(4)));
+            }
+            return l;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

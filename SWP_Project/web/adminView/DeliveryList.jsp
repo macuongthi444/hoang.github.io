@@ -646,7 +646,8 @@
                                                         <th>Full name</th>
                                                         <th>Birth Date</th>
                                                         <th>Gender</th>
-                                                        <th>Company</th>                                                    
+                                                        <th>Company</th>
+                                                        <th>Give Order</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -658,7 +659,10 @@
                                                             <td>${delivery.birthDate}</td>
                                                             <td>${delivery.gender ? "Male" : "Female"}</td>
                                                             <td>
-                                                                ${DeliveryDAO.INSTANCE.getDeliveryCompanyByAccountId(delivery.id).deliveryCompany}                      
+                                                                ${DeliveryDAO.INSTANCE.getDeliveryCompanyByAccountId(delivery.id)}                      
+                                                            </td>
+                                                            <td>
+                                                                <a href="GiveOrder?deliveryManId=${delivery.id}">Give Order</a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
