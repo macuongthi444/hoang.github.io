@@ -1,77 +1,61 @@
 <%-- 
-   Document   : Cart
-   Created on : 12-01-2024, 10:59:52
-   Author     : hoang
+    Document   : newjsp2
+    Created on : 14-03-2024, 00:33:36
+    Author     : hoang
 --%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
     <head>
-        <meta charset="utf-8">
-        <title>Fruitables - Vegetable Website Template</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="" name="keywords">
-        <meta content="" name="description">
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+        <title>User List</title>
 
-        <!-- Icon Font Stylesheet -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+        <meta name="description" content="" />
 
-        <!-- Libraries Stylesheet -->
-        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-
-        <style >
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
-
-            /* Firefox */
-            input[type=number] {
-                -moz-appearance: textfield;
-            }
-
-            .search-form{
-                margin: 15px 0 30px 30px;
-            }
-
-            .search-form label{
-                font-size: 22px;
-            }
-        </style>
+        <link rel="icon" type="image/x-icon" href="/SWP_Project/assets/img/favicon/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="/SWP_Project/assets/vendor/fonts/boxicons.css" />
+        <link rel="stylesheet" href="/SWP_Project/assets/vendor/css/core.css" class="template-customizer-core-css" />
+        <link rel="stylesheet" href="/SWP_Project/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+        <link rel="stylesheet" href="/SWP_Project/assets/css/demo.css" />
+        <link rel="stylesheet" href="/SWP_Project/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+        <link rel="stylesheet" href="/SWP_Project/assets/vendor/css/pages/page-auth.css" />
+        <script src="/SWP_Project/assets/vendor/js/helpers.js"></script>
+        <script src="/SWP_Project/assets/js/config.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#exportButton").click(function () {
+                    $('#dataTable').DataTable().buttons().excelHtml5();
+                });
+            });
+        </script> 
+        <script src="js/main.js">
+        </script>
     </head>
-
     <body>
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
-                <jsp:include page="../adminView/HeaderAdmin.jsp.jsp" />
+                <jsp:include page="Header.jsp" />
                 <!-- / Menu -->
 
                 <!-- Layout container -->
                 <div class="layout-page" style="padding: 50px;">
 
                     <!-- Navbar -->
-                    <jsp:include page="../adminView/Narbar.jsp"/>
-
-
-
+                    <jsp:include page="Navbar.jsp"/>
+                    <!-- / Navbar -->
                     <div class="content-wrapper">
                         <div class="col app-email-view flex-grow-0 bg-body" id="app-email-view">
                             <div class="app-email-view-header p-3 py-md-3 py-2 rounded-0">
@@ -149,8 +133,8 @@
                                     <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                                         <div class="d-flex align-items-center mb-sm-0 mb-3" style="font-size: 20px;">
                                             <div>
-                                                <img src="img/${account.accountProfile.avatar}" alt="user-avatar" class="flex-shrink-0  me-2" style="height:80px; width:80px;">
-                                                <h6 class="m-0"></h6>
+                                            <img src="img/${account.accountProfile.avatar}" alt="user-avatar" class="flex-shrink-0  me-2" style="height:80px; width:80px;">
+                                            <h6 class="m-0"></h6>
                                             </div>
                                             <div class="flex-grow-1 ms-1 d-grid" style="font-size: 20px;">
                                                 <small class="">${contact.phoneNumber}</small>
@@ -178,67 +162,67 @@
 
                                 <!-- Email View : Reply mail-->
                                 <form action="ContactDetail" id="ReplyContactForm" method="post">
-                                    <div class="email-reply card mt-4 mx-sm-4 mx-3 border">
-                                        <h6 class="card-header border-0" style="font-size: 18px;">Reply to ${contact.account.accountProfile==null?"this user":contact.account.accountProfile.fullName}</h6>
-                                        <div class="card-body pt-0 px-3">
-                                            <div class="d-flex justify-content-start">
-                                                <div class="email-reply-toolbar border-0 w-100 ps-0 ql-toolbar ql-snow">
+                                <div class="email-reply card mt-4 mx-sm-4 mx-3 border">
+                                    <h6 class="card-header border-0" style="font-size: 18px;">Reply to ${contact.account.accountProfile==null?"this user":contact.account.accountProfile.fullName}</h6>
+                                    <div class="card-body pt-0 px-3">
+                                        <div class="d-flex justify-content-start">
+                                            <div class="email-reply-toolbar border-0 w-100 ps-0 ql-toolbar ql-snow">
 
-                                                </div>
-                                            </div>
-                                            <div class="email-reply-editor ql-container ql-snow">
-                                                <div class="ql-tooltip ql-hidden">
-                                                    <a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank">
-                                                    </a>
-                                                    <textarea id="replyContent" name="replyContent" style="font-size: 20px; width: 100%;" rows="13" cols="150"></textarea>
-                                                    <a class="ql-action">
-                                                    </a>
-                                                    <a class="ql-remove">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" value="${contact.contactId}" name="contactId"/>
-                                            <div class="d-flex justify-content-end align-items-center">
-                                                <div class="cursor-pointer me-3">
-                                                    <i class="bx bx-paperclip">
-                                                    </i>
-                                                    <span class="align-middle">Attachments:&nbsp;&nbsp;&nbsp;<input type="file" name="images" multiple="on"/></span>
-                                                </div>
-                                                <button class="btn btn-primary" onclick="submitReplyContent()">
-                                                    <i class="bx bx-paper-plane me-1">
-                                                    </i>
-                                                    <span class="align-middle">Send</span>
-                                                </button>
                                             </div>
                                         </div>
+                                        <div class="email-reply-editor ql-container ql-snow">
+                                            <div class="ql-tooltip ql-hidden">
+                                                <a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank">
+                                                </a>
+                                                <textarea id="replyContent" name="replyContent" style="font-size: 20px; width: 100%;" rows="13" cols="150"></textarea>
+                                                <a class="ql-action">
+                                                </a>
+                                                <a class="ql-remove">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="${contact.contactId}" name="contactId"/>
+                                        <div class="d-flex justify-content-end align-items-center">
+                                            <div class="cursor-pointer me-3">
+                                                <i class="bx bx-paperclip">
+                                                </i>
+                                                <span class="align-middle">Attachments:&nbsp;&nbsp;&nbsp;<input type="file" name="images" multiple="on"/></span>
+                                            </div>
+                                            <button class="btn btn-primary" onclick="submitReplyContent()">
+                                                <i class="bx bx-paper-plane me-1">
+                                                </i>
+                                                <span class="align-middle">Send</span>
+                                            </button>
+                                        </div>
                                     </div>
+                                </div>
                                 </form>
                             </div>
                         </div>
                     </div></div></div></div>
         <script type="text/javascript">
-            function submitReplyContent() {
-                if (${replyContact!=null}) {
+            function submitReplyContent(){
+                if(${replyContact!=null}){
                     alert("${replyContact}");
                 }
-
+                
                 var replyContent = document.getElementById("replyContent").value.trim();
-                if (replyContent === "") {
+                if(replyContent === ""){
                     alert("please write reply content to reply");
                     return;
                 }
                 document.getElementById("ReplyContactForm").submit();
-                //                $.ajax({
-                //                   url: "/SWP_Project/ReplyContact",
-                //                   type: 'POST',
-                //                   data: {
-                //                       ""
-                //                       "replyContent" : replyContent.value.trim()
-                //                   },
-                //                   success: function(data){
-                //                       
-                //                   }
-                //                });
+//                $.ajax({
+//                   url: "/SWP_Project/ReplyContact",
+//                   type: 'POST',
+//                   data: {
+//                       ""
+//                       "replyContent" : replyContent.value.trim()
+//                   },
+//                   success: function(data){
+//                       
+//                   }
+//                });
             }
         </script>
         <script src="/SWP_Project/assets/vendor/libs/jquery/jquery.js">
@@ -301,8 +285,4 @@
         <script async defer src="https://buttons.github.io/buttons.js">
         </script>
     </body>
-</html>
-
-</body>
-
 </html>

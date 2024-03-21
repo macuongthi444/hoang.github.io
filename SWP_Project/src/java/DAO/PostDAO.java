@@ -5,6 +5,7 @@
 package DAO;
 
 import Model.Account;
+import Model.Coupon;
 import Model.Post;
 import Model.PostType;
 import java.sql.Connection;
@@ -37,7 +38,7 @@ public class PostDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("Error at getPostTypeById " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return null;
@@ -66,7 +67,7 @@ public class PostDAO extends DBContext {
 
         } catch (SQLException e) {
             System.out.println("Error at getAllPost " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return post;
@@ -95,7 +96,7 @@ public class PostDAO extends DBContext {
 
         } catch (SQLException e) {
             System.out.println("Error at getAllPostDesc " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return post;
@@ -124,7 +125,7 @@ public class PostDAO extends DBContext {
 
         } catch (SQLException e) {
             System.out.println("Error at getPostTop3 " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return post;
@@ -154,7 +155,7 @@ public class PostDAO extends DBContext {
 
         } catch (SQLException e) {
             System.out.println("Error at getPostById " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return null;
@@ -185,7 +186,7 @@ public class PostDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("Error at searchPostByTitle " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return list;
@@ -205,7 +206,7 @@ public class PostDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("Error at getAllPostType " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return list;
@@ -239,7 +240,7 @@ public class PostDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("Error at getPostByType " + e.getMessage());
-        } finally{
+        } finally {
             closeStatement(ps, rs);
         }
         return list;
@@ -260,22 +261,55 @@ public class PostDAO extends DBContext {
             ps.setInt(7, couponid);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error at addPost "+ e.getMessage());  
-        } finally{
+            System.out.println("Error at addPost " + e.getMessage());
+        } finally {
             closeStatement(ps, rs);
         }
+    }
+
+    public void updatePost(int postId, String postTitle, String postImg, Date postStart,Date postEnd,int postTypeID,int  couponId) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String sql = "  UPDATE [dbo].[Post]\n"
+                    + "SET \n"
+                    + "[postTitle] = ?\n"
+                    + ",[postImg] = ?\n"
+                    + ",[postStart] = ?\n"
+                    + ",[postEnd] = ?\n"
+                    + ",[postTypeID] = ?\n"
+                    + ",[couponId] = ? \n"
+                    + " WHERE [postId] = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, postTitle);
+            ps.setString(2, postImg);
+            ps.setDate(3, postStart);
+            ps.setDate(4, postEnd);
+            ps.setInt(5, postTypeID);
+            ps.setInt(6, couponId);
+            ps.setInt(7, postId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error at editAccountById " + e.getMessage());
+
+        } finally {
+            closeStatement(ps, rs);
+        }
+
     }
 
     public static void main(String[] args) {
         PostDAO p = new PostDAO();
         PostType pt = p.getPostTypeById(1);
         List<Post> pl = p.getAllPostDesc();
-        Post pid = p.getPostById(9);
+        Post pid = p.getPostById(1);
         List<PostType> pt1 = p.getAllPostType();
         List<Post> pbyid = p.getPostByType("Hot");
         //System.out.println(pbyid);
         System.out.println(pt1);
-        // System.out.println(pid);
+        //System.out.println(pid);
         //System.out.println(pl);
         //System.out.println(pt);
 

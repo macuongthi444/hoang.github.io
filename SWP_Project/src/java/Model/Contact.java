@@ -20,6 +20,8 @@ public class Contact {
     private Timestamp contactDate;
     private boolean isResponded;
     
+    private ReplyContact replyContact;
+    
     private List<String> imageList;
     
     public Contact() {
@@ -34,7 +36,26 @@ public class Contact {
         this.contactDate = contactDate;
         isResponded = false;
     }    
+     public Contact(int contactId, Account account, String email, String phoneNumber, String content, Timestamp contactDate, boolean isResponded) {
+        this.contactId = contactId;
+        this.account = account;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.content = content;
+        this.contactDate = contactDate;
+        this.isResponded = isResponded;
+    }    
 
+    public ReplyContact getReplyContact() {
+        return replyContact;
+    }
+
+    public void setReplyContact(ReplyContact replyContact) {
+        this.replyContact = replyContact;
+    }
+
+     
+     
     public boolean isIsResponded() {
         return isResponded;
     }
@@ -110,5 +131,5 @@ public class Contact {
         return "Contact{" + "contactId=" + contactId + ", account=" + account + ", content=" + content + '}';
     }
     
-    
+     
 }

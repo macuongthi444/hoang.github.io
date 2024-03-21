@@ -53,14 +53,19 @@
         <link rel="stylesheet" href="/SWP_Project/assets/vendor/css/pages/page-auth.css" />
 
         <!-- Helpers -->
-        <script src="/SWP_Project/assets/vendor/js/helpers.js"></script>
+        <script src="/SWP_Project/assets/vendor/js/helpers.js">
+        </script>
         <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-        <script src="/SWP_Project/assets/js/config.js"></script>
+        <script src="/SWP_Project/assets/js/config.js">
+        </script>
 
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js">
+        </script>
+        <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js">
+        </script>
         <script>
             $(document).ready(function () {
                 $("#exportButton").click(function () {
@@ -68,7 +73,7 @@
                 });
             });
         </script> 
-        
+
     </head>
 
     <body>
@@ -77,7 +82,7 @@
             <div class="layout-container">
                 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" data-bg-class="bg-menu-theme">
                     <div class="app-brand demo">
-                        <a href="adminView/Dashboards.jsp" class="app-brand-link">
+                        <a href="/SWP_Project/AdminShowAllProducts" class="app-brand-link">
                             <span class="app-brand-logo demo">
                                 <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <defs>
@@ -112,7 +117,7 @@
                                 </g>
                                 </svg>
                             </span>
-                            <span class="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
+                            <span class="app-brand-text demo menu-text fw-bold ms-2">Group 6</span>
                         </a>
 
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
@@ -125,11 +130,7 @@
                     <ul class="menu-inner py-1 ps ps--active-y">
                         <!-- Dashboards -->
                         <li class="menu-item active open">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                                <div data-i18n="Dashboards">Dashboards</div>
-                                <div class="badge bg-danger rounded-pill ms-auto">10</div>
-                            </a>
+
                             <ul class="menu-sub">
                                 <li class="menu-item">
                                     <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html" target="_blank" class="menu-link">
@@ -137,65 +138,157 @@
                                         <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                                     </a>
                                 </li>
-                                <li class="menu-item active">
-                                    <a href="index.html" class="menu-link">
-                                        <div data-i18n="Analytics">Analytics</div>
+
+                                <li class="menu-item active open ">
+                                    <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                        <i class="menu-icon tf-icons bx bx-user"></i>
+                                        <div class="text-truncate" data-i18n="Users">Users</div>
                                     </a>
+                                    <ul class="menu-sub ">
+                                        <li class="menu-item " >
+                                            <a href="/SWP_Project/UserList" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="List">List</div>
+                                            </a>
+                                        </li>
+
+                                        <li class="menu-item ">
+                                            <a href="../SWP_Project/UserDetail?id=23" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="Account">Account</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item ">
+                                            <a href="/SWP_Project/ChartControll" class="menu-link">
+                                                <div class="text-truncate" data-i18n="Chart">Chart</div>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li class="menu-item active">
-                                    <a href="/SWP_Project/AddProduct" class="menu-link">
-                                        <div data-i18n="AddProduct">Add product</div>
-                                    </a>
-                                </li>
+
 
                                 <li class="menu-item active open">
-                                    <c:if test="${accl.role.roleId==1}">
-                                    <li class="menu-item active open ">
-                                        <a href="javascript:void(0);" class=" menu-toggle menu-link">
-                                            <i class="menu-icon tf-icons bx bx-user"></i>
-                                            <div class="text-truncate" data-i18n="Users">Users</div>
-                                        </a>
-                                        <ul class="menu-sub active open">
-                                            <li class="menu-item active open" >
-                                                <a href="/SWP_Project/UserList" class="menu-link ">
-                                                    <div class="text-truncate" data-i18n="List">List</div>
-                                                </a>
-                                            </li>
+                                    <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                        <i class="menu-icon tf-icons bx bx-file"></i>
+                                        <div class="text-truncate" data-i18n="Users">Post</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item active open">
+                                            <a href="/SWP_Project/PostList" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="List">List</div>
+                                            </a>
+                                        </li>
 
-                                            <li class="menu-item ">
-                                                <a href="../SWP_Project/UserDetail?id=23" class="menu-link ">
-                                                    <div class="text-truncate" data-i18n="Account">Account</div>
-                                                </a>
-                                            </li>
-                                            <li class="menu-item ">
-                                                <a href="/SWP_Project/ChartControll" class="menu-link">
-                                                    <div class="text-truncate" data-i18n="Chart">Chart</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </c:if>
-                                <c:if test="${accl.role.roleId==4}">
-                                    <li class="menu-item ">
-                                        <a href="javascript:void(0);" class=" menu-toggle menu-link">
-                                            <i class="menu-icon tf-icons bx bx-file"></i>
-                                            <div class="text-truncate" data-i18n="Users">Post</div>
-                                        </a>
-                                        <ul class="menu-sub">
-                                            <li class="menu-item">
-                                                <a href="/SWP_Project/PostList" class="menu-link ">
-                                                    <div class="text-truncate" data-i18n="List">List</div>
-                                                </a>
-                                            </li>
+                                        <li class="menu-item active open ">
+                                            <a href="../SWP_Project/PostDetail?postId=5" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="View">View</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                                            <li class="menu-item ">
-                                                <a href="../SWP_Project/PostDetail?postId=5" class="menu-link ">
-                                                    <div class="text-truncate" data-i18n="View">View</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </c:if>
+
+                                <li class="menu-item " style="">
+                                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                        <i class="menu-icon tf-icons bx bx-cart-alt"></i>
+                                        <div class="text-truncate" data-i18n="eCommerce">Product</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item ">
+                                            <a href="../SWP_Project/AdminShowAllProducts" class="menu-link">
+                                                <div class="text-truncate" data-i18n="Dashboard">Product List</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="/SWP_Project/AddProduct" class="menu-link">
+                                                <div data-i18n="AddProduct">Add product</div>
+                                            </a>
+                                        </li>                                                 
+                                    </ul>
+                                </li>
+
+                                <li class="menu-item ">
+                                    <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                        <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                                        <div class="text-truncate" data-i18n="Users">Coupon</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item">
+                                            <a href="/SWP_Project/couponList" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="List">List</div>
+                                            </a>
+                                        </li>
+
+                                        <li class="menu-item ">
+                                            <a href="/SWP_Project/addCoupon" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="View">Add Coupon</div>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+
+                                <li class="menu-item ">
+                                    <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                        <i class="menu-icon tf-icons bx bx-file"></i>
+                                        <div class="text-truncate" data-i18n="Users">Order</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item">
+                                            <a href="/SWP_Project/orderList" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="List">List</div>
+                                            </a>
+                                        </li> 
+                                    </ul>
+                                </li>
+
+
+                                <li class="menu-item ">
+                                    <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                        <i class="menu-icon tf-icons bx bx-mail-send"></i>
+                                        <div class="text-truncate" data-i18n="Users">Contact</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item">
+                                            <a href="/SWP_Project/ContactList" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="List">List</div>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </li>
+
+                                <li class="menu-item ">
+                                    <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                        <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                                        <div class="text-truncate" data-i18n="Users">Delivery</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item">
+                                            <a href="/SWP_Project/DeliveryManList" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="List">List</div>
+                                            </a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </li>
+                                <li class="menu-item ">
+                                    <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                        <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                                        <div class="text-truncate" data-i18n="Users">Static</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item">
+                                            <a href="/SWP_Project/couponList" class="menu-link ">
+                                                <div class="text-truncate" data-i18n="List">List</div>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
                             </ul>
                         </li>
 
@@ -222,85 +315,7 @@
 
 
                                 <!-- Quick links  -->
-                                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
-                                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                        <i class="bx bx-grid-alt bx-sm"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end py-0">
-                                        <div class="dropdown-menu-header border-bottom">
-                                            <div class="dropdown-header d-flex align-items-center py-3">
-                                                <h5 class="text-body mb-0 me-auto">Shortcuts</h5>
-                                                <a href="javascript:void(0)" class="dropdown-shortcuts-add text-body" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add shortcuts" data-bs-original-title="Add shortcuts"><i class="bx bx-sm bx-plus-circle"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-shortcuts-list scrollable-container ps">
-                                            <div class="row row-bordered overflow-visible g-0">
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-calendar fs-4"></i>
-                                                    </span>
-                                                    <a href="app-calendar.html" class="stretched-link">Calendar</a>
-                                                    <small class="text-muted mb-0">Appointments</small>
-                                                </div>
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-food-menu fs-4"></i>
-                                                    </span>
-                                                    <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
-                                                    <small class="text-muted mb-0">Manage Accounts</small>
-                                                </div>
-                                            </div>
-                                            <div class="row row-bordered overflow-visible g-0">
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-user fs-4"></i>
-                                                    </span>
-                                                    <a href="app-user-list.html" class="stretched-link">User App</a>
-                                                    <small class="text-muted mb-0">Manage Users</small>
-                                                </div>
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-check-shield fs-4"></i>
-                                                    </span>
-                                                    <a href="app-access-roles.html" class="stretched-link">Role Management</a>
-                                                    <small class="text-muted mb-0">Permission</small>
-                                                </div>
-                                            </div>
-                                            <div class="row row-bordered overflow-visible g-0">
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-pie-chart-alt-2 fs-4"></i>
-                                                    </span>
-                                                    <a href="index.html" class="stretched-link">Dashboard</a>
-                                                    <small class="text-muted mb-0">User Profile</small>
-                                                </div>
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-cog fs-4"></i>
-                                                    </span>
-                                                    <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
-                                                    <small class="text-muted mb-0">Account Settings</small>
-                                                </div>
-                                            </div>
-                                            <div class="row row-bordered overflow-visible g-0">
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-help-circle fs-4"></i>
-                                                    </span>
-                                                    <a href="pages-faq.html" class="stretched-link">FAQs</a>
-                                                    <small class="text-muted mb-0">FAQs &amp; Articles</small>
-                                                </div>
-                                                <div class="dropdown-shortcuts-item col">
-                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
-                                                        <i class="bx bx-window-open fs-4"></i>
-                                                    </span>
-                                                    <a href="modal-examples.html" class="stretched-link">Modals</a>
-                                                    <small class="text-muted mb-0">Useful Popups</small>
-                                                </div>
-                                            </div>
-                                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
-                                    </div>
-                                </li>
+
                                 <!-- Quick links -->
 
 
@@ -367,7 +382,7 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>
-                                            <a class="dropdown-item" href="pages-account-settings-account.html">
+                                            <a class="dropdown-item" href="/SWP_Project/userprofile?userid=${sessionScope.accl.id}">
                                                 <div class="d-flex">
                                                     <div class="flex-shrink-0 me-3">
                                                         <div class="avatar avatar-online">
@@ -385,7 +400,7 @@
                                             <div class="dropdown-divider"></div>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="pages-profile-user.html">
+                                            <a class="dropdown-item" href="/SWP_Project/userprofile?userid=${sessionScope.accl.id}">
                                                 <i class="bx bx-user me-2"></i>
                                                 <span class="align-middle">My Profile</span>
                                             </a>
@@ -420,125 +435,220 @@
 
 
                         <!-- Search Small Screens -->
-                        <div class="navbar-search-wrapper search-input-wrapper d-none">
-                            <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input type="text" class="form-control search-input container-xxl border-0 tt-input" placeholder="Search..." aria-label="Search..." autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Public Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Oxygen, Ubuntu, Cantarell, &quot;Fira Sans&quot;, &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: 15px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div class="tt-menu navbar-search-suggestion ps" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div class="tt-dataset tt-dataset-pages"></div><div class="tt-dataset tt-dataset-files"></div><div class="tt-dataset tt-dataset-members"></div><div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div></span>
-                            <i class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
-                        </div>
+
 
 
                     </nav>
-                    <div class="row g-4 mb-4" style="padding-top:35px;">
-                        <div class="col-sm-10 col-xl-3">
-                            <form action="AddNewUser" method="post">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <label for="basic-default-name">Username*</label>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="" name="username" id="basic-default-name" placeholder="Username" required="">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Pasword*</td>
-                                    <td>
-                                        <input type="" name="password" placeholder="password" required=""/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Email*</td>
-                                    <td>
-                                        <input type="email" name="email" required=""/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Role*</td>
-                                    <td>
-                                        <select id="roleId" name="roleId" onchange="checkRole()">
-                                            <c:forEach items="${roleList}" var="role">
-                                                <option value="${role.roleId}">${role.roleName}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr id="companyTr" style="display: none;">
-                                    <td>Company*</td>
-                                    <td><input disabled="false" id="company" name="company" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Full Name*</td>
-                                    <td>
-                                        <input name="fullName" required=""/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Birth Date</td>
-                                    <td><input name="birthDate" type="date" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Gender</td>
-                                    <td>
-                                        <input name="gender" type="radio" value="male" id="male" checked=""/> <label for="male">Male</label> &nbsp;&nbsp;&nbsp;
-                                        <input name="gender" type="radio" value="female" id="female"/> <label for="female">Female</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><input type="submit" value="Add New User"/></td>
-                                </tr>
-                                
-                            </table>
-                            </form>
+
+
+                    <div class="content-wrapper" data-select2-id="9">
+
+                        <!-- Content -->
+
+                        <div class="container-xxl flex-grow-1 container-p-y" data-select2-id="8">
+
+
+                            <h4 class="py-3 mb-4">
+                                <span class="text-muted fw-light">User /</span> Add User
+                            </h4>
+
+                            <!-- Create Deal Wizard -->
+                            <div id="wizard-create-deal" class="bs-stepper vertical mt-2 linear" data-select2-id="wizard-create-deal">
+
+                                <div class="bs-stepper-content" data-select2-id="7">
+
+                                    <form  action="AddNewUser" method="post" id="wizard-create-deal-form" onsubmit="return false" data-select2-id="wizard-create-deal-form">
+                                        <!-- Deal Type -->
+                                        <div id="deal-type" class="content dstepper-block fv-plugins-bootstrap5 fv-plugins-framework active" data-select2-id="deal-type">
+                                            <div class="row g-3" data-select2-id="6">
+                                                <div class="col-12">
+                                                    <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/illustrations/shopping-girl-light.png" class="img-fluid w-100 border rounded-2" alt="shopping girl" data-app-dark-img="illustrations/shopping-girl-dark.png" data-app-light-img="illustrations/shopping-girl-light.png">
+                                                </div>
+
+                                                <div class="col-12">
+
+                                                    <div class="row">
+                                                        <c:forEach items="${roleList}" var="role">
+
+
+                                                            <div class="col-md mb-md-0 mb-2">
+                                                                <div class="form-check custom-option custom-option-icon checked">
+                                                                    <label class="form-check-label custom-option-content" for="customRadioPrime">
+                                                                        <span class="custom-option-body">
+                                                                            <i class="bx bx-user">
+                                                                            </i>
+                                                                            <span class="custom-option-title"> ${role.roleName} </span>
+
+                                                                        </span>
+                                                                        <input name="roleId" class="form-check-input" type="radio" value="${role.roleId}" id="roleId">
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-6 fv-plugins-icon-container fv-plugins-bootstrap5-row-valid">
+                                                    <label class="form-label" for="dealAmount">User Name</label>
+                                                    <input type="text" name="username" id="dealAmount" class="form-control" placeholder="User Name" >
+
+                                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 fv-plugins-icon-container fv-plugins-bootstrap5-row-valid" data-select2-id="5">
+                                                    <label class="form-label" for="dealRegion">Password</label>
+                                                    <input type="text" name="password" id="dealAmount" class="form-control" placeholder="Password" >
+
+                                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-between">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Deal Details -->
+                                        <div id="deal-details" class="content fv-plugins-bootstrap5 fv-plugins-framework dstepper-block">
+                                            <div class="row g-3">
+                                                <div class="col-sm-6 fv-plugins-icon-container">
+                                                    <label class="form-label" for="dealTitle">Email</label>
+                                                    <input type="text"  name="email" class="form-control" placeholder="">
+                                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 fv-plugins-icon-container">
+                                                    <label class="form-label" for="dealCode">Company</label>
+                                                    <input type="text"  name="company" class="form-control" placeholder="">
+                                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-sm-6">
+                                                    <label for="dealDuration" class="form-label">Full Name</label>
+                                                    <input type="text" name="fullName" class="form-control flatpickr-input" placeholder="Full Name" readonly="readonly">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label for="dealDuration" class="form-label">Birth Date</label>
+                                                    <input type="date" name="birthDate" class="form-control flatpickr-input" placeholder="Full Name" readonly="readonly">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-label">Gender</label>
+                                                    <div class="row">
+                                                        <div class="col mt-2">
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio"  name="gender" value="male">
+                                                                <label class="form-check-label" for="dealNotifyEmail">Male</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio"  name="gender" value="female">
+                                                                <label class="form-check-label" for="dealNotifySMS">Female</label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-between">
+                                                    <button class="btn btn-primary btn-prev">
+                                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2">
+                                                        </i>
+                                                        <span class="align-middle d-sm-inline-block d-none">Submit</span>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Deal Usage -->
+
+                                        <!-- Review & Complete -->
+
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /Create Deal Wizard -->
+
+
+                        </div>
+                        <!-- / Content -->
+
+
+
+
+                        <!-- Footer -->
+
+                        <!-- / Footer -->
+
+
+                        <div class="content-backdrop fade">
                         </div>
                     </div>
-                    
+
                     <!-- Content -->
 
-                    
+
 
                 </div>
             </div>
-            <div class="layout-overlay layout-menu-toggle"></div>
+            <div class="layout-overlay layout-menu-toggle">
+            </div>
         </div>
         <script type="text/javascript">
             checkRole();
-            function checkRole(){
+            function checkRole() {
                 var companyElement = document.getElementById("companyTr");
                 var companyInput = document.getElementById("company");
-                if(Number(document.getElementById("roleId").value) === 6){
+                if (Number(document.getElementById("roleId").value) === 6) {
                     companyElement.style.display = "table-row";
                     companyInput.removeAttribute("disabled");
-                }
-                else{
+                } else {
                     companyInput.disabled = "true";
                     companyElement.style.display = "none";
                 }
             }
         </script>
-                                                    
+
         <!-- Core JS -->
 
-        
+
         <!-- build:js assets/vendor/js/core.js -->
-        <script src="/SWP_Project/assets/vendor/libs/jquery/jquery.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/popper/popper.js"></script>
-        <script src="/SWP_Project/assets/vendor/js/bootstrap.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/hammer/hammer.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/i18n/i18n.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/typeahead-js/typeahead.js"></script>
-        <script src="/SWP_Project/assets/vendor/js/menu.js"></script>
+        <script src="/SWP_Project/assets/vendor/libs/jquery/jquery.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/popper/popper.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/js/bootstrap.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/hammer/hammer.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/i18n/i18n.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/typeahead-js/typeahead.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/js/menu.js">
+        </script>
         <!-- endbuild -->
         <!-- Vendors JS -->
-        <script src="/SWP_Project/assets/vendor/libs/moment/moment.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/select2/select2.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/cleavejs/cleave.js"></script>
-        <script src="/SWP_Project/assets/vendor/libs/cleavejs/cleave-phone.js"></script>
-        <script src="/SWP_Project/assets/js/main.js"></script>
+        <script src="/SWP_Project/assets/vendor/libs/moment/moment.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/select2/select2.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/@form-validation/umd/bundle/popular.min.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/cleavejs/cleave.js">
+        </script>
+        <script src="/SWP_Project/assets/vendor/libs/cleavejs/cleave-phone.js">
+        </script>
+        <script src="/SWP_Project/assets/js/main.js">
+        </script>
         <script type="text/javascript" id="">console.log("TS:GTM Worked!");</script>      
         <script type="text/javascript" id="">(function (b, c, d) {
                 var a = b.createElement("script");
@@ -549,9 +659,10 @@
                 a.dataset.account = d;
                 b.getElementsByTagName("head")[0].appendChild(a)
             })(document, 252882, 269977);</script>
-        <script src="/SWP_Project/assets/js/app-user-list.js"></script>
+        <script src="/SWP_Project/assets/js/app-user-list.js">
+        </script>
 
-        
+
     </body>
 </html>
 

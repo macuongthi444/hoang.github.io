@@ -52,7 +52,7 @@
     <body>
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" data-bg-class="bg-menu-theme">
             <div class="app-brand demo">
-                <a href="adminView/Dashboards.jsp" class="app-brand-link">
+                <a href="/SWP_Project/AdminShowAllProducts" class="app-brand-link">
                     <span class="app-brand-logo demo">
                         <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <defs>
@@ -87,7 +87,7 @@
                         </g>
                         </svg>
                     </span>
-                    <span class="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
+                    <span class="app-brand-text demo menu-text fw-bold ms-2">Group 6</span>
                 </a>
 
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
@@ -100,11 +100,7 @@
             <ul class="menu-inner py-1 ps ps--active-y">
                 <!-- Dashboards -->
                 <li class="menu-item active open">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                        <div data-i18n="Dashboards">Dashboards</div>
-                        <div class="badge bg-danger rounded-pill ms-auto">10</div>
-                    </a>
+                    
                     <ul class="menu-sub">
                         <li class="menu-item">
                             <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html" target="_blank" class="menu-link">
@@ -112,89 +108,146 @@
                                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                             </a>
                         </li>
+
+                            <li class="menu-item active open ">
+                                <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                    <i class="menu-icon tf-icons bx bx-user"></i>
+                                    <div class="text-truncate" data-i18n="Users">Users</div>
+                                </a>
+                                <ul class="menu-sub ">
+                                    <li class="menu-item " >
+                                        <a href="/SWP_Project/UserList" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="List">List</div>
+                                        </a>
+                                    </li>
+
+                                    <li class="menu-item ">
+                                        <a href="../SWP_Project/UserDetail?id=23" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="Account">Account</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item ">
+                                        <a href="/SWP_Project/ChartControll" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Chart">Chart</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         
+                        
+                            <li class="menu-item active open">
+                                <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                    <i class="menu-icon tf-icons bx bx-file"></i>
+                                    <div class="text-truncate" data-i18n="Users">Post</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item active open">
+                                        <a href="/SWP_Project/PostList" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="List">List</div>
+                                        </a>
+                                    </li>
+
+                                    <li class="menu-item active open ">
+                                        <a href="../SWP_Project/PostDetail?postId=5" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="View">View</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        
+                       
+                            <li class="menu-item " style="">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <i class="menu-icon tf-icons bx bx-cart-alt"></i>
+                                    <div class="text-truncate" data-i18n="eCommerce">Product</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item ">
+                                        <a href="../SWP_Project/AdminShowAllProducts" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Dashboard">Product List</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="/SWP_Project/AddProduct" class="menu-link">
+                                            <div data-i18n="AddProduct">Add product</div>
+                                        </a>
+                                    </li>                                                 
+                                </ul>
+                            </li>
+                        
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                    <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                                    <div class="text-truncate" data-i18n="Users">Coupon</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="/SWP_Project/couponList" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="List">List</div>
+                                        </a>
+                                    </li>
+
+                                    <li class="menu-item ">
+                                        <a href="/SWP_Project/addCoupon" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="View">Add Coupon</div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        
+                        
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                    <i class="menu-icon tf-icons bx bx-file"></i>
+                                    <div class="text-truncate" data-i18n="Users">Order</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="/SWP_Project/orderList" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="List">List</div>
+                                        </a>
+                                    </li> 
+                                </ul>
+                            </li>
+                        
+                       
+                            <li class="menu-item ">
+                                <a href="javascript:void(0);" class=" menu-toggle menu-link">
+                                    <i class="menu-icon tf-icons bx bx-mail-send"></i>
+                                    <div class="text-truncate" data-i18n="Users">Contact</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a href="/SWP_Project/ContactList" class="menu-link ">
+                                            <div class="text-truncate" data-i18n="List">List</div>
+                                        </a>
+                                    </li>
 
 
-
-                        <%--<c:if test="${accl.role.roleId==1}"></c:if>--%>
-                        <li class="menu-item  ">
-                            <a href="javascript:void(0);" class=" menu-toggle menu-link">
-                                <i class="menu-icon tf-icons bx bx-user"></i>
-                                <div class="text-truncate" data-i18n="Users">Users</div>
-                            </a>
-                            <ul class="menu-sub ">
-                                <li class="menu-item " >
-                                    <a href="/SWP_Project/UserList" class="menu-link ">
-                                        <div class="text-truncate" data-i18n="List">List</div>
-                                    </a>
-                                </li>
-
-                                <li class="menu-item ">
-                                    <a href="../SWP_Project/UserDetail?id=23" class="menu-link ">
-                                        <div class="text-truncate" data-i18n="Account">Account</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item ">
-                                    <a href="/SWP_Project/ChartControll" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Chart">Chart</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <%--<c:if test="${accl.role.roleId==4}"></c:if>--%>
+                                </ul>
+                            </li>
+                        
                         <li class="menu-item ">
                             <a href="javascript:void(0);" class=" menu-toggle menu-link">
-                                <i class="menu-icon tf-icons bx bx-file"></i>
-                                <div class="text-truncate" data-i18n="Users">Post</div>
+                                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                                <div class="text-truncate" data-i18n="Users">Delivery</div>
                             </a>
                             <ul class="menu-sub">
                                 <li class="menu-item">
-                                    <a href="/SWP_Project/PostList" class="menu-link ">
+                                    <a href="/SWP_Project/DeliveryManList" class="menu-link ">
                                         <div class="text-truncate" data-i18n="List">List</div>
                                     </a>
                                 </li>
 
-                                <li class="menu-item ">
-                                    <a href="../SWP_Project/PostDetail?postId=5" class="menu-link ">
-                                        <div class="text-truncate" data-i18n="View">View</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-item" style="">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-cart-alt"></i>
-                                <div class="text-truncate" data-i18n="eCommerce">Product</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item">
-                                    <a href="../SWP_Project/AdminShowAllProducts" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Dashboard">Product List</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="/SWP_Project/AddProduct" class="menu-link">
-                                        <div data-i18n="AddProduct">Add product</div>
-                                    </a>
-                                </li>               
-                                <!--                                        <li class="menu-item">
-                                                                            <a href="app-ecommerce-manage-reviews.html" class="menu-link">
-                                                                                <div class="text-truncate" data-i18n="Manage Reviews">Manage Reviews</div>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li class="menu-item">
-                                                                            <a href="app-ecommerce-referral.html" class="menu-link">
-                                                                                <div class="text-truncate" data-i18n="Referrals">Referrals</div>
-                                                                            </a>
-                                                                        </li>-->
+                                
 
                             </ul>
                         </li>
                         <li class="menu-item ">
                             <a href="javascript:void(0);" class=" menu-toggle menu-link">
                                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
-                                <div class="text-truncate" data-i18n="Users">Coupon</div>
+                                <div class="text-truncate" data-i18n="Users">Static</div>
                             </a>
                             <ul class="menu-sub">
                                 <li class="menu-item">
@@ -203,31 +256,6 @@
                                     </a>
                                 </li>
 
-                                <li class="menu-item ">
-                                    <a href="/SWP_Project/addCoupon" class="menu-link ">
-                                        <div class="text-truncate" data-i18n="View">Add Coupon</div>
-                                    </a>
-                                </li>
-                                
-                            </ul>
-                        </li>
-                        <li class="menu-item ">
-                            <a href="javascript:void(0);" class=" menu-toggle menu-link">
-                                <i class="menu-icon tf-icons bx bx-file"></i>
-                                <div class="text-truncate" data-i18n="Users">Order</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item">
-                                    <a href="/SWP_Project/orderList" class="menu-link ">
-                                        <div class="text-truncate" data-i18n="List">List</div>
-                                    </a>
-                                </li>
-
-                                <li class="menu-item ">
-                                    <a href="../SWP_Project/PostDetail?postId=5" class="menu-link ">
-                                        <div class="text-truncate" data-i18n="View">Detail</div>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
 

@@ -105,7 +105,7 @@ public class ListProduct extends HttpServlet {
         request.setAttribute("resolist", listReso);
         request.setAttribute("colorlist", listColor);
         request.setAttribute("cardlist", listCard);
-        request.getRequestDispatcher("search_product.jsp").forward(request, response);
+        request.getRequestDispatcher("SearchProduct.jsp").forward(request, response);
 
      
        
@@ -150,7 +150,7 @@ public class ListProduct extends HttpServlet {
         request.setAttribute("resolist", listReso);
         request.setAttribute("colorlist", listColor);
         request.setAttribute("cardlist", listCard);
-        request.getRequestDispatcher("search_product.jsp").forward(request, response);
+        request.getRequestDispatcher("SearchProduct.jsp").forward(request, response);
 
      
       

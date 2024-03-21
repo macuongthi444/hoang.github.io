@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package ControllPost;
 
-import DAO.UserDao;
-import Model.AccountProfile;
+import DAO.CouponDAO;
+import DAO.PostDAO;
+import Model.Coupon;
+import Model.PostType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,13 +16,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.text.ParseException;
+import java.util.List;
 
 /**
  *
  * @author hoang
  */
-@WebServlet(name = "UpdateUserDetail", urlPatterns = {"/UpdateUserDetail"})
-public class UpdateUserDetail extends HttpServlet {
+@WebServlet(name = "AddPost", urlPatterns = {"/AddPost"})
+public class AddPost extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,24 +37,47 @@ public class UpdateUserDetail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String roleName = request.getParameter("roleName");
-        String accountStatusDetail = request.getParameter("accountStatusDetail");
-        
-        String id = request.getParameter("id");
+        try {
 
-        UserDao dao = new UserDao();
-        int roleID = Integer.parseInt(roleName);
-        int accountStatusID = Integer.parseInt(accountStatusDetail);
-        
-        int id1 = Integer.parseInt(id);
-        dao.updateAcount(roleID,accountStatusID,id1);
+            response.setContentType("text/html;charset=UTF-8");
+            PostDAO dao = new PostDAO();
+            List<PostType> pt1 = dao.getAllPostType();
 
-        AccountProfile ap = dao.getAccountProfileById(id1);
-        request.setAttribute("ap", ap);
-        request.getRequestDispatcher("UserDetail?id="+id1).forward(request, response);
-      
+            CouponDAO dao1 = new CouponDAO();
+            List<Coupon> coupon = dao1.getAllCoupon();
+            request.setAttribute("postType", pt1);
+            request.setAttribute("coupon", coupon);
+            request.getRequestDispatcher("adminView/AddPost.jsp").include(request, response);
+
+            String idMarketing = request.getParameter("postByUserMarketing");
+            String PostTitle = request.getParameter("PostTitle");
+            String typePost = request.getParameter("type");
+            String StartDate = request.getParameter("StartDate");
+            String EndDate = request.getParameter("EndDate");
+
+            String postImg = request.getParameter("postImg");
+            String coupon1 = request.getParameter("coupon");
+
+            Date StartDate1 = Date.valueOf(StartDate);
+            Date EndDate1 = Date.valueOf(EndDate);
+            if (StartDate1.after(EndDate1)) {
+                throw new IllegalArgumentException("StartDate must be before or equal to EndDate");
+            }
+            int typePost1 = Integer.parseInt(typePost);
+            int idMarketing1 = Integer.parseInt(idMarketing);
+            int coupons = Integer.parseInt(coupon1);
+            dao.addPost(PostTitle, postImg, StartDate1, EndDate1, typePost1, idMarketing1, coupons);
+            response.sendRedirect("PostList");
+
+        } catch (IllegalArgumentException e) {
+
+            e.printStackTrace();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -66,7 +93,6 @@ public class UpdateUserDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**
@@ -81,7 +107,6 @@ public class UpdateUserDetail extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

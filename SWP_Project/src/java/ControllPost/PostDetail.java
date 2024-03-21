@@ -1,11 +1,16 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package ControllPost;
 
-import DAO.UserDao;
-import Model.AccountProfile;
+import DAO.CouponDAO;
+import DAO.PostDAO;
+import DAO.PostDescriptionDAO;
+import Model.Coupon;
+import Model.Post;
+import Model.PostDescription;
+import Model.PostType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +18,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
+import java.util.List;
 
 /**
  *
  * @author hoang
  */
-@WebServlet(name = "UpdateUserDetail", urlPatterns = {"/UpdateUserDetail"})
-public class UpdateUserDetail extends HttpServlet {
+@WebServlet(name = "PostDetail", urlPatterns = {"/PostDetail"})
+public class PostDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,23 +39,36 @@ public class UpdateUserDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+  
+        String postId = request.getParameter("postId");
+        int postId1 = Integer.parseInt(postId);
+        PostDescriptionDAO dao = new PostDescriptionDAO();
+        PostDAO dao1 = new PostDAO();
+        Post postById = dao1.getPostById(postId1);
+        List<PostDescription> pById = dao.getPostDescriptionByPostId(postId1);
+        List<PostType> posttype = dao1.getAllPostType();
+        CouponDAO dao11 = new CouponDAO();
+        List<Coupon> coupon = dao11.getAllCoupon();
         
-        String roleName = request.getParameter("roleName");
-        String accountStatusDetail = request.getParameter("accountStatusDetail");
-        
-        String id = request.getParameter("id");
+//        for (PostDescription postDescription : pById) {
+//                   
+//
+//        }
+//        
+//        String postDescriptionId = request.getParameter("postDescriptionId");
+//        int idD = Integer.parseInt(postDescriptionId);
+//        PostDescription pd = dao.getPostDescriptionById(idD);
+//        request.setAttribute("pd", pd);
+        request.setAttribute("coupon", coupon);
 
-        UserDao dao = new UserDao();
-        int roleID = Integer.parseInt(roleName);
-        int accountStatusID = Integer.parseInt(accountStatusDetail);
+        request.setAttribute("postType", posttype);
+        //out.print(pById.get(5).getPostTitleDescription());
+        request.setAttribute("pById", pById);
+        request.setAttribute("postById", postById);
         
-        int id1 = Integer.parseInt(id);
-        dao.updateAcount(roleID,accountStatusID,id1);
 
-        AccountProfile ap = dao.getAccountProfileById(id1);
-        request.setAttribute("ap", ap);
-        request.getRequestDispatcher("UserDetail?id="+id1).forward(request, response);
-      
+        request.getRequestDispatcher("adminView/PostDetail.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -66,7 +84,6 @@ public class UpdateUserDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**
@@ -81,7 +98,6 @@ public class UpdateUserDetail extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

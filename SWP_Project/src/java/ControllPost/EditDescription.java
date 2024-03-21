@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package ControllPost;
 
-import DAO.UserDao;
-import Model.AccountProfile;
+import DAO.PostDescriptionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
 
 /**
  *
  * @author hoang
  */
-@WebServlet(name = "UpdateUserDetail", urlPatterns = {"/UpdateUserDetail"})
-public class UpdateUserDetail extends HttpServlet {
+@WebServlet(name = "EditPostDescription", urlPatterns = {"/EditPostDescription"})
+public class EditDescription extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,23 +32,20 @@ public class UpdateUserDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String roleName = request.getParameter("roleName");
-        String accountStatusDetail = request.getParameter("accountStatusDetail");
-        
-        String id = request.getParameter("id");
+        PostDescriptionDAO dao = new PostDescriptionDAO();
 
-        UserDao dao = new UserDao();
-        int roleID = Integer.parseInt(roleName);
-        int accountStatusID = Integer.parseInt(accountStatusDetail);
-        
+        String id = request.getParameter("idpost");
+        System.out.println(id);
         int id1 = Integer.parseInt(id);
-        dao.updateAcount(roleID,accountStatusID,id1);
-
-        AccountProfile ap = dao.getAccountProfileById(id1);
-        request.setAttribute("ap", ap);
-        request.getRequestDispatcher("UserDetail?id="+id1).forward(request, response);
-      
+        
+        String postDescriptionId = request.getParameter("postDescriptionId");
+        System.out.println(postDescriptionId);
+        int idD = Integer.parseInt(postDescriptionId);
+        String PostTitleDescription = request.getParameter("PostTitleDescription");
+        String postDetail = request.getParameter("postDetail");
+        String postImg = request.getParameter("postImg");
+        dao.editPostDescription(id1, PostTitleDescription, postDetail, postImg, idD);
+        response.sendRedirect("PostDetail?postId=" + id1);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -66,7 +61,6 @@ public class UpdateUserDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**
@@ -81,7 +75,6 @@ public class UpdateUserDetail extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**
